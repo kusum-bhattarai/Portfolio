@@ -1,0 +1,273 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+body {
+    background: #0b0c10;
+    color: #c5c6c7;
+    line-height: 1.6;
+}
+
+/* Background Design */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1f2833, #0b0c10);
+    z-index: -1;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Hero Section */
+#hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #1f2833, #0b0c10);
+    text-align: center;
+    color: #c5c6c7;
+    position: relative;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#hero .content {
+    position: relative;
+    z-index: 2;
+}
+
+#hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+#hero p {
+    font-size: 1.2rem;
+}
+
+/* Sections */
+.section {
+    padding: 60px 0;
+}
+
+.section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #3cb0a8;
+}
+
+/* About Section */
+.about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-pic i {
+    font-size: 6rem;
+    color: #3cb0a8;
+    margin-top: 2rem;
+    margin-bottom: 2rem; 
+}
+
+p{
+    margin: auto 6rem;
+    font-size: larger;
+    font-weight: 200;
+}
+
+.skills-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.skills-icons i {
+    font-size: 4rem; /* Increased icon size */
+    margin: 20px; /* Increased margin */
+    color: #3cb0a8;
+}
+
+/* Projects Section */
+.project {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #1f2833;
+    border-radius: 10px;
+}
+
+.project:nth-child(odd) {
+    flex-direction: row;
+}
+
+.project-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    margin-right: 2rem;
+}
+
+.project-content {
+    max-width: 600px;
+    padding: 20px;
+}
+
+.project-content h3 {
+    font-size: 1.8rem;
+    color: #3cb0a8;
+}
+
+.project-content p {
+    font-size: 1rem;
+    color: #c5c6c7;
+    margin: 20px 0;
+}
+
+.project-content .btn {
+    padding: 10px 20px;
+    background-color: #3cb0a8;
+    color: #0b0c10;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.project-content .btn:hover {
+    background-color: #45a29e;
+}
+
+/* Contact Section */
+#contact .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.contact-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px 0;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #c5c6c7;
+    color: #0b0c10;
+    font-size: 1rem;
+}
+
+.contact-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #3cb0a8;
+    color: #0b0c10;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background: #45a29e;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.social-icons a {
+    color: #66fcf1;
+    font-size: 2rem;
+    margin: 0 10px;
+}
+
+.social-icons a:hover {
+    color: #45a29e;
+}
+
+/* Footer */
+#footer {
+    background: #1f2833;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Menu Toggle Styles */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+/* Active Navigation Styles */
+.nav ul.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav ul li {
+        margin: 10px 0;
+    }
+
+    .nav ul.active {
+        display: flex;
+    }
+}
