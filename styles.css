@@ -98,6 +98,25 @@ p{
     font-weight: 200;
 }
 
+.skills-icons i {
+    position: relative;
+}
+
+.skills-icons i:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #3cb0a8;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    z-index: 1000;
+}
+
 .skills-icons {
     display: flex;
     flex-wrap: wrap;
