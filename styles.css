@@ -529,7 +529,7 @@ header .container {
 
 /* === Video Modal Styles === */
 .modal {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed;
     z-index: 2000;
     left: 0;
@@ -540,26 +540,30 @@ header .container {
     background-color: rgba(11, 12, 16, 0.9);
     opacity: 0;
     transition: opacity 0.4s ease;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal.active {
-    display: block;
+    display: flex;
     opacity: 1;
 }
 
 .modal-content {
     position: relative;
-    margin: 5% auto;
+    background-color: #0b0c10;
     padding: 20px;
     width: 90%;
     max-width: 900px;
+    border: 1px solid #66fcf1;
+    border-radius: 10px;
 }
 
 .close-btn {
     color: #aaa;
     position: absolute;
-    top: -15px;
-    right: 15px;
+    top: -10px;
+    right: 10px;
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
@@ -569,15 +573,16 @@ header .container {
 .close-btn:hover,
 .close-btn:focus {
     color: #fff;
+    text-decoration: none;
 }
 
 .video-container {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
     height: 0;
 }
 
-.video-container iframe {
+.video-container video {
     position: absolute;
     top: 0;
     left: 0;

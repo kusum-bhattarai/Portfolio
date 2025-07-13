@@ -86,29 +86,38 @@ document.addEventListener('DOMContentLoaded', function() {
             if(nextBtn) nextBtn.style.display = 'none';
         }
     });
-    // Handle Video Modal
+
+    // --- Video Modal Logic ---
     const openModalButtons = document.querySelectorAll('[data-modal-target]');
     const modal = document.querySelector('#video-modal');
-    const closeBtn = document.querySelector('.close-btn');
-    const videoFrame = modal.querySelector('iframe');
-    const originalVideoSrc = videoFrame.src;
 
-    if(modal) {
+    if (modal) {
+        const videoContainer = modal.querySelector('.video-container');
+        const closeModalButton = modal.querySelector('.close-btn');
+
         openModalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                modal.classList.add('active');
+            button.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                const videoSrc = button.getAttribute('data-video-src');
+                if (videoSrc) {
+                    videoContainer.innerHTML = `
+                        <video controls autoplay>
+                            <source src="${videoSrc}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                    modal.classList.add('active');
+                }
             });
         });
 
         const closeModal = () => {
             modal.classList.remove('active');
-            // Stop the video from playing in the background
-            videoFrame.src = originalVideoSrc;
+            videoContainer.innerHTML = ''; // This stops the video and removes it
         };
 
-        closeBtn.addEventListener('click', closeModal);
+        closeModalButton.addEventListener('click', closeModal);
 
-        // Also close if user clicks on the dark background
         modal.addEventListener('click', (event) => {
             if (event.target === modal) {
                 closeModal();

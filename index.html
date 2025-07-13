@@ -6,32 +6,46 @@
     <title>Kusum Bhattarai Sharma Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.14.0/devicon.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <div class="container">
+            <nav class="nav">
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
     <main>
-        <!-- Hero Section -->
         <section id="hero">
             <div id="particles-js"></div>
             <div class="content">
                 <h2>Kusum Bhattarai Sharma</h2>
                 <p>Software Engineer</p>
                 <div class="hero-social-icons">
-                <a href="https://github.com/kusum-bhattarai" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/kusum-bhattarai-sharma" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/kusum-bhattarai" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/kusum-bhattarai-sharma" target="_blank"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
         <section id="about" class="section">
             <div class="container">
                 <h2>About Me</h2>
                 <div class="about-grid">
                     <div class="about-picture-column">
                         <div class="profile-pic">
-                            <img src="pictures/picture.jpg" alt="Profile Picture">
+                            <img src="PicsPortfolio/picture.jpg" alt="Profile Picture">
                         </div>
                     </div>
                     <div class="about-narrative-column">
@@ -39,13 +53,12 @@
                         <br>
                         <p>I’ve had the opportunity to work on exciting initiatives as a <strong>Research Assistant</strong>, from building AI-based learning chatbots to developing algorithms to streamline quantitative analyses. Through my experiences and projects, I’ve discovered the power of combining creativity and technology to solve challenges.</p>
                         <br>
-                        <p>Besides computer science, I’m deeply interested in reading about <strong>philosophy</strong>, <strong>astrophysics</strong>, and <strong>literature</strong>to gain different perspectives. For the same reason, I enjoy watching <strong>F1 races</strong>, as it makes me think about the efficiency of the cars and how every detail affects their mechanics.</p>
+                        <p>Besides computer science, I’m deeply interested in reading about <strong>philosophy</strong>, <strong>astrophysics</strong>, and <strong>literature</strong>. For the same reason, I enjoy watching <strong>F1 races</strong>, as it makes me think about the efficiency of the cars and how every detail affects their mechanics.</p>
                     </div>
                 </div>
 
                 <div class="skills-section">
                     <h3 class="skills-title">My Tech Stack</h3>
-                    
                     <div class="skill-category">
                         <h4>Languages & Databases</h4>
                         <div class="skill-icons-grid">
@@ -57,7 +70,6 @@
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="PostgreSQL"/><p>PostgreSQL</p></div>
                         </div>
                     </div>
-
                     <div class="skill-category">
                         <h4>Frameworks & Libraries</h4>
                         <div class="skill-icons-grid">
@@ -69,7 +81,6 @@
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/pandas.png" alt="Pandas"/><p>Pandas</p></div>
                         </div>
                     </div>
-
                     <div class="skill-category">
                         <h4>Markup, Tools & Platforms</h4>
                         <div class="skill-icons-grid">
@@ -82,118 +93,150 @@
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/visual_studio_code.png" alt="VS Code"/><p>VS Code</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/bash.png" alt="Bash"/><p>Bash</p></div>
                         </div>
-                    </div> 
-                </div>             
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Projects Section -->
         <section id="projects" class="section">
             <div class="container">
                 <h2>Projects</h2>
-                <div class="project">
-                    <div class="project-image">
-                        <img src="pictures/Bounty1.png" alt="Bobcat Bounty App">
-                        <img src="pictures/Bounty2.png" alt="Bobcat Bounty App">
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-card-gallery">
+                            <img src="PicsPortfolio/DevJournal1.png" alt="dev_journal1" class="active">
+                            <img src="PicsPortfolio/DevJournal2.png" alt="dev_journal2">
+                            <button class="gallery-btn prev-btn">&lt;</button>
+                            <button class="gallery-btn next-btn">&gt;</button>
+                        </div>
+                        <div class="project-card-content">
+                            <h3>DevJournal</h3>
+                            <p>A full-stack journaling platform featuring a microservices architecture, real-time messaging with WebSockets, and secure GitHub OAuth authentication. Has a Matrix-inspired theme for the dev touch.</p>
+                            <div class="card-tech-stack">
+                                <span>React</span>
+                                <span>TypeScript</span>
+                                <span>Node.js</span>
+                                <span>Express</span>
+                                <span>Socket.IO</span>
+                                <span>PostgreSQL</span>
+                            </div>
+                        </div>
+                        <div class="project-card-links">
+                            <a href="https://github.com/kusum-bhattarai/dev_journal" target="_blank" class="btn">Github</a>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>Bobcat Bounty App</h3>
-                            <p>
-                                The Bobcat Bounty App is a comprehensive web application designed to streamline food distribution and inventory management for non-profit organizations. 
-                                Built with <strong>TypeScript</strong> and <strong>React</strong>, it offers a user-friendly interface and robust functionality.
-                            </p>
-                            <ul>
-                                <li><strong>Key Features:</strong>
-                                    <ul>
-                                        <li>Secure user authentication and role-based access control.</li>
-                                        <li>Real-time inventory tracking and updates.</li>
-                                        <li>Event scheduling for food distribution with automated reminders.</li>
-                                        <li>Analytics dashboard for visualizing resource allocation and usage trends.</li>
-                                    </ul>
-                                </li>
-                                <li><strong>Tech Stack:</strong> TypeScript, React, Node.js, PostgreSQL, Firebase (for cloud storage).</li>
-                                <li><strong>Purpose:</strong> To optimize food distribution processes and reduce waste for non-profits.</li>
-                        <a href="https://bobcat-bounty-app-1-tarive22.replit.app" target="_blank" class="btn">Live App</a>
+                    <div class="project-card">
+                        <div class="project-card-gallery">
+                            <img src="PicsPortfolio/CR1.jpeg" alt="Clash-Royale1" class="active">
+                            <img src="PicsPortfolio/CR2.jpeg" alt="Clash-Royale2">
+                            <button class="gallery-btn prev-btn">&lt;</button>
+                            <button class="gallery-btn next-btn">&gt;</button>
+                        </div>
+                        <div class="project-card-content">
+                            <h3>Clash-Royale Inspired Game Engine</h3>
+                            <p>An object-oriented game engine built in C++ from the ground up, featuring a Factory design pattern, polymorphic entities, and sophisticated AI pathfinding.</p>
+                            <div class="card-tech-stack">
+                                <span>C++</span>
+                                <span>OOP</span>
+                                <span>CI/CD</span>
+                                <span>GTest</span>
+                                <span>Smart Pointers</span>
+                            </div>
+                        </div>
+                        <div class="project-card-links side-by-side">
+                            <a href="https://github.com/kusum-bhattarai/Clash-Royale-Clone" target="_blank" class="btn">Github</a>
+                            <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/Sample_Gameplay.mp4">Gameplay</a>
+                        </div>
                     </div>
-                </div>
-                <div class="project">
-                    <div class="project-image">
-                        <img src="pictures/Clash.png" alt="Clash Royale Inspired Terminal App">
+                    <div class="project-card">
+                        <div class="project-card-gallery">
+                            <img src="https://via.placeholder.com/600x400.png/1f2833/66fcf1?text=Lit+1" alt="Lit Screenshot 1" class="active">
+                            <button class="gallery-btn prev-btn">&lt;</button>
+                            <button class="gallery-btn next-btn">&gt;</button>
+                        </div>
+                        <div class="project-card-content">
+                            <h3>Lit: A Local Git Clone</h3>
+                            <p>A Java-based version control system that replicates core Git functionalities using SHA-1 hashing and custom content-addressable storage.</p>
+                            <div class="card-tech-stack">
+                                <span>Java</span>
+                                <span>Gradle</span>
+                                <span>JUnit</span>
+                                <span>File I/O</span>
+                            </div>
+                        </div>
+                        <div class="project-card-links">
+                            <a href="https://github.com/imraghavojha/lit" target="_blank" class="btn">Github</a>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>Clash Royale Inspired Terminal App</h3>
-                            <p>A terminal-based strategy game inspired by Clash Royale, built using <strong>C++</strong>. 
-                                This project demonstrates advanced programming concepts and efficient algorithm implementation.
-                            </p>
-                            <ul>
-                                <li><strong>Key Features:</strong>
-                                    <ul>
-                                        <li>Character selection with unique abilities and stats.</li>
-                                        <li>Combat simulation using turn-based mechanics.</li>
-                                        <li>Resource management for in-game currency and upgrades.</li>
-                                        <li>Dynamic game state tracking using trees and queues.</li>
-                                    </ul>
-                                </li>
-                                <li><strong>Tech Stack:</strong> C++, Object-Oriented Programming (OOP), Data Structures (Trees, Queues).</li>
-                                <li><strong>Purpose:</strong> To showcase efficient algorithm design and a seamless terminal-based user experience.</li>
-                            </ul>
-                            <a href="https://github.com/kusum-bhattarai/Clash-Royale-Clone" target="_blank" class="btn">Source Code</a>
+                    <div class="project-card">
+                        <div class="project-card-gallery">
+                            <img src="PicsPortfolio/ReviewNC.png" alt="" class="active">
+                            <img src="PicsPortfolio/ReviewNC.png" alt="Chess2">
+                            <button class="gallery-btn prev-btn">&lt;</button>
+                            <button class="gallery-btn next-btn">&gt;</button>
+                        </div>
+                        <div class="project-card-content">
+                            <h3>No_Chess.com</h3>
+                            <p>A terminal-based chess application offering free, unlimited PGN game reviews and live analysis powered by the Stockfish chess engine.</p>
+                            <div class="card-tech-stack">
+                                <span>Python</span>
+                                <span>Stockfish</span>
+                                <span>CLI</span>
+                                <span>python-chess</span>
+                            </div>
+                        </div>
+                        <div class="project-card-links side-by-side">
+                            <a href="https://github.com/kusum-bhattarai/No_Chess.com" target="_blank" class="btn">Github</a>
+                            <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/NoChessGame.mp4">Gameplay</a>
+                        </div>
                     </div>
-                </div>
-                <div class="project">
-                    <div class="project-image">
-                        <img src="pictures/Watched1.png" alt="Watched Project">
-                        <img src="pictures/Watched2.png" alt="Watched Project Screenshot">
+                    <div class="project-card">
+                        <div class="project-card-gallery">
+                            <img src="PicsPortfolio/RR1.jpeg" alt="Retail-Rethink1" class="active">
+                            <img src="PicsPortfolio/RR2.jpeg" alt="Retail-Rethink2">
+                            <img src="PicsPortfolio/RR3.png" alt="Retail-Rethink3">
+                            <button class="gallery-btn prev-btn">&lt;</button>
+                            <button class="gallery-btn next-btn">&gt;</button>
+                        </div>
+                        <div class="project-card-content">
+                            <h3>Retail-Rethink</h3>
+                            <p>An expense tracking app to help you rethink your budget, featuring custom categories, an analysis dashboard, and historical spending data to manage your finances.</p>
+                            <div class="card-tech-stack">
+                                <span>React</span>
+                                <span>TypeScript</span>
+                                <span>Vite</span>
+                                <span>Tailwind</span>
+                            </div>
+                        </div>
+                        <div class="project-card-links">
+                            <a href="https://github.com/kusum-bhattarai/retailrethink" target="_blank" class="btn">Source Code</a>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>Watched</h3>
-                        <p>Watched is a personal movie and TV show tracking application built with <strong>React</strong> and integrated with the <strong>TMDB API</strong>. 
-                            It allows users to maintain a library of watched content and fetch additional details automatically.
-                        </p>
-                        <ul>
-                            <li><strong>Key Features:</strong>
-                                <ul>
-                                    <li>Add, categorize, and rate movies and TV shows.</li>
-                                    <li>Fetch details like posters, summaries, and ratings from TMDB API.</li>
-                                    <li>Sort and filter library based on genres, ratings, and watch status.</li>
-                                    <li>Responsive design for seamless use on desktop and mobile.</li>
-                                </ul>
-                            </li>
-                            <li><strong>Tech Stack:</strong> React, JavaScript, TMDB API, CSS3.</li>
-                            <li><strong>Purpose:</strong> To provide a personalized media tracking experience with rich data integration.</li>
-                        </ul>
-                        <a href="https://github.com/kusum-bhattarai/Watched" target="_blank" class="btn">Source Code</a>
-                    </div>
-                </div>
-                <div class="project">
-                    <div class="project-image">
-                        <img src="pictures/Chatbud1.png" alt="ChatBud Project">
-                        <img src="pictures/Chatbud2.png" alt="ChatBud Project Screenshot">
-                    </div>
-                    <div class="project-content">
-                        <h3>ChatBud</h3>
-                        <p>ChatBud is a budget tracking application built with <strong>HTML</strong>, <strong>CSS</strong> and <strong>JavaScript</strong>. 
-                            It helps users manage their finances through an interactive and user-friendly interface.
-                        </p>
-                        <ul>
-                            <li><strong>Key Features:</strong>
-                                <ul>
-                                    <li>Track expenses and set monthly budgets.</li>
-                                    <li>Visualize spending patterns with charts and graphs.</li>
-                                    <li>Receive financial insights and recommendations.</li>
-                                    <li>Planned integration of a chatbot for personalized financial advice.</li>
-                                </ul>
-                            </li>
-                            <li><strong>Tech Stack:</strong> HTML, CSS, JavaScript, Chart.js.</li>
-                            <li><strong>Purpose:</strong> To help users make informed financial decisions and improve money management.</li>
-                        </ul>
-                        <a href="https://github.com/kusum-bhattarai/Budget-Chatbot" target="_blank" class="btn">Source Code</a>
+                    <div class="project-card">
+                        <div class="project-card-gallery">
+                            <img src="PicsPortfolio/Watched1.png" alt="Watched1" class="active">
+                            <img src="PicsPortfolio/Watched2.png" alt="Watched2">
+                            <button class="gallery-btn prev-btn">&lt;</button>
+                            <button class="gallery-btn next-btn">&gt;</button>
+                        </div>
+                        <div class="project-card-content">
+                            <h3>Watched</h3>
+                            <p>A personal media library to track watched movies and series, leveraging the TMDB API to fetch posters and ratings alongside your own custom reviews.</p>
+                            <div class="card-tech-stack">
+                                <span>React</span>
+                                <span>JavaScript</span>
+                                <span>CSS3</span>
+                                <span>TMDB API</span>
+                            </div>
+                        </div>
+                        <div class="project-card-links">
+                            <a href="https://github.com/kusum-bhattarai/Watched" target="_blank" class="btn">Source Code</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="section">
             <div class="container">
                 <h2>Contact</h2>
@@ -204,25 +247,27 @@
                     <div class="form-group">
                         <textarea name="message" placeholder="Your Message" required></textarea>
                     </div>
-                    <button type="submit">Send Message</button>
+                    <button type="submit" class="btn">Send Message</button>
                 </form>
-                <div class="social-icons">
-                    <a href="https://github.com/kusum-bhattarai" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/kusum-bhattarai-sharma" target="_blank"><i class="fab fa-linkedin"></i></a>
-                </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
     <footer id="footer">
         <div class="container">
             <p>&copy; 2025 Kusum Bhattarai Sharma. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- External Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="scripts.js"></script>
+
+    <div class="modal" id="video-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="video-container">
+            </div>
+        </div>
+    </div>
 </body>
 </html>
