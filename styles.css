@@ -637,3 +637,24 @@ header .container {
     width: 30px;                 
     height: 30px;
 }
+
+.about-grid,
+.skill-category,
+.project-card {
+    opacity: 0;
+    transform: translateY(30px); 
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.project-card:nth-child(2) { transition-delay: 0.1s; }
+.project-card:nth-child(3) { transition-delay: 0.2s; }
+.project-card:nth-child(4) { transition-delay: 0.3s; }
+.project-card:nth-child(5) { transition-delay: 0.4s; }
+.project-card:nth-child(6) { transition-delay: 0.5s; }
+
+.about-grid.is-visible,
+.skill-category.is-visible,
+.project-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

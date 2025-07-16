@@ -124,6 +124,29 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    const observer = new IntersectionObserver((entries) => {
+    // Loop over the entries
+    entries.forEach(entry => {
+        // If the element is visible
+        if (entry.isIntersecting) {
+            // Add the 'is-visible' class
+            entry.target.classList.add('is-visible');
+            // Stop observing the element so the animation doesn't re-trigger
+            observer.unobserve(entry.target);
+        }
+    });
+    }, {
+        threshold: 0.1 // Trigger the animation when 10% of the element is on screen
+    });
+
+    // Select all the elements we want to animate
+    const elementsToAnimate = document.querySelectorAll('.about-grid, .skill-category, .project-card');
+
+    // Tell the observer to watch each of them
+    elementsToAnimate.forEach(element => {
+        observer.observe(element);
+    });
 });
 
 
