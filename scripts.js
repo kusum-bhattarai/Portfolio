@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const bootOverlay = document.getElementById('boot-sequence');
     if (bootOverlay) {
         const lines = bootOverlay.querySelectorAll('.boot-terminal p');
-        const typingSpeed = 50; // ms per char
-        const lineDelay = 200; // ms between lines
-        const fadeOutDelay = 1000; // ms after all typing
+        const typingSpeed = 25; // ms per char
+        const lineDelay = 100; // ms between lines
+        const fadeOutDelay = 500; // ms after all typing
 
         async function typeBootSequence() {
             for (let i = 0; i < lines.length; i++) {

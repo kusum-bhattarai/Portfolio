@@ -61,17 +61,22 @@ h2, h3, h4, .btn {
     color: #00ff00;
     font-family: 'Source Code Pro', monospace;
     white-space: pre;
-    /* animation: typing 4s steps(40, end); */ /* Removed animation */
-    /* overflow: hidden; */ /* Removed overflow */
+    width: 400px;
+    height: 500px;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .boot-terminal p {
-    margin: 5px 0;
+    margin: 2px 0;
     opacity: 0; /* Start hidden */
     white-space: pre-wrap; /* Allow text to be added */
 }
 
-/* Added for new boot sequence */
+.boot-terminal p.typing-cursor {
+  position: relative;
+}
+
 .boot-terminal p.typing-cursor::after {
     content: '_';
     opacity: 1;
@@ -81,7 +86,7 @@ h2, h3, h4, .btn {
 
 @keyframes typing {
     from { width: 0; }
-    to { width: 100%; }
+    to { width: 90%; }
 }
 
 /* === Header & Navigation === */
