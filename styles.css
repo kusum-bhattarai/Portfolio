@@ -707,3 +707,48 @@ header .container {
         text-align: center;
     }
 }
+
+/* === Draggable Profile Window === */
+.about-grid {
+    background: #0d0d10; /* Darker, like a terminal */
+    border: 3px solid #4e4e50;
+    box-shadow: inset 0 0 10px #000, 5px 5px 15px rgba(0,0,0,0.5);
+    padding-top: 50px; /* Make space for the new title bar */
+    cursor: grab; /* Indicates it can be moved */
+    touch-action: none; /* Recommended for Draggabilly */
+}
+
+.about-grid.is-dragging {
+    cursor: grabbing;
+}
+
+.profile-title-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, #0058d0, #0045a4);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    border-bottom: 2px solid #606060;
+}
+
+.profile-title-bar .title {
+    font-family: 'Source Code Pro', monospace;
+    color: white;
+    font-weight: bold;
+    flex-grow: 1;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* === Bio Typing Animation === */
+.bio-text.typing-cursor::after {
+    content: '_';
+    opacity: 1;
+    animation: blink 1s infinite;
+    font-weight: bold;
+    color: #00ffc3;
+}

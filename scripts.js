@@ -335,6 +335,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // --- Draggable Profile Window ---
+    const draggableElem = document.querySelector('#draggable-profile');
+    if (draggableElem) {
+        const draggie = new Draggabilly(draggableElem, {
+            handle: '.profile-title-bar' // Only allow dragging from the title bar
+        });
+    }
+
+    // --- Profile Bio Typing Animation ---
+    function initProfileTyping() {
+        const bioElement = document.querySelector('.bio-text');
+        if (!bioElement) return;
+
+        // The full bio content with HTML tags
+        const bioHTML = `<strong>Identity:</strong> Student --> Software Engineer <br>
+<strong>Mission:</strong> Architecting solutions for complex problems, from AI-driven grant analysis to modular systems.<br>
+<strong>Interests:</strong> Philosophy, Astrophysics, Literature, F1 Racing, Soccer, Chess, and Clash Royale <br>
+<strong>Status:</strong> Always working on new projects and challenges.`;
+
+        const typingSpeed = 20; // ms per character
+
+        const typeBio = async () => {
+            bioElement.classList.add('typing-cursor');
+            for (let i = 0; i < bioHTML.length; i++) {
+                // If it's an HTML tag, append the whole tag at once
+                if (bioHTML.charAt(i) === '<') {
+                    const tagEnd = bioHTML.indexOf('>', i);
+                    bioElement.innerHTML += bioHTML.substring(i, tagEnd + 1);
+                    i = tagEnd;
+                } else {
+                    // Otherwise, type character by character
+                    bioElement.innerHTML += bioHTML.charAt(i);
+                    await new Promise(r => setTimeout(r, typingSpeed));
+                }
+            }
+            bioElement.classList.remove('typing-cursor');
+        };
+
+        // Use an Intersection Observer to start the animation only when visible
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    typeBio();
+                    obs.unobserve(entry.target); // Animate only once
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(bioElement);
+    }
+
+    // Call the function
+    initProfileTyping();
+    
     console.log(
         `%c
         //-----------------------//
