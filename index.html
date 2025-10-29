@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KusumOS // Portfolio</title>
+    <title>QuamOS // Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/draggabilly@3/dist/draggabilly.pkgd.min.js"></script>
+    
+    <!-- Added Three.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+    <!-- Canvas for Three.js background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="boot-sequence" class="boot-overlay">
+        <div class="boot-terminal">
+            <p>[QuamOS] Booting system...</p>
+            <p>Loading kernel modules...</p>
+            <p>Initializing user interface...</p>
+            <p>Entering QuamOS environment...</p>
+            <p>Welcome, Developer.</p>
+        </div>
+    </div>
+
     <header>
         <div class="container">
             <nav class="nav">
@@ -29,12 +45,15 @@
             </button>
         </div>
     </header>
-    <div id="particles-js"></div>
+
+    <!-- Removed particles.js div -->
+    
     <main>
         <section id="hero">
             <div class="content">
                 <h2>Kusum Bhattarai Sharma</h2>
-                <p>> Software Engineer_</p>
+                <!-- Updated for typewriter effect -->
+                <p>> <span id="typewriter">Software Engineer</span><span id="cursor">_</span></p>
                 <div class="hero-social-icons">
                     <a href="https://github.com/kusum-bhattarai" target="_blank"><i class="fab fa-github"></i></a>
                     <a href="https://www.linkedin.com/in/kusum-bhattarai-sharma" target="_blank"><i class="fab fa-linkedin"></i></a>
@@ -46,10 +65,6 @@
             <div class="container">
                 <h2 class="section-title">User_Profile</h2>
                     <div class="about-grid">
-                    <!--<div class="pixel-sprite sprite-1"><img data-filename="ferrari.png" alt="F1 Racing"></div>-->
-                    <!--<div class="pixel-sprite sprite-2"><img data-filename="chessp.png" alt="Chess"></div>-->
-                    <!--<div class="pixel-sprite sprite-3"><img data-filename="dv.png" alt="Darth Vader"></div>-->
-                    <!--<div class="pixel-sprite sprite-4"><img data-filename="fcb.png" alt="FCB"></div> -->
                     <div class="pixel-sprite sprite-5"><img data-filename="pekka.png" alt="Clash Royale"></div>
                     <div class="pixel-sprite sprite-6"><img data-filename="iron.png" alt="Ironman"></div>
                     <div class="pixel-sprite sprite-7"><img data-filename="bat.png" alt="Batman"></div>
@@ -100,7 +115,7 @@
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/html.png" alt="HTML"/><p>HTML</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/css.png" alt="CSS"/><p>CSS</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/git.png" alt="Git"/><p>Git</p></div>
-                            <div class="skill-item"><img src="https_://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/github.png" alt="GitHub"/><p>GitHub</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/github.png" alt="GitHub"/><p>GitHub</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/docker.png" alt="Docker"/><p>Docker</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/linux.png" alt="Linux"/><p>Linux</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/visual_studio_code.png" alt="VS Code"/><p>VS Code</p></div>
@@ -111,7 +126,6 @@
             </div>
         </section>
 
-        <!-- New Experience Section -->
         <section id="experience" class="section">
             <div class="container">
                 <h2 class="section-title">Experience.log</h2>
@@ -170,18 +184,22 @@
                 <div class="project-grid">
 
                     <!-- Project 1: DevJournal -->
-                    <div class="mac-window-card">
-                        <div class="title-bar">
-                            <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                            <div class="title">Project_01 :: DevJournal.app</div>
-                        </div>
-                        <div class="window-content">
-                            <div class="project-card-gallery">
-                                <img src="PicsPortfolio/DevJournal1.png" alt="dev_journal1" class="active">
-                                <img src="PicsPortfolio/DevJournal2.png" alt="dev_journal2">
-                                <button class="gallery-btn prev-btn">&lt;</button>
-                                <button class="gallery-btn next-btn">&gt;</button>
+                    <div class="project-container odd">
+                        <div class="mac-window-small">
+                            <div class="title-bar">
+                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                                <div class="title">DevJournal.app</div>
                             </div>
+                            <div class="window-content">
+                                <div class="project-card-gallery">
+                                    <img src="PicsPortfolio/DevJournal1.png" alt="dev_journal1" class="active">
+                                    <img src="PicsPortfolio/DevJournal2.png" alt="dev_journal2">
+                                    <button class="gallery-btn prev-btn">&lt;</button>
+                                    <button class="gallery-btn next-btn">&gt;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
                                 <p class="description">A full-stack journaling platform featuring a microservices architecture, real-time messaging, and collaborating with WebSockets, with markdown support. Has a Matrix-inspired theme for the dev touch.</p>
@@ -198,18 +216,8 @@
                     </div>
 
                     <!-- Project 2: Clash-Royale Engine -->
-                    <div class="mac-window-card">
-                        <div class="title-bar">
-                            <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                            <div class="title">Project_02 :: GameEngine.exe</div>
-                        </div>
-                        <div class="window-content">
-                             <div class="project-card-gallery">
-                                <img src="PicsPortfolio/CR1.jpeg" alt="Clash-Royale1" class="active">
-                                <img src="PicsPortfolio/CR2.jpeg" alt="Clash-Royale2">
-                                <button class="gallery-btn prev-btn">&lt;</button>
-                                <button class="gallery-btn next-btn">&gt;</button>
-                            </div>
+                    <div class="project-container even">
+                        <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
                                 <p class="description">An object-oriented game engine built in C++ from the ground up, featuring a Factory design pattern, polymorphic entities, and sophisticated AI pathfinding.</p>
@@ -223,18 +231,36 @@
                                 <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/Sample_Gameplay.mp4">Run_Demo</a>
                             </div>
                         </div>
+                        <div class="mac-window-small">
+                            <div class="title-bar">
+                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                                <div class="title">GameEngine.exe</div>
+                            </div>
+                            <div class="window-content">
+                                <div class="project-card-gallery">
+                                    <img src="PicsPortfolio/CR1.jpeg" alt="Clash-Royale1" class="active">
+                                    <img src="PicsPortfolio/CR2.jpeg" alt="Clash-Royale2">
+                                    <button class="gallery-btn prev-btn">&lt;</button>
+                                    <button class="gallery-btn next-btn">&gt;</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Project 3: Lit -->
-                    <div class="mac-window-card">
-                        <div class="title-bar">
-                            <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                            <div class="title">Project_03 :: Lit.jar</div>
-                        </div>
-                        <div class="window-content">
-                           <div class="project-card-gallery">
-                                <img src="PicsPortfolio/Lit.png" alt="Lit Screenshot 1" class="active">
+                    <div class="project-container odd">
+                        <div class="mac-window-small">
+                            <div class="title-bar">
+                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                                <div class="title">Lit.jar</div>
                             </div>
+                            <div class="window-content">
+                                <div class="project-card-gallery">
+                                    <img src="PicsPortfolio/Lit.png" alt="Lit Screenshot 1" class="active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
                                 <p class="description">A Java-based version control system that replicates core Git functionalities using SHA-1 hashing and custom content-addressable storage.</p>
@@ -250,19 +276,8 @@
                     </div>
 
                     <!-- Project 4: No_Chess.com -->
-                    <div class="mac-window-card">
-                        <div class="title-bar">
-                            <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                            <div class="title">Project_04 :: No_Chess.py</div>
-                        </div>
-                        <div class="window-content">
-                            <div class="project-card-gallery">
-                                <img src="PicsPortfolio/NC1.png" alt="No_Chess" class="active">
-                                <img src="PicsPortfolio/NC2.png" alt="No_Chess2">
-                                <img src="PicsPortfolio/ReviewNC.png" alt="No_Chess3">
-                                <button class="gallery-btn prev-btn">&lt;</button>
-                                <button class="gallery-btn next-btn">&gt;</button>
-                            </div>
+                    <div class="project-container even">
+                        <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
                                 <p class="description">A React chess application offering free, unlimited PGN game reviews and live game sessions with live analysis powered by the Stockfish chess engine.</p>
@@ -276,22 +291,41 @@
                                 <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/NC.mp4">Run_Demo</a>
                             </div>
                         </div>
+                        <div class="mac-window-small">
+                            <div class="title-bar">
+                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                                <div class="title">No_Chess.py</div>
+                            </div>
+                            <div class="window-content">
+                                <div class="project-card-gallery">
+                                    <img src="PicsPortfolio/NC1.png" alt="No_Chess" class="active">
+                                    <img src="PicsPortfolio/NC2.png" alt="No_Chess2">
+                                    <img src="PicsPortfolio/ReviewNC.png" alt="No_Chess3">
+                                    <button class="gallery-btn prev-btn">&lt;</button>
+                                    <button class="gallery-btn next-btn">&gt;</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Project 5: Retail-Rethink -->
-                    <div class="mac-window-card">
-                        <div class="title-bar">
-                            <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                            <div class="title">Project_05 :: RetailRethink.app</div>
-                        </div>
-                        <div class="window-content">
-                            <div class="project-card-gallery">
-                                <img src="PicsPortfolio/RR1.jpeg" alt="Retail-Rethink1" class="active">
-                                <img src="PicsPortfolio/RR2.jpeg" alt="Retail-Rethink2">
-                                <img src="PicsPortfolio/RR3.png" alt="Retail-Rethink3">
-                                <button class="gallery-btn prev-btn">&lt;</button>
-                                <button class="gallery-btn next-btn">&gt;</button>
+                    <div class="project-container odd">
+                        <div class="mac-window-small">
+                            <div class="title-bar">
+                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                                <div class="title">RetailRethink.app</div>
                             </div>
+                            <div class="window-content">
+                                <div class="project-card-gallery">
+                                    <img src="PicsPortfolio/RR1.jpeg" alt="Retail-Rethink1" class="active">
+                                    <img src="PicsPortfolio/RR2.jpeg" alt="Retail-Rethink2">
+                                    <img src="PicsPortfolio/RR3.png" alt="Retail-Rethink3">
+                                    <button class="gallery-btn prev-btn">&lt;</button>
+                                    <button class="gallery-btn next-btn">&gt;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
                                 <p class="description">An expense tracking app to help you rethink your budget, featuring custom categories, an analysis dashboard, and historical spending data.</p>
@@ -307,19 +341,9 @@
                     </div>
 
                     <!-- Project 6: Watched -->
-                    <div class="mac-window-card">
-                        <div class="title-bar">
-                            <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                            <div class="title">Project_06 :: Watched.app</div>
-                        </div>
-                        <div class="window-content">
-                             <div class="project-card-gallery">
-                                <img src="PicsPortfolio/Watched1.png" alt="Watched1" class="active">
-                                <img src="PicsPortfolio/Watched2.png" alt="Watched2">
-                                <button class="gallery-btn prev-btn">&lt;</button>
-                                <button class="gallery-btn next-btn">&gt;</button>
-                            </div>
-                           <div class="terminal-section">
+                    <div class="project-container even">
+                        <div class="terminal-window">
+                            <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
                                 <p class="description">A personal media library to track watched movies and series, leveraging the TMDB API to fetch posters and ratings alongside your own custom reviews.</p>
                                 <p class="prompt">&gt; Loading dependencies...</p>
@@ -329,6 +353,20 @@
                             </div>
                             <div class="project-card-links">
                                 <a href="https://github.com/kusum-bhattarai/Watched" target="_blank" class="btn">View_Source</a>
+                            </div>
+                        </div>
+                        <div class="mac-window-small">
+                            <div class="title-bar">
+                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                                <div class="title">Watched.app</div>
+                            </div>
+                            <div class="window-content">
+                                <div class="project-card-gallery">
+                                    <img src="PicsPortfolio/Watched1.png" alt="Watched1" class="active">
+                                    <img src="PicsPortfolio/Watched2.png" alt="Watched2">
+                                    <button class="gallery-btn prev-btn">&lt;</button>
+                                    <button class="gallery-btn next-btn">&gt;</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -359,7 +397,7 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Removed particles.js script -->
     <script src="scripts.js"></script>
 
     <div class="modal" id="video-modal">

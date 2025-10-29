@@ -10,7 +10,6 @@ html {
 }
 
 body {
-    /* Updated Celestial Background */
     background-color: #0d0d10;
     background-size: cover;
     background-attachment: fixed;
@@ -34,6 +33,57 @@ h2, h3, h4, .btn {
     padding: 20px;
 }
 
+/* === Boot Sequence === */
+.boot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.boot-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.boot-terminal {
+    background: #000;
+    border: 2px solid #00ff00;
+    padding: 20px;
+    color: #00ff00;
+    font-family: 'Source Code Pro', monospace;
+    white-space: pre;
+    /* animation: typing 4s steps(40, end); */ /* Removed animation */
+    /* overflow: hidden; */ /* Removed overflow */
+}
+
+.boot-terminal p {
+    margin: 5px 0;
+    opacity: 0; /* Start hidden */
+    white-space: pre-wrap; /* Allow text to be added */
+}
+
+/* Added for new boot sequence */
+.boot-terminal p.typing-cursor::after {
+    content: '_';
+    opacity: 1;
+    animation: blink 1s infinite;
+    font-weight: bold;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
 /* === Header & Navigation === */
 header {
     background: transparent;
@@ -46,6 +96,17 @@ header {
     backdrop-filter: blur(5px);
     transition: background-color 0.4s ease;
 }
+
+/* Added for boot sequence fade-in */
+header, main {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+header.loaded, main.loaded {
+    opacity: 1;
+}
+
 
 header.header-scrolled {
     background: rgba(26, 26, 29, 0.85);
@@ -96,13 +157,14 @@ header .container {
     padding-top: 60px;
 }
 
-#particles-js {
-    position: fixed; /* Fixes it to the viewport */
+/* Replaced particles-js with three.js canvas */
+#bg-canvas {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;   /* Places it behind everything else */
+    z-index: -1; /* Behind everything */
 }
 
 #hero .content {
@@ -123,8 +185,9 @@ header .container {
     display: inline-block;
 }
 
-#hero p::after {
-    content: '_';
+/* Removed ::after pseudo-element for cursor */
+/* Added style for new #cursor span */
+#cursor {
     opacity: 1;
     animation: blink 1s infinite;
 }
@@ -174,7 +237,7 @@ header .container {
 
 /* === About Section === */
 .about-grid {
-    position: relative; /* Add this line */
+    position: relative;
     display: grid;
     grid-template-columns: 250px 1fr;
     gap: 60px;
@@ -213,28 +276,25 @@ header .container {
     position: relative;
 }
 
-/* Base style for each sprite */
 .pixel-sprite {
-    position: absolute; /* Allows us to place them anywhere relative to the about-grid */
-    width: 60px;  /* Small and unobtrusive */
+    position: absolute;
+    width: 60px;
     height: 60px;
     z-index: 10;
     transition: transform 0.2s ease-out;
 }
 
 .pixel-sprite:hover {
-    transform: scale(1.2); /* Simple hover effect */
+    transform: scale(1.2);
 }
 
 .pixel-sprite img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* This is the secret sauce for the pixelated look! */
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    /* A subtle shadow to make them pop, like a game sprite */
     filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.6));
 }
 
@@ -332,22 +392,36 @@ header .container {
 /* === Projects Section === */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: 1fr;
     gap: 60px;
 }
 
-.mac-window-card {
+.project-container {
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+    /* Added max-width and margin to make windows smaller */
+    max-width: 1100px; /* Narrower */
+    margin: 0 auto;
+}
+
+.project-container.even {
+    flex-direction: row-reverse;
+}
+
+.mac-window-small {
     background: #c0c0c0;
     border: 3px solid;
     border-color: #f0f0f0 #606060 #606060 #f0f0f0;
     box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: left;
-    display: flex;
-    flex-direction: column;
+    /* Adjusted flex properties */
+    flex: 0 1 500px; /* Gives a basis of 500px, allows shrinking */
+    min-width: 300px;
 }
 
-.mac-window-card:hover {
+.mac-window-small:hover {
     transform: translateY(-10px) rotate(-1deg);
     box-shadow: 10px 10px 25px rgba(0,0,0,0.7);
 }
@@ -377,46 +451,56 @@ header .container {
 .zoom { background-color: #28c840; }
 
 .window-content {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
+    padding: 0;
     background-color: #2c2c30;
     border-top: 2px solid #f0f0f0;
-    flex-grow: 1;
 }
 
 .project-card-gallery {
     position: relative;
-    height: 280px;
+    height: 300px; /* Increased height - more squarish */
     overflow: hidden;
     background-color: #000;
     border: 2px solid #4e4e50;
-    margin-bottom: 15px;
 }
 
 .project-card-gallery img {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: contain; opacity: 0; transition: opacity 0.4s ease-in-out;
+    object-fit: contain; /* This correctly fits the image inside */
+    opacity: 0; 
+    transition: opacity 0.4s ease-in-out;
 }
 
 .project-card-gallery img.active { opacity: 1; }
 
 .gallery-btn {
     position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(11, 12, 16, 0.5);
-    color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px;
-    font-size: 24px; line-height: 40px; text-align: center; cursor: pointer;
+    color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px;
+    font-size: 18px; line-height: 30px; text-align: center; cursor: pointer;
     opacity: 0; transition: opacity 0.3s ease; z-index: 5;
 }
 
-.mac-window-card:hover .gallery-btn { opacity: 1; }
+.mac-window-small:hover .gallery-btn { opacity: 1; }
 .gallery-btn:hover { background-color: rgba(11, 12, 16, 0.8); }
 .prev-btn { left: 10px; }
 .next-btn { right: 10px; }
 
+.terminal-window {
+    background: #000;
+    border: 3px solid #4e4e50;
+    padding: 20px;
+    /* Adjusted flex properties */
+    flex: 1 1 550px; /* Allows growing/shrinking, slightly larger basis */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: inset 0 0 10px #000;
+    text-align: left; /* Added to align text left */
+}
 
 .terminal-section {
     flex-grow: 1;
-    margin-bottom: 20px;
+    min-height: 260px; /* Added for consistent height */
 }
 
 .terminal-section .prompt {
@@ -456,7 +540,7 @@ header .container {
 .project-card-links {
     display: flex;
     gap: 10px;
-    margin-top: auto; /* Pushes to bottom */
+    margin-top: 20px;
 }
 
 .btn {
@@ -518,39 +602,50 @@ header .container {
 .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
 /* === Responsive Adjustments === */
-.menu-toggle { display: none; } /* Hide hamburger on desktop */
+.menu-toggle { display: none; }
 
 @media (max-width: 768px) {
     header .container { justify-content: flex-end; }
     .nav ul { display: none; }
-    /* Add styles for mobile menu toggle if needed */
 
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .about-narrative-column p { text-align: left; }
     .exp-header { grid-template-areas: "title" "company" "date"; }
     .exp-date { text-align: left; }
+
+    .project-container, .project-container.even {
+        flex-direction: column;
+        max-width: 100%; /* Reset max-width on mobile */
+    }
+
+    .mac-window-small {
+        width: 100%;
+        flex-basis: auto; /* Reset flex-basis on mobile */
+    }
+
+    .terminal-window {
+        flex-basis: auto; /* Reset flex-basis on mobile */
+    }
 }
 
 @media (max-width: 480px) {
-    .project-grid { grid-template-columns: 1fr; }
     #hero h2 { font-size: 2rem; }
     #hero p { font-size: 1.2rem; }
     .section-title { font-size: 1.5rem; padding: 15px 20px; }
     .exp-title { font-size: 1rem; }
 
     .project-card-links {
-        flex-wrap: wrap; /* Allows buttons to stack vertically */
+        flex-wrap: wrap;
     }
 
     .section-title {
         font-size: 1.5rem;
-        /* V-- Reduce the horizontal padding (the second value) --V */
-        padding: 15px 10px; /* Was 15px 20px */
+        padding: 15px 10px;
     }
 }
 
 /* === Scroll-Reveal Animation === */
-.about-grid, .skill-category, .experience-item, .mac-window-card {
+.about-grid, .skill-category, .experience-item, .project-container {
     opacity: 0;
     transform: translateY(30px); 
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -559,14 +654,9 @@ header .container {
 .about-grid.is-visible,
 .skill-category.is-visible,
 .experience-item.is-visible,
-.mac-window-card.is-visible {
+.project-container.is-visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-.mac-window-card:hover {
-    transform: translateY(-10px) rotate(-2deg); 
-    box-shadow: 10px 10px 25px rgba(0,0,0,0.7);
 }
 
 @media (max-width: 768px) {
@@ -576,7 +666,7 @@ header .container {
     }
 
     .menu-toggle {
-        display: flex; /* Make the button visible on mobile */
+        display: flex;
         flex-direction: column;
         justify-content: space-around;
         width: 30px;
@@ -596,12 +686,12 @@ header .container {
     }
 
     .nav ul {
-        display: none; /* Keep it hidden by default */
+        display: none;
         flex-direction: column;
         position: absolute;
-        top: 100%; /* Position it right below the header */
+        top: 100%;
         right: 0;
-        width: 250px; /* Or a width you prefer */
+        width: 250px;
         background: #2c2c30;
         border: 3px solid #4e4e50;
         border-top: none;
@@ -616,13 +706,4 @@ header .container {
         width: 100%;
         text-align: center;
     }
-
-    .project-grid {
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    }
-    
-    .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    .about-narrative-column p { text-align: left; }
-    .exp-header { grid-template-areas: "title" "company" "date"; }
-    .exp-date { text-align: left; }
 }
