@@ -10,29 +10,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/draggabilly@3/dist/draggabilly.pkgd.min.js"></script>
-    
-    <!-- Added Three.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+    <!-- CRT scanline overlay -->
+    <div id="scanlines"></div>
+    <!-- Ambient cursor glow -->
+    <div id="cursor-glow"></div>
+    <!-- Grain / noise texture overlay -->
+    <div id="grain"></div>
     <!-- Canvas for Three.js background -->
     <canvas id="bg-canvas"></canvas>
-
-    <div id="boot-sequence" class="boot-overlay">
-        <div class="boot-terminal">
-            <p>[QuamOS] Booting system...</p>
-            <p>Loading kernel modules...</p>
-            <p>Initializing user interface...</p>
-            <p>Entering QuamOS environment...</p>
-            <p>Welcome, Developer.</p>
-        </div>
-    </div>
 
     <header>
         <div class="container">
             <nav class="nav">
                 <ul>
                     <li><a href="#about">About</a></li>
+                    <li><a href="#achievements">Awards</a></li>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#contact">Contact</a></li>
@@ -45,54 +40,89 @@
             </button>
         </div>
     </header>
-    
+
     <main>
         <section id="hero">
             <div class="content">
-                <h2>Kusum Bhattarai Sharma</h2>
-                <!-- Updated for typewriter effect -->
+                <div class="hero-player-badge">▶ PLAYER 1</div>
+                <h2 class="hero-name">Kusum Bhattarai Sharma</h2>
                 <p>> <span id="typewriter">Software Engineer</span><span id="cursor">_</span></p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-top"><span class="stat-value" data-target="3.9" data-decimals="1">0.0</span><span class="stat-unit">/4.0</span></div>
+                        <span class="stat-label">GPA</span>
+                    </div>
+                    <div class="stat-divider">|</div>
+                    <div class="stat-item">
+                        <div class="stat-top"><span class="stat-value" data-target="4">0</span><span class="stat-unit">+</span></div>
+                        <span class="stat-label">Roles</span>
+                    </div>
+                    <div class="stat-divider">|</div>
+                    <div class="stat-item">
+                        <div class="stat-top"><span class="stat-value" data-target="7">0</span><span class="stat-unit">+</span></div>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                </div>
                 <div class="hero-social-icons">
                     <a href="https://github.com/kusum-bhattarai" target="_blank"><i class="fab fa-github"></i></a>
                     <a href="https://www.linkedin.com/in/kusum-bhattarai-sharma" target="_blank"><i class="fab fa-linkedin"></i></a>
                 </div>
+            </div>
+            <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+                <div class="scroll-line"></div>
+                <span>SCROLL</span>
             </div>
         </section>
 
         <section id="about" class="section">
             <div class="container">
                 <h2 class="section-title">User_Profile</h2>
-                    <div id="draggable-profile" class="about-grid">
-                        <div class="profile-title-bar">
-                            <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                            <div class="title">user_bio.txt</div>
-                        </div>
-
-                        <div class="pixel-sprite sprite-5"><img data-filename="pekka.png" alt="Clash Royale"></div>
-                        <div class="pixel-sprite sprite-7"><img data-filename="bat.png" alt="Batman"></div>
-
+                <div class="about-card">
+                    <div class="about-card-header">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title">profile.sys</div>
+                    </div>
+                    <div class="about-card-body">
                         <div class="about-picture-column">
                             <div class="profile-pic">
                                 <img src="PicsPortfolio/pp.png" alt="Profile Picture">
                             </div>
+                            <div class="profile-status">
+                                <span class="status-dot"></span>
+                                <span>Open to opportunities</span>
+                            </div>
                         </div>
-
-                        <div class="about-narrative-column">
-                            <p class="prompt">&gt; Executing cat user_bio.txt...</p>
-                            <p class="bio-text"></p> 
+                        <div class="about-text-column">
+                            <h3 class="about-display-name">Kusum Bhattarai Sharma</h3>
+                            <p class="about-subtitle">B.S. Computer Science &bull; Texas State University &bull; Class of 2027</p>
+                            <p class="about-bio">Building at the intersection of software engineering, AI research, and data science. Currently developing XR systems with sub-150ms latency, AI-driven proposal engines, and spatial health analytics — while maintaining a 3.9 GPA and competing in hackathons.</p>
+                            <div class="about-interests">
+                                <span class="interest-label">&gt; Interests</span>
+                                <div class="interest-tags">
+                                    <span>Philosophy</span>
+                                    <span>Astrophysics</span>
+                                    <span>F1 Racing</span>
+                                    <span>Chess</span>
+                                    <span>Soccer</span>
+                                    <span>Clash Royale</span>
+                                    <span>Literature</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>                   
+                    </div>
+                </div>
                 <div class="skills-section">
                     <h3 class="skills-title">My_Tech_Stack</h3>
                     <div class="skill-category">
-                        <h4>Languages & Databases</h4>
+                        <h4>Languages</h4>
                         <div class="skill-icons-grid">
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/c++.png" alt="C++"/><p>C++</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/java.png" alt="Java"/><p>Java</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/python.png" alt="Python"/><p>Python</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/javascript.png" alt="JavaScript"/><p>JavaScript</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/typescript.png" alt="TypeScript"/><p>TypeScript</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="PostgreSQL"/><p>PostgreSQL</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="SQL"/><p>SQL</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/bash.png" alt="Bash"/><p>Bash</p></div>
                         </div>
                     </div>
                     <div class="skill-category">
@@ -101,24 +131,60 @@
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/react.png" alt="React"/><p>React</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/node_js.png" alt="Node.js"/><p>Node.js</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/express.png" alt="Express"/><p>Express</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/spring.png" alt="Spring"/><p>Spring</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/tailwind_css.png" alt="Tailwind CSS"/><p>Tailwind</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/pandas.png" alt="Pandas"/><p>Pandas</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/fastapi.png" alt="FastAPI"/><p>FastAPI</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/spring_boot.png" alt="Spring Boot"/><p>Spring Boot</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/langchain_icon.png" alt="LangChain"/><p>LangChain</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/numpy.png" alt="NumPy"/><p>NumPy</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/jest.png" alt="Jest"/><p>Jest</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/cypress.png" alt="Cypress"/><p>Cypress</p></div>
+                            <div class="skill-item no-icon-item"><span class="no-icon-symbol">&#9749;</span><p>JUnit</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/kafka.png" alt="Kafka"/><p>Kafka</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/redis.png" alt="Redis"/><p>Redis</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/elasticsearch.png" alt="Elastic Search"/><p>Elastic Search</p></div>
+
                         </div>
                     </div>
                     <div class="skill-category">
-                        <h4>Markup, Tools & Platforms</h4>
+                        <h4>Tools & Platforms</h4>
                         <div class="skill-icons-grid">
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/html.png" alt="HTML"/><p>HTML</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/css.png" alt="CSS"/><p>CSS</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/git.png" alt="Git"/><p>Git</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/github.png" alt="GitHub"/><p>GitHub</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/docker.png" alt="Docker"/><p>Docker</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/aws.png" alt="AWS"/><p>AWS</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/kubernetes.png" alt="Kubernetes"/><p>Kubernetes</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/gcp.png" alt="GCP"/><p>GCP</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/github.png" alt="GitHub"/><p>GH Actions</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/git.png" alt="Git"/><p>Git</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/linux.png" alt="Linux"/><p>Linux</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/visual_studio_code.png" alt="VS Code"/><p>VS Code</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/bash.png" alt="Bash"/><p>Bash</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/aws.png" alt="AWS" title="AWS"/><p>AWS</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postman.png" alt="Postman"/><p>Postman</p></div>
+                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/nginx.png" alt="Nginx"/><p>Nginx</p></div>
+                            <div class="skill-item no-icon-item"><span class="no-icon-symbol">&#9881;</span><p>Jenkins</p></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section id="achievements" class="section">
+            <div class="container">
+                <h2 class="section-title">Achievements.log</h2>
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <div class="achievement-tag">[WIN]</div>
+                        <h3 class="achievement-title">TXST Datathon 2025</h3>
+                        <p class="achievement-meta">2025 // Competition</p>
+                        <p class="achievement-desc">1st Place Winner — Texas State University annual data science competition.</p>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-tag">[3RD]</div>
+                        <h3 class="achievement-title">AI Collective Hackathon</h3>
+                        <p class="achievement-meta">2025 // Hackathon</p>
+                        <p class="achievement-desc">3rd Place — Data Portability Track. Prize: $1,000. Hosted by AI Collective.</p>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-tag">[$32K]</div>
+                        <h3 class="achievement-title">Achievement Scholarship</h3>
+                        <p class="achievement-meta">2023 // Scholarship</p>
+                        <p class="achievement-desc">TXST merit-based scholarship awarded for academic excellence. GPA: 3.9/4.0.</p>
                     </div>
                 </div>
             </div>
@@ -129,44 +195,59 @@
                 <h2 class="section-title">Experience.log</h2>
                 <div class="experience-list">
 
-                    <article class="experience-item">
+                    <article class="experience-item exp-data">
                         <div class="exp-header">
-                            <h3 class="exp-title">Student Software Developer</h3>
-                            <p class="exp-company">CADS, Texas State University</p>
-                            <p class="exp-date">Sep 2025 - Present</p>
+                            <h3 class="exp-title">AI & Data Researcher</h3>
+                            <p class="exp-company">THRC, Texas State University</p>
+                            <p class="exp-date">Jan 2025 – Present</p>
                         </div>
                         <div class="exp-body">
                             <ul>
-                                <li>Built AI-powered grant evaluation system integrating FAISS vector search, GROQ LLM API, and OpenAlex data analysis, achieving 81% competitive assessment accuracy.</li>
-                                <li>Optimized FAISS index caching with MD5-based key generation and batch processing for document similarity search, enabling 30-60 second analysis cycles.</li>
+                                <li>Engineered multi-source data integration pipeline merging five years of CDC BRFSS SMART survey data (2015–2019) with MSA-level Distress Community Index (DCI) spatial statistics, producing a master dataset for population health analysis.</li>
+                                <li>Implemented spatial analytics (Global/Local Moran's I via PySAL, KNN spatial weights k=6, spatial Gini coefficient) and authored structured methodological documentation for data pipeline reproducibility.</li>
+                                <li>Developed MSA-level aggregation and LISA cluster classification (HH/LL/HL/LH) with population-weighted shares, enabling identification of geographic health disparity patterns across U.S. metro areas.</li>
                             </ul>
                         </div>
                     </article>
 
-                    <article class="experience-item">
+                    <article class="experience-item exp-research">
+                        <div class="exp-header">
+                            <h3 class="exp-title">Undergraduate Research Assistant</h3>
+                            <p class="exp-company">Department of Engineering, Texas State University</p>
+                            <p class="exp-date">Dec 2025 – Present</p>
+                        </div>
+                        <div class="exp-body">
+                            <ul>
+                                <li>Engineered low-latency voice-to-voice XR agent for Magic Leap 2, integrating async FastAPI and Socket.IO backend with event-driven architecture for concurrent full-duplex audio streams, achieving <strong>&lt;150ms</strong> audio processing latency.</li>
+                                <li>Built context-aware knowledge engine using LangChain and ChromaDB, indexing 3 technical safety manuals with semantic search, deployed to <strong>40 students</strong> achieving <strong>&gt;90%</strong> user satisfaction.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="experience-item exp-dev">
+                        <div class="exp-header">
+                            <h3 class="exp-title">Student Software Developer</h3>
+                            <p class="exp-company">Center of Analytics & Data Science, Texas State University</p>
+                            <p class="exp-date">Sep 2025 – Present</p>
+                        </div>
+                        <div class="exp-body">
+                            <ul>
+                                <li>Architected AI-driven proposal optimization engine implementing Hybrid RAG pipeline with FAISS vector search and cosine similarity ranking to evaluate narrative competency and provide actionable content restructuring recommendations.</li>
+                                <li>Built faculty competency module using polymorphic web scraping with k-means clustering for research categorization, reducing team evaluation time by <strong>80%</strong> and auto-calculating a 0–10 "Fit Score" against federal solicitation criteria.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="experience-item exp-research">
                         <div class="exp-header">
                             <h3 class="exp-title">Undergraduate Research Assistant</h3>
                             <p class="exp-company">Texas State University</p>
-                            <p class="exp-date">Jan 2024 - Present</p>
+                            <p class="exp-date">Jan 2024 – Dec 2025</p>
                         </div>
                         <div class="exp-body">
                             <ul>
-                                <li>Developed Python algorithms to analyze course-taking patterns, identifying STEM pathway trends for educational equity research.</li>
-                                <li>Processed and analyzed 1000+ survey responses, creating visualizations with Matplotlib and PowerBI to support manuscript preparation.</li>
-                                <li>Lead author on qualitative research manuscript and designed programming/AI curriculum for 10-17 year-old students across 10+ Texas sites.</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="experience-item">
-                        <div class="exp-header">
-                            <h3 class="exp-title">Software Engineer Fellowship</h3>
-                            <p class="exp-company">Headstarter AI (Remote)</p>
-                            <p class="exp-date">Jul 2024 - Aug 2024</p>
-                        </div>
-                        <div class="exp-body">
-                            <ul>
-                                <li>Participated in weekly code reviews with 20+ fellows, building movie library application with React.js, implementing dynamic search and API integration.</li>
+                                <li>Developed Python algorithms using k-means clustering to analyze course-taking patterns across <strong>500+</strong> middle/high school students, enabling research team to identify STEM pathway trends across diverse student populations.</li>
+                                <li>Lead author on qualitative research manuscript examining STEM+C enrollment at a Hispanic-Serving Institution, analyzing data from <strong>168 undergraduates</strong> and <strong>1,000+</strong> summer camp survey responses.</li>
                             </ul>
                         </div>
                     </article>
@@ -200,10 +281,10 @@
                         <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">A full-stack journaling platform featuring a microservices architecture, real-time messaging, and collaborating with WebSockets, with markdown support. Has a Matrix-inspired theme for the dev touch.</p>
+                                <p class="description">Full-stack collaborative platform following Agile SDLC with 2-week sprints. Features real-time messaging via WebSockets with &lt;50ms latency and Markdown editing. Deploys 3 Node.js microservices on AWS/EC2 via Nginx, with 90% test coverage through GitHub Actions CI/CD.</p>
                                 <p class="prompt">&gt; Loading dependencies...</p>
                                 <div class="card-tech-stack">
-                                    <span>React</span><span>TypeScript</span><span>Node.js</span><span>Express</span><span>GitHub OAuth</span><span>Socket.IO</span><span>PostgreSQL</span><span>Docker</span><span>AWS</span><span>CI/CD</span>
+                                    <span>Node.js</span><span>TypeScript</span><span>PostgreSQL</span><span>Docker</span><span>AWS</span><span>Socket.IO</span><span>GitHub Actions</span><span>Jest</span><span>Cypress</span><span>Nginx</span>
                                 </div>
                             </div>
                             <div class="project-card-links">
@@ -218,10 +299,10 @@
                         <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">An object-oriented game engine built in C++ from the ground up, featuring a Factory design pattern, polymorphic entities, and sophisticated AI pathfinding.</p>
+                                <p class="description">OOP game engine across 43 source files implementing Factory pattern and polymorphic inheritance with 10 entity types. Features autonomous AI with A* pathfinding, probabilistic decision-making, multi-layered combat calculations, and comprehensive Google Test suite with zero memory leaks via RAII.</p>
                                 <p class="prompt">&gt; Loading dependencies...</p>
                                 <div class="card-tech-stack">
-                                    <span>C++</span><span>OOP</span><span>CI/CD</span><span>GTest</span><span>Smart Pointers</span>
+                                    <span>C++</span><span>CMake</span><span>OOP</span><span>GTest</span><span>CI/CD</span><span>Smart Pointers</span>
                                 </div>
                             </div>
                             <div class="project-card-links">
@@ -261,7 +342,7 @@
                         <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">A Java-based version control system that replicates core Git functionalities using SHA-1 hashing and custom content-addressable storage.</p>
+                                <p class="description">Distributed version control system in Java implementing Git's core functionality with SHA-1 content hashing, three-way merge algorithms, and complete CLI supporting 9+ commands including branch switching, commit history, and conflict resolution.</p>
                                 <p class="prompt">&gt; Loading dependencies...</p>
                                 <div class="card-tech-stack">
                                     <span>Java</span><span>Gradle</span><span>JUnit</span><span>File I/O</span>
@@ -304,7 +385,41 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
+
+                    <!-- Project 8: Maze Crawler -->
+                    <div class="project-container odd">
+                        <div class="mac-window-small" style="position:relative;">
+                            <span class="project-new-badge">NEW</span>
+                            <div class="title-bar">
+                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                                <div class="title">MazeCrawler.ts</div>
+                            </div>
+                            <div class="window-content">
+                                <div class="project-card-gallery">
+                                    <img src="PicsPortfolio/Maze1.png" alt="Maze Crawler - Algorithm Select" class="active">
+                                    <img src="PicsPortfolio/Maze2.png" alt="Maze Crawler - DFS in progress">
+                                    <img src="PicsPortfolio/Maze3.png" alt="Maze Crawler - BFS solved">
+                                    <button class="gallery-btn prev-btn">&lt;</button>
+                                    <button class="gallery-btn next-btn">&gt;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="terminal-window">
+                            <div class="terminal-section">
+                                <p class="prompt">&gt; Executing description.txt...</p>
+                                <p class="description">A pixel art maze solver/visualizer built as an interactive game. Watch DFS and BFS navigate a procedurally generated maze step by step — backtracking, frontier expansion, and shortest-path reconstruction — controlled by a playable character chased by two algorithm-themed monsters. Zero runtime dependencies.</p>
+                                <p class="prompt">&gt; Loading dependencies...</p>
+                                <div class="card-tech-stack">
+                                    <span>TypeScript</span><span>Vite</span><span>Canvas API</span><span>Zero Deps</span>
+                                </div>
+                            </div>
+                            <div class="project-card-links">
+                                <a href="https://github.com/kusum-bhattarai/maze" target="_blank" class="btn">View_Source</a>
+                                <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/Maze.mov">Run_Demo</a>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Project 5: Watched -->
                     <div class="project-container even">
@@ -343,15 +458,15 @@
                         <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">A simple soduku game which is capable of generating puzzles three difficulty levels. User can ask for hints, undo previous move, submit the game upon completion, and get red highlighted cells for any error.</p>
+                                <p class="description">A Sudoku game capable of generating puzzles across three difficulty levels. Users can request hints, undo moves, submit upon completion, and see error-highlighted cells in real time.</p>
                                 <p class="prompt">&gt; Loading dependencies...</p>
                                 <div class="card-tech-stack">
                                     <span>C++</span><span>ncurses</span><span>Vite</span><span>TypeScript</span><span>Tailwind CSS</span>
                                 </div>
                             </div>
                             <div class="project-card-links">
-                                <a href="https://github.com/kusum-bhattarai/sudoku" target="_blank" class="btn">C++_Source_Code</a>
-                                <a href="https://github.com/kusum-bhattarai/sudoku-frontend" target="_blank" class="btn btn-secondary">TS_Source_Code</a>
+                                <a href="https://github.com/kusum-bhattarai/sudoku" target="_blank" class="btn">C++_Source</a>
+                                <a href="https://github.com/kusum-bhattarai/sudoku-frontend" target="_blank" class="btn btn-secondary">TS_Source</a>
                             </div>
                         </div>
                         <div class="mac-window-small">
@@ -425,11 +540,10 @@
 
     <footer id="footer">
         <div class="container">
-            <p>&copy; 2025 Kusum Bhattarai Sharma. All Rights Reserved.</p>
+            <p>&copy; 2026 Kusum Bhattarai Sharma. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- Removed particles.js script -->
     <script src="scripts.js"></script>
 
     <div class="modal" id="video-modal">

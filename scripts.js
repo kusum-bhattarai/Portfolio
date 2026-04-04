@@ -1,117 +1,103 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Boot sequence
-    const bootOverlay = document.getElementById('boot-sequence');
-    if (bootOverlay) {
-        const lines = bootOverlay.querySelectorAll('.boot-terminal p');
-        const typingSpeed = 25; // ms per char
-        const lineDelay = 100; // ms between lines
-        const fadeOutDelay = 500; // ms after all typing
+    // Immediately reveal content and start counters
+    const header = document.querySelector('header');
+    const main = document.querySelector('main');
+    if (header) header.classList.add('loaded');
+    if (main) main.classList.add('loaded');
+    animateCounters();
 
-        async function typeBootSequence() {
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
-                const text = line.textContent;
-                line.textContent = ''; // Clear it
-                line.style.opacity = 1; // Make the <p> visible
+    // --- Animated Stat Counters ---
+    function animateCounters() {
+        const counters = document.querySelectorAll('.stat-value');
+        counters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-target'));
+            const useDecimals = counter.getAttribute('data-decimals') === '1';
+            const duration = 1800;
+            const startTime = performance.now();
 
-                // Add cursor to current line
-                if (i > 0) lines[i-1].classList.remove('typing-cursor');
-                line.classList.add('typing-cursor');
-
-                for (let j = 0; j < text.length; j++) {
-                    await new Promise(r => setTimeout(r, typingSpeed));
-                    line.textContent += text.charAt(j);
-                }
-                
-                // Add line delay
-                await new Promise(r => setTimeout(r, lineDelay));
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease-out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = target * eased;
+                counter.textContent = useDecimals ? current.toFixed(1) : Math.floor(current);
+                if (progress < 1) requestAnimationFrame(update);
+                else counter.textContent = useDecimals ? target.toFixed(1) : target;
             }
-            
-            // All lines typed
-            if (lines.length > 0) {
-                lines[lines.length - 1].classList.remove('typing-cursor');
-            }
-            
-            // Wait before fading
-            await new Promise(r => setTimeout(r, fadeOutDelay));
-
-            bootOverlay.classList.add('hidden');
-            
-            // Fade in main content after boot
-            const header = document.querySelector('header');
-            const main = document.querySelector('main');
-            if(header) header.classList.add('loaded');
-            if(main) main.classList.add('loaded');
-        }
-
-        typeBootSequence();
-        
-    } else {
-         // Fallback if boot sequence is missing
-        const header = document.querySelector('header');
-        const main = document.querySelector('main');
-        if(header) header.classList.add('loaded');
-        if(main) main.classList.add('loaded');
+            requestAnimationFrame(update);
+        });
     }
 
-    // --- Three.js Background ---
+    // --- Ambient Cursor Glow ---
+    const cursorGlow = document.getElementById('cursor-glow');
+    if (cursorGlow) {
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+    }
+
+    // --- Three.js Background with Mouse Parallax ---
     function initThreeJS() {
         const canvas = document.getElementById('bg-canvas');
         if (!canvas || !window.THREE) return;
 
         const scene = new THREE.Scene();
-        
+
         const frustumSize = 100;
         const aspect = window.innerWidth / window.innerHeight;
-        const camera = new THREE.OrthographicCamera(frustumSize * aspect / -2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / -2, 1, 1000);
+        const camera = new THREE.OrthographicCamera(
+            frustumSize * aspect / -2,
+            frustumSize * aspect / 2,
+            frustumSize / 2,
+            frustumSize / -2,
+            1, 1000
+        );
         camera.position.z = 10;
 
-        const renderer = new THREE.WebGLRenderer({
-            canvas: canvas,
-            alpha: true
-        });
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Objects (Particles)
         const particles = [];
-        const geometry = new THREE.IcosahedronGeometry(1, 0); // Base size before scaling
-        
-        for (let i = 0; i < 150; i++) { 
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0xffffff,
+        const geometry = new THREE.IcosahedronGeometry(1, 0);
+
+        for (let i = 0; i < 150; i++) {
+            const isCyan = Math.random() < 0.12;
+            const material = new THREE.MeshBasicMaterial({
+                color: isCyan ? 0x00ffc3 : 0xffffff,
                 wireframe: true,
                 transparent: true,
-                opacity: 0.25 // Reduced opacity from 0.4 to 0.25
+                opacity: isCyan ? 0.3 : 0.18
             });
-            
-            const mesh = new THREE.Mesh(geometry, material);
 
-            // Initial random positions
+            const mesh = new THREE.Mesh(geometry, material);
             mesh.position.x = (Math.random() - 0.5) * (frustumSize * aspect);
             mesh.position.y = (Math.random() - 0.5) * frustumSize;
             mesh.position.z = (Math.random() - 0.5) * 20;
-
             mesh.rotation.x = Math.random() * 2 * Math.PI;
             mesh.rotation.y = Math.random() * 2 * Math.PI;
-
-            // Re-introduced random scaling for varied sizes
-            const scale = Math.random() * 0.4 + 0.2; // Creates smaller, varied particles
+            const scale = Math.random() * 0.4 + 0.2;
             mesh.scale.set(scale, scale, scale);
-
-            // Store a random velocity for each particle
             mesh.userData.velocity = new THREE.Vector3(
-                (Math.random() - 0.5) * 0.04, // Slightly slowed down
+                (Math.random() - 0.5) * 0.04,
                 (Math.random() - 0.5) * 0.04,
                 0
             );
-
             scene.add(mesh);
             particles.push(mesh);
         }
 
-        // Handle window resizing
+        // Mouse parallax tracking
+        let targetMouseX = 0;
+        let targetMouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            targetMouseX = (e.clientX / window.innerWidth - 0.5) * 4;
+            targetMouseY = (e.clientY / window.innerHeight - 0.5) * 4;
+        });
+
         window.addEventListener('resize', () => {
             const newAspect = window.innerWidth / window.innerHeight;
             camera.left = frustumSize * newAspect / -2;
@@ -121,28 +107,24 @@ document.addEventListener('DOMContentLoaded', function() {
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         });
 
-        // Animation Loop
         const animate = () => {
             requestAnimationFrame(animate);
 
-            // Bounds for screen wrapping
+            // Smooth camera parallax toward mouse
+            camera.position.x += (targetMouseX - camera.position.x) * 0.025;
+            camera.position.y += (-targetMouseY - camera.position.y) * 0.025;
+
             const bounds = {
                 x: (frustumSize * window.innerWidth / window.innerHeight) / 2,
                 y: frustumSize / 2
             };
 
-            // Animate particles
             particles.forEach(p => {
-                // Update position based on velocity
                 p.position.add(p.userData.velocity);
-                
-                // Screen wrapping logic
                 if (p.position.x > bounds.x + 2) p.position.x = -bounds.x - 2;
                 if (p.position.x < -bounds.x - 2) p.position.x = bounds.x + 2;
                 if (p.position.y > bounds.y + 2) p.position.y = -bounds.y - 2;
                 if (p.position.y < -bounds.y - 2) p.position.y = bounds.y + 2;
-
-                // Continue slow rotation
                 p.rotation.y += 0.001;
             });
 
@@ -152,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
         animate();
     }
 
-    // Call Three.js init
     initThreeJS();
 
 
@@ -161,7 +142,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const element = document.getElementById('typewriter');
         if (!element) return;
 
-        const roles = ["Software Engineer", "Thinking Systems", "C++ Developer", "FullStack Developer"];
+        const roles = [
+            "Software Engineer",
+            "AI Researcher",
+            "Data Engineer",
+            "C++ Developer",
+            "Full-Stack Dev"
+        ];
         let roleIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -174,11 +161,9 @@ document.addEventListener('DOMContentLoaded', function() {
             let currentText = '';
 
             if (isDeleting) {
-                // Deleting
                 currentText = currentRole.substring(0, charIndex - 1);
                 charIndex--;
             } else {
-                // Typing
                 currentText = currentRole.substring(0, charIndex + 1);
                 charIndex++;
             }
@@ -188,11 +173,9 @@ document.addEventListener('DOMContentLoaded', function() {
             let typeSpeed = isDeleting ? deletingSpeed : typingSpeed;
 
             if (!isDeleting && charIndex === currentRole.length) {
-                // Finished typing the role
                 typeSpeed = delayBetweenRoles;
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
-                // Finished deleting the role
                 isDeleting = false;
                 roleIndex = (roleIndex + 1) % roles.length;
                 typeSpeed = typingSpeed;
@@ -200,17 +183,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             setTimeout(type, typeSpeed);
         }
-        
-        // Start the typing effect
+
         setTimeout(type, typingSpeed);
     }
-    
-    // Call typewriter
+
     typewriter();
 
 
     // --- Header Scroll Effect ---
-    const header = document.querySelector('header');
     if (header) {
         window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
@@ -236,9 +216,9 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetSection = document.getElementById(targetId);
-            
+
             if (targetSection) {
-                if(navList.classList.contains('active')) {
+                if (navList && navList.classList.contains('active')) {
                     navList.classList.remove('active');
                 }
                 window.scrollTo({
@@ -255,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const images = gallery.querySelectorAll('img');
         const prevBtn = gallery.querySelector('.prev-btn');
         const nextBtn = gallery.querySelector('.next-btn');
-        
+
         if (images.length > 1 && prevBtn && nextBtn) {
             let currentIndex = 0;
             const showImage = (index) => {
@@ -289,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         openModalButtons.forEach(button => {
             button.addEventListener('click', (e) => {
-                e.preventDefault(); 
+                e.preventDefault();
                 const videoSrc = button.getAttribute('data-video-src');
                 if (videoSrc) {
                     videoContainer.innerHTML = `<video controls autoplay><source src="${videoSrc}" type="video/mp4">Your browser does not support the video tag.</video>`;
@@ -309,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Scroll-Reveal ---
+    // --- Scroll-Reveal Observer ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -319,80 +299,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, { threshold: 0.1 });
 
-    const elementsToAnimate = document.querySelectorAll('.about-grid, .skill-category, .experience-item, .project-container');
+    const elementsToAnimate = document.querySelectorAll(
+        '.about-card, .skill-category, .experience-item, .project-container, .achievement-card'
+    );
     elementsToAnimate.forEach(element => {
         observer.observe(element);
     });
 
+    // --- Scroll Spy (highlight active nav link) ---
+    const allSections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav ul li a');
+
+    const spyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                    const isActive = link.getAttribute('href') === `#${id}`;
+                    link.classList.toggle('nav-active', isActive);
+                });
+            }
+        });
+    }, { threshold: 0.35, rootMargin: '-80px 0px -50% 0px' });
+
+    allSections.forEach(s => spyObserver.observe(s));
+
+    // --- Pixel Sprite Loader ---
     const sprites = document.querySelectorAll('.pixel-sprite img');
     if (sprites.length > 0) {
         const imagePath = 'PicsPortfolio/';
         sprites.forEach(img => {
             const filename = img.getAttribute('data-filename');
-            if (filename) {
-                img.src = imagePath + filename;
-            }
+            if (filename) img.src = imagePath + filename;
         });
     }
 
-    // --- Draggable Profile Window ---
-    const draggableElem = document.querySelector('#draggable-profile');
-    if (draggableElem) {
-        const draggie = new Draggabilly(draggableElem, {
-            handle: '.profile-title-bar' // Only allow dragging from the title bar
-        });
-    }
-
-    // --- Profile Bio Typing Animation ---
-    function initProfileTyping() {
-        const bioElement = document.querySelector('.bio-text');
-        if (!bioElement) return;
-
-        // The full bio content with HTML tags
-        const bioHTML = `<strong>Identity:</strong> Student --> Software Engineer <br>
-<strong>Mission:</strong> Architecting solutions for complex problems, from AI-driven grant analysis to modular systems.<br>
-<strong>Interests:</strong> Philosophy, Astrophysics, Literature, F1 Racing, Soccer, Chess, and Clash Royale <br>
-<strong>Status:</strong> Always working on new projects and challenges.`;
-
-        const typingSpeed = 20; // ms per character
-
-        const typeBio = async () => {
-            bioElement.classList.add('typing-cursor');
-            for (let i = 0; i < bioHTML.length; i++) {
-                // If it's an HTML tag, append the whole tag at once
-                if (bioHTML.charAt(i) === '<') {
-                    const tagEnd = bioHTML.indexOf('>', i);
-                    bioElement.innerHTML += bioHTML.substring(i, tagEnd + 1);
-                    i = tagEnd;
-                } else {
-                    // Otherwise, type character by character
-                    bioElement.innerHTML += bioHTML.charAt(i);
-                    await new Promise(r => setTimeout(r, typingSpeed));
-                }
-            }
-            bioElement.classList.remove('typing-cursor');
-        };
-
-        // Use an Intersection Observer to start the animation only when visible
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    typeBio();
-                    obs.unobserve(entry.target); // Animate only once
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        observer.observe(bioElement);
-    }
-
-    // Call the function
-    initProfileTyping();
-    
     console.log(
         `%c
         //-----------------------//
-        //  KusumOS v2.1 ONLINE  //
+        //  KusumOS v3.0 ONLINE  //
         //  ALL SYSTEMS GO       //
         //-----------------------//
 
@@ -401,27 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⣧⠀⠀⢀⡟⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡿⡇⠀⠀⠀⠘⠦⠤⠼⠁⠀⠀⠀⣸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣇⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠋⢹⡀⠀⠀⣰⠋⠁⣷⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣄⣀⡀⠀⠀⠀⠀⢀⣀⣀⣼⣽⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣯⣤⣼⡇⠀⣼⡷⢤⣴⠇⠀⠀⢀⣀⡀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠈⠓⠾⠿⠛⠛⠉⠙⠛⠛⠒⠋⣸⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡏⠛⢻⠇⣼⠉⠛⢛⡟⠀⣠⠞⠉⢸⠇⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⢳⣀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠿⣿⢿⣶⢻⣝⣿⡾⣠⠚⣿⣿⣶⠋⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡄⢻⣣⡀⠀⠀⠀⠀⠀⢠⣾⢃⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣶⣶⣾⢿⣦⣤⣼⡿⣿⣷⣤⠟⠁⢀⣠⠤⠶⣦
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣷⢈⣧⣳⡤⠤⢤⠤⣴⣿⣇⣼⢿⣻⣿⠿⢶⣦⣄⠀⠀⠀⠀⠀⠀⢀⡾⡟⠶⣄⠀⡼⠀⠙⣍⠀⢀⠉⡉⠙⣷⣤⣽⣯⣴⠚⢿⣿⣦⠴⠋
-⠀⠀⠀⠀⠀⠀⢀⣠⡤⠤⢤⡴⣚⣽⣿⣿⣧⣭⠧⠖⠒⠶⢿⣴⣿⣟⠛⠉⣩⡶⠾⠟⣛⡿⠶⠖⠒⠒⠒⠶⣧⡁⣠⢛⡿⣥⣈⣢⡼⠋⠉⠉⠳⣄⠀⠉⣏⠘⢿⣷⠼⠋⠁⠀⠀
-⠀⠀⠀⢀⣠⠞⠉⢀⣠⠴⠛⠻⣿⣿⣯⣟⣻⣴⣶⣶⠿⠟⠛⠉⠙⠻⢬⡉⡟⠁⢀⡴⠚⠁⠀⠀⠀⠀⠀⠀⠀⠈⣻⡛⢋⣠⣿⠋⢻⠀⠀⠀⠀⠀⢸⠒⠁⠙⢿⠉⠀⠀⠀⠀⠀⠀
-⠀⣰⠟⣿⡁⠀⠴⠛⠁⠀⠀⢠⣌⠻⣶⡶⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠉⠓⣶⣿⣦⣤⣶⡾⠿⡿⠟⣻⣷⣶⡶⠋⢿⠛⠛⠁⠀⠈⠣⣄⣀⣀⡴⠛⠢⠤⣤⡟⠀⠀⠀⠀⠀⠀⠀
-⢰⠇⣠⡾⠃⠀⠀⠀⠀⠀⠀⠸⣯⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⡿⣲⣿⠃⠀⡜⠁⣰⡿⣿⠋⠀⣰⣿⣇⠀⠀⠀⣀⠀⠀⠉⡁⠀⠀⠀⣰⠟⠀⠀⠀⠀⠀⠀⠀⠀
-⣼⢠⡿⠀⠀⠀⢠⣤⣤⣤⣤⣤⣤⣤⣤⣄⣠⡀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣿⣭⣿⣿⡇⠀⣼⠁⢰⣿⣿⡏⠀⢠⣿⣾⣿⣟⡛⠉⠁⠀⠀⠀⠱⢤⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣿⢸⡇⠀⠀⠀⠈⢷⠀⠀⠀⠀⠀⠀⣀⠴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⡀⣀⣯⣀⣾⣿⣿⣷⠦⣤⣳⣸⡻⣧⡉⢿⣷⣶⣶⣶⣶⣾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣿⣿⡇⠀⠀⠀⠀⠈⢧⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠴⠛⣿⣯⡻⣿⣿⣿⣿⣿⡿⢿⣿⣦⡙⣿⣽⣾⣎⣙⣛⣻⣿⣩⣾⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠸⣿⡇⠀⠀⠀⠀⠀⠈⣇⡤⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⠿⠟⠛⢻⡟⠛⣳⣿⣿⣿⣿⣿⣦⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢠⣏⣧⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣼⡷⡄⠀⠀⠸⣷⣾⡿⢿⣴⣿⣿⡟⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢸⣿⡟⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⠟⣛⡧⠖⠛⣦⡀⣶⣿⣿⠿⣿⡿⢻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣾⣿⣇⠸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠁⠈⠙⢉⣡⠴⢾⣯⣽⠿⣿⣿⣿⣷⣄⣠⣾⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⡇⣿⣿⠀⠹⣤⣶⡖⣒⠚⠒⠲⢦⡀⠀⠀⡴⠁⠀⠀⢀⡴⠋⠉⠛⠛⠋⠁⣶⡼⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣇⣿⣿⡆⣠⣿⣿⣧⣸⣷⠀⠀⣸⠉⠳⣾⠁⠀⢀⡴⠋⠀⠀⢀⣤⣶⣶⣾⡿⠁⢹⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠁⠉⠉⠁⠀⠈⠀⠉⠉⠘⠁⠀⠀⢀⠀⠈⠁⠀⠈⠀⠀⠀⠀⠀⢁⣁⠀⠀⠀⠀⠀⠈⠉⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     `,
         'color: #00ffc3; font-weight: bold; font-family: monospace;'
     );
 });
-
