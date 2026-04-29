@@ -143,10 +143,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!element) return;
 
         const roles = [
-            "Software Engineer",
-            "AI Researcher",
-            "Data Engineer",
             "C++ Developer",
+            "Software Engineer",
+            "Systems Engineer",
+            "AI and Data Researcher",
             "Full-Stack Dev"
         ];
         let roleIndex = 0;
@@ -289,6 +289,50 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // --- Project Filter ---
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectContainers = document.querySelectorAll('.project-container');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.classList.contains('active')) return;
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+
+            // Fade out currently visible cards
+            projectContainers.forEach(c => {
+                if (c.style.display !== 'none') {
+                    c.style.opacity = '0';
+                    c.style.transform = 'translateY(8px)';
+                }
+            });
+
+            setTimeout(() => {
+                // Swap visibility
+                projectContainers.forEach(c => {
+                    const matches = filter === 'all' || c.dataset.category === filter;
+                    c.style.display = matches ? 'flex' : 'none';
+                    if (matches) {
+                        c.style.opacity = '0';
+                        c.style.transform = 'translateY(8px)';
+                    }
+                });
+
+                // Fade in matching cards (double rAF ensures display:flex has applied)
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    projectContainers.forEach(c => {
+                        if (c.style.display !== 'none') {
+                            c.style.opacity = '1';
+                            c.style.transform = 'translateY(0)';
+                        }
+                    });
+                }));
+            }, 200);
+        });
+    });
+
     // --- Scroll-Reveal Observer ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -305,6 +349,38 @@ document.addEventListener('DOMContentLoaded', function() {
     elementsToAnimate.forEach(element => {
         observer.observe(element);
     });
+
+    // --- Contact Form (Formspree AJAX) ---
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = contactForm.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: new FormData(contactForm),
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (res.ok) {
+                    contactForm.innerHTML = '<p class="form-success">&gt; Message received. I\'ll get back to you soon.</p>';
+                } else {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    const errMsg = contactForm.querySelector('.form-error') || Object.assign(document.createElement('p'), { className: 'form-error' });
+                    errMsg.textContent = '> Something went wrong. Try emailing directly.';
+                    contactForm.appendChild(errMsg);
+                }
+            } catch {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+    }
 
     // --- Scroll Spy (highlight active nav link) ---
     const allSections = document.querySelectorAll('section[id]');
