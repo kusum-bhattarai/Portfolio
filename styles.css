@@ -729,15 +729,15 @@ header .container {
 .project-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 60px;
+    gap: 44px;
 }
 
 .project-container {
     transition: opacity 0.2s ease, transform 0.2s ease;
     display: flex;
-    gap: 40px;
-    align-items: stretch;
-    max-width: 1100px;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 960px;
     margin: 0 auto;
 }
 
@@ -752,15 +752,15 @@ header .container {
     box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: left;
-    flex: 0 0 560px;
+    flex: 0 0 420px;
     min-width: 0;
     display: flex;
     flex-direction: column;
 }
 
 .mac-window-small:hover {
-    transform: translateY(-10px) rotate(-1deg);
-    box-shadow: 10px 10px 25px rgba(0,0,0,0.7);
+    transform: translateY(-6px) rotate(-0.5deg);
+    box-shadow: 8px 8px 22px rgba(0,0,0,0.65);
 }
 
 .title-bar {
@@ -791,15 +791,14 @@ header .container {
     padding: 0;
     background-color: #2c2c30;
     border-top: 2px solid #f0f0f0;
-    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .project-card-gallery {
     position: relative;
-    flex: 1;
-    min-height: 240px;
+    width: 100%;
+    aspect-ratio: 16 / 10;
     overflow: hidden;
     background-color: #000;
     border: 2px solid #4e4e50;
@@ -807,7 +806,7 @@ header .container {
 
 .project-card-gallery img {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     opacity: 0;
     transition: opacity 0.4s ease-in-out;
 }
@@ -829,8 +828,8 @@ header .container {
 .terminal-window {
     background: #000;
     border: 3px solid #4e4e50;
-    padding: 20px;
-    flex: 1 1 550px;
+    padding: 18px;
+    flex: 1 1 440px;
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -841,7 +840,7 @@ header .container {
 
 .terminal-section {
     flex-grow: 1;
-    min-height: 260px;
+    min-height: 160px;
 }
 
 .terminal-section .prompt {
@@ -968,7 +967,7 @@ header .container {
 .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
 /* === Scroll-Reveal Animation === */
-.about-card, .skill-category, .experience-item, .project-container {
+.about-card, .skill-category, .experience-item, .project-container, .showcase-container {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -977,7 +976,8 @@ header .container {
 .about-card.is-visible,
 .skill-category.is-visible,
 .experience-item.is-visible,
-.project-container.is-visible {
+.project-container.is-visible,
+.showcase-container.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -1446,4 +1446,551 @@ body::before {
 @media (max-width: 768px) {
     .scroll-indicator { display: none; }
     .project-new-badge { font-size: 0.4rem; padding: 3px 6px; }
+}
+
+/* ============================================================
+   MORE PROJECTS — CAROUSEL
+   ============================================================ */
+
+.projects-more-section {
+    margin-top: 70px;
+    padding-top: 44px;
+    border-top: 1px solid rgba(78, 78, 80, 0.4);
+}
+
+.projects-more-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.projects-more-title {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.8rem;
+    color: #4e4e50;
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+.carousel-counter {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.7rem;
+    color: #4e4e50;
+    letter-spacing: 1px;
+}
+
+/* --- carousel chrome --- */
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.carousel-viewport {
+    flex: 1;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.carousel-nav-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: #2c2c30;
+    border: 3px solid;
+    border-color: #606060 #333 #333 #606060;
+    color: #a0a0a0;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.carousel-nav-btn:hover:not(:disabled) {
+    background: #4e4e50;
+    color: #00ffc3;
+    border-color: #00ffc3;
+}
+
+.carousel-nav-btn:active:not(:disabled) {
+    border-color: #333 #606060 #606060 #333;
+    transform: translateY(1px);
+}
+
+.carousel-nav-btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
+/* --- compact card --- */
+.compact-card {
+    flex: 0 0 300px;
+    width: 300px;
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: #f0f0f0 #606060 #606060 #f0f0f0;
+    box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, opacity 0.4s ease;
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.compact-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.compact-card:hover {
+    transform: translateY(-8px) rotate(-0.4deg);
+    box-shadow: 0 14px 32px rgba(0, 255, 195, 0.2), 4px 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+.compact-card-titlebar {
+    background: linear-gradient(to bottom, #0058d0, #0045a4);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    border-bottom: 2px solid #606060;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.compact-card-titlebar .title {
+    font-family: 'Source Code Pro', monospace;
+    color: white;
+    font-weight: bold;
+    flex-grow: 1;
+    text-align: center;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+}
+
+.compact-card-thumb {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    background: #000;
+    flex-shrink: 0;
+}
+
+.compact-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+}
+
+.compact-card:hover .compact-card-thumb img {
+    transform: scale(1.07);
+}
+
+.compact-card-body {
+    background: #1a1a1d;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.compact-card-desc {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.73rem;
+    color: #c5c6c7;
+    line-height: 1.65;
+    flex: 1;
+}
+
+.compact-card-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.compact-card-tech span {
+    background-color: #000;
+    color: #00ffc3;
+    padding: 2px 7px;
+    font-size: 0.6rem;
+    font-family: 'Source Code Pro', monospace;
+    border: 1px solid rgba(0, 255, 195, 0.5);
+    box-shadow: 0 0 5px rgba(0, 255, 195, 0.12);
+}
+
+.compact-card-links {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.compact-card-links .btn {
+    font-size: 0.55rem;
+    padding: 8px 8px;
+    flex: 1;
+}
+
+/* stagger cards on first reveal */
+.compact-card:nth-child(1) { transition-delay: 0s; }
+.compact-card:nth-child(2) { transition-delay: 0.06s; }
+.compact-card:nth-child(3) { transition-delay: 0.12s; }
+.compact-card:nth-child(4) { transition-delay: 0.18s; }
+.compact-card:nth-child(5) { transition-delay: 0.24s; }
+.compact-card:nth-child(6) { transition-delay: 0.3s; }
+.compact-card:nth-child(7) { transition-delay: 0.36s; }
+.compact-card:nth-child(8) { transition-delay: 0.42s; }
+
+@media (max-width: 900px) {
+    .compact-card { flex: 0 0 270px; width: 270px; }
+    .compact-card-thumb { height: 130px; }
+}
+
+@media (max-width: 600px) {
+    .compact-card { flex: 0 0 240px; width: 240px; }
+    .compact-card-thumb { height: 110px; }
+    .carousel-nav-btn { width: 36px; height: 36px; font-size: 11px; }
+}
+
+/* ============================================================
+   SKILLS TABS + TICKER
+   ============================================================ */
+
+.skills-ticker-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 1px solid rgba(0, 255, 195, 0.12);
+    border-bottom: 1px solid rgba(0, 255, 195, 0.12);
+    background: rgba(0, 255, 195, 0.02);
+    padding: 10px 0;
+    margin-bottom: 36px;
+}
+
+.skills-ticker {
+    display: inline-block;
+    animation: skillsTicker 40s linear infinite;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.72rem;
+    color: rgba(0, 255, 195, 0.38);
+    letter-spacing: 3px;
+    padding-left: 100%;
+}
+
+@keyframes skillsTicker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+}
+
+.skills-ticker-wrap:hover .skills-ticker {
+    animation-play-state: paused;
+    color: rgba(0, 255, 195, 0.65);
+}
+
+.skills-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+}
+
+.skills-tab {
+    background: transparent;
+    color: #a0a0a0;
+    border: 1px solid #3a3a3a;
+    padding: 9px 24px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.55rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.04em;
+}
+
+.skills-tab:hover {
+    border-color: #00ffc3;
+    color: #00ffc3;
+}
+
+.skills-tab.active {
+    background: #00ffc3;
+    color: #000;
+    border-color: #00ffc3;
+    box-shadow: 0 0 12px rgba(0, 255, 195, 0.3);
+}
+
+.skill-category.tab-hidden {
+    display: none;
+}
+
+/* ============================================================
+   FULL POLISH PASS
+   ============================================================ */
+
+/* --- Flagship project "PINNED" label in terminal title --- */
+.terminal-pinned-tag {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.6rem;
+    color: #00ffc3;
+    border: 1px solid rgba(0, 255, 195, 0.35);
+    padding: 1px 7px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: inline-block;
+    background: rgba(0, 255, 195, 0.04);
+}
+
+/* --- Experience timeline accent line --- */
+.experience-list {
+    position: relative;
+}
+
+.experience-list::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        #4e4e50 8%,
+        #4e4e50 92%,
+        transparent 100%
+    );
+    pointer-events: none;
+}
+
+/* --- Section: subtle top separator accent --- */
+.section::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(to right, #00ffc3, transparent);
+    margin: 0 auto 0;
+    opacity: 0.3;
+}
+
+/* --- Project container: "FEATURED" chip on flagship projects --- */
+.project-container {
+    position: relative;
+}
+
+/* --- Tighten filter bar alignment with projects --- */
+.project-filter {
+    justify-content: flex-start;
+    padding-left: 0;
+}
+
+/* --- Skill item: show name on hover more clearly --- */
+.skill-item p {
+    transition: color 0.2s ease;
+}
+
+.skill-item:hover p {
+    color: #00ffc3;
+}
+
+/* --- Footer: upgrade polish --- */
+#footer p {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* --- Smooth section padding tightening on large screens --- */
+@media (min-width: 1200px) {
+    .section { padding: 100px 0; }
+}
+
+/* ============================================================
+   SHOWCASE MONITOR — Projects section
+   ============================================================ */
+.showcase-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.showcase-monitor {
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: #f0f0f0 #606060 #606060 #f0f0f0;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.65), 0 0 50px rgba(0, 255, 195, 0.07);
+    transition: box-shadow 0.4s ease;
+    position: relative;
+}
+
+.showcase-monitor:hover {
+    box-shadow: 0 26px 90px rgba(0, 0, 0, 0.7), 0 0 70px rgba(0, 255, 195, 0.14);
+}
+
+.showcase-monitor .title-bar {
+    position: relative;
+}
+
+.showcase-gallery {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #000;
+    overflow: hidden;
+}
+
+.showcase-gallery img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.showcase-gallery img.active {
+    opacity: 1;
+}
+
+.showcase-monitor:hover .gallery-btn {
+    opacity: 1;
+}
+
+/* Nav row below monitor */
+.showcase-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 4px 20px;
+}
+
+.showcase-nav-btn {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.55rem;
+    color: #00ffc3;
+    background: transparent;
+    border: 2px solid rgba(0, 255, 195, 0.35);
+    padding: 10px 20px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.showcase-nav-btn:hover:not(:disabled) {
+    background: #00ffc3;
+    color: #0d0d11;
+    border-color: #00ffc3;
+    box-shadow: 0 0 18px rgba(0, 255, 195, 0.4);
+}
+
+.showcase-nav-btn:disabled {
+    opacity: 0.22;
+    cursor: not-allowed;
+}
+
+.showcase-counter {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.75rem;
+    color: #4e4e50;
+    letter-spacing: 0.2em;
+}
+
+/* Info terminal panel */
+.showcase-info {
+    background: #050508;
+    border: 3px solid #4e4e50;
+    padding: 24px 28px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.showcase-desc {
+    color: #d0d0d0;
+    font-size: 0.85rem;
+    line-height: 1.85;
+    margin: 10px 0 18px;
+    padding-left: 10px;
+    min-height: 80px;
+}
+
+.showcase-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background: #00ffc3;
+    margin-left: 1px;
+    vertical-align: text-bottom;
+    animation: showcaseBlink 0.7s step-end infinite;
+}
+
+@keyframes showcaseBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.showcase-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 4;
+}
+
+.showcase-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.showcase-dot.active {
+    background: #00ffc3;
+    box-shadow: 0 0 8px rgba(0, 255, 195, 0.7);
+    transform: scale(1.3);
+}
+
+.showcase-category-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.42rem;
+    color: #00ffc3;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(0, 255, 195, 0.4);
+    padding: 5px 9px;
+    letter-spacing: 0.08em;
+    z-index: 5;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .experience-list::before { display: none; }
+    .showcase-info { padding: 18px 18px 16px; }
+    .showcase-nav-btn { font-size: 0.48rem; padding: 8px 12px; }
+    .showcase-desc { font-size: 0.78rem; }
 }

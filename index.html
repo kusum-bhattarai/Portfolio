@@ -113,7 +113,15 @@
                 </div>
                 <div class="skills-section">
                     <h3 class="skills-title">My_Tech_Stack</h3>
-                    <div class="skill-category">
+                    <div class="skills-ticker-wrap" aria-hidden="true">
+                        <div class="skills-ticker">C++ &nbsp;·&nbsp; Java &nbsp;·&nbsp; Python &nbsp;·&nbsp; JavaScript &nbsp;·&nbsp; TypeScript &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Bash &nbsp;·&nbsp; React &nbsp;·&nbsp; Spring Boot &nbsp;·&nbsp; FastAPI &nbsp;·&nbsp; LangChain &nbsp;·&nbsp; Kafka &nbsp;·&nbsp; Redis &nbsp;·&nbsp; Docker &nbsp;·&nbsp; Kubernetes &nbsp;·&nbsp; GCP &nbsp;·&nbsp; AWS &nbsp;·&nbsp; FTXUI &nbsp;·&nbsp; GTest &nbsp;·&nbsp; Terraform &nbsp;·&nbsp; Nginx &nbsp;·&nbsp; Git &nbsp;·&nbsp; Linux &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C++ &nbsp;·&nbsp; Java &nbsp;·&nbsp; Python &nbsp;·&nbsp; JavaScript &nbsp;·&nbsp; TypeScript &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Bash &nbsp;·&nbsp; React &nbsp;·&nbsp; Spring Boot &nbsp;·&nbsp; FastAPI &nbsp;·&nbsp; LangChain &nbsp;·&nbsp; Kafka &nbsp;·&nbsp; Redis &nbsp;·&nbsp; Docker &nbsp;·&nbsp; Kubernetes &nbsp;·&nbsp; GCP &nbsp;·&nbsp; AWS &nbsp;·&nbsp; FTXUI &nbsp;·&nbsp; GTest &nbsp;·&nbsp; Terraform &nbsp;·&nbsp; Nginx &nbsp;·&nbsp; Git &nbsp;·&nbsp; Linux</div>
+                    </div>
+                    <div class="skills-tabs">
+                        <button class="skills-tab active" data-tab="languages">Languages</button>
+                        <button class="skills-tab" data-tab="frameworks">Frameworks</button>
+                        <button class="skills-tab" data-tab="tools">Tools</button>
+                    </div>
+                    <div class="skill-category" data-tab-content="languages">
                         <h4>Languages</h4>
                         <div class="skill-icons-grid">
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/c++.png" alt="C++"/><p>C++</p></div>
@@ -126,7 +134,7 @@
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/bash.png" alt="Bash"/><p>Bash</p></div>
                         </div>
                     </div>
-                    <div class="skill-category">
+                    <div class="skill-category" data-tab-content="frameworks">
                         <h4>Frameworks & Libraries</h4>
                         <div class="skill-icons-grid">
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/react.png" alt="React"/><p>React</p></div>
@@ -146,7 +154,7 @@
 
                         </div>
                     </div>
-                    <div class="skill-category">
+                    <div class="skill-category" data-tab-content="tools">
                         <h4>Tools & Platforms</h4>
                         <div class="skill-icons-grid">
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/docker.png" alt="Docker"/><p>Docker</p></div>
@@ -275,366 +283,44 @@
                     <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
                     <button class="filter-btn" data-filter="frontend">Frontend</button>
                 </div>
-                <div class="project-grid">
-
-                    <!-- Project: GitHub Portfolio Intelligence Platform -->
-                    <div class="project-container odd" data-category="fullstack">
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">GTP.app</div>
+                <div class="showcase-container">
+                    <!-- Mac-style monitor window -->
+                    <div class="showcase-monitor">
+                        <div class="title-bar">
+                            <div class="buttons">
+                                <div class="close"></div>
+                                <div class="minimize"></div>
+                                <div class="zoom"></div>
                             </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/gtp1.png" alt="GitHub to Portfolio 1" class="active">
-                                    <img src="PicsPortfolio/gtp2.png" alt="GitHub to Portfolio 2">
-                                    <img src="PicsPortfolio/gtp3.png" alt="GitHub to Portfolio 3">
-                                    <img src="PicsPortfolio/gtp4.png" alt="GitHub to Portfolio 4">
-                                    <img src="PicsPortfolio/gtp5.png" alt="GitHub to Portfolio 5">
-                                    <img src="PicsPortfolio/gtp6.png" alt="GitHub to Portfolio 6">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
+                            <div class="title" id="showcase-win-title">loading...</div>
                         </div>
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">Analyzes GitHub repos and generates recruiter-ready resume bullets by extracting structured evidence from 7+ API endpoints concurrently — pom.xml, commit history, language bytes — before calling GPT-4o-mini. Deployed on GCP Cloud Run with Kafka, Redis/Postgres dual-write job state, and Spring OAuth2 session management.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>Java 21</span><span>Spring Boot</span><span>React 19</span><span>TypeScript</span><span>PostgreSQL</span><span>Redis</span><span>Kafka</span><span>Docker</span><span>GCP</span><span>Terraform</span><span>OpenAI</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://github-to-portfolio-neon.vercel.app" target="_blank" class="btn">Launch_App</a>
-                                <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/GTP.mp4">Run_Demo</a>
+                        <div class="window-content">
+                            <div class="showcase-gallery" id="showcase-gallery">
+                                <button class="gallery-btn prev-btn" id="sg-prev">&lt;</button>
+                                <button class="gallery-btn next-btn" id="sg-next">&gt;</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Project: Dataflow Engine -->
-                    <div class="project-container even" data-category="systems">
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">Incremental query engine that propagates delta updates through a typed C++ operator DAG — ~40× faster than batch recompute at 0.1% change rates on 1M rows. C++ core with retraction semantics and zero-alloc hot paths; exposed via Python DSL (pybind11) and Spring Boot REST/SSE; 70 Google Tests + full benchmark suite.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>C++17</span><span>CMake</span><span>Abseil</span><span>Python</span><span>pybind11</span><span>Spring Boot</span><span>GTest</span><span>Google Benchmark</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://github.com/kusum-bhattarai/dataflow-engine" target="_blank" class="btn">View_Source</a>
-                            </div>
-                        </div>
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">DataflowEngine.cpp</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/df_wiki.gif" alt="Wikipedia live leaderboard demo" class="active">
-                                    <img src="PicsPortfolio/df_vwap.gif" alt="Stock VWAP demo">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Project navigation row -->
+                    <div class="showcase-nav-row">
+                        <button class="showcase-nav-btn" id="showcase-prev">&#9664; PREV</button>
+                        <span class="showcase-counter" id="showcase-counter">01 / 11</span>
+                        <button class="showcase-nav-btn" id="showcase-next">NEXT &#9654;</button>
                     </div>
 
-                    <!-- Project: OS Virtual Memory Simulator -->
-                    <div class="project-container odd" data-category="systems">
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">os-sim.cpp</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/read.png" alt="First page fault — TLB and frame pool populate" class="active">
-                                    <img src="PicsPortfolio/write.png" alt="Write access with dirty bit via TLB hit">
-                                    <img src="PicsPortfolio/thrashing.png" alt="Thrashing — 4 frames, 8-page working set">
-                                    <img src="PicsPortfolio/cow.png" alt="Copy-on-Write fork and frame split">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
+                    <!-- Info terminal panel -->
+                    <div class="showcase-info" id="showcase-info">
+                        <div class="terminal-section">
+                            <p class="prompt"><span id="showcase-filename">project.exe</span></p>
+                            <p class="showcase-desc" id="showcase-desc"></p>
+                            <p class="prompt">dependencies.json</p>
+                            <div class="card-tech-stack" id="showcase-tech"></div>
                         </div>
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">Full-screen FTXUI TUI simulating OS virtual memory in C++17. Four replacement policies (FIFO, LRU with O(1) list+hash map, CLOCK second-chance, OPT/Belady's), copy-on-write fork with reference counting, and a 16-entry per-process TLB with LRU eviction and TLB shootdown. 50+ tests across 9 binaries; 8 experiments benchmark policy faults, TLB hit rates, and CoW efficiency.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>C++17</span><span>CMake</span><span>FTXUI</span><span>GTest</span><span>TLB</span><span>CoW</span><span>CLOCK</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://github.com/kusum-bhattarai/os-sim" target="_blank" class="btn">View_Source</a>
-                                <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/os-sim.mp4">Run_Demo</a>
-                            </div>
-                        </div>
+                        <div class="project-card-links" id="showcase-links"></div>
                     </div>
-
-                    <!-- Project: DevJournal -->
-                    <div class="project-container odd" data-category="fullstack">
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">DevJournal.app</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/DevJournal1.png" alt="dev_journal1" class="active">
-                                    <img src="PicsPortfolio/DevJournal2.png" alt="dev_journal2">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">Full-stack collaborative platform following Agile SDLC with 2-week sprints. Features real-time messaging via WebSockets with &lt;50ms latency and Markdown editing. Deploys 3 Node.js microservices on AWS/EC2 via Nginx, with 90% test coverage through GitHub Actions CI/CD.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>Node.js</span><span>TypeScript</span><span>PostgreSQL</span><span>Docker</span><span>AWS</span><span>Socket.IO</span><span>GitHub Actions</span><span>Jest</span><span>Cypress</span><span>Nginx</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://dev-journal-topaz.vercel.app/login" target="_blank" class="btn">Launch_App</a>
-                                <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/DevJournal3.mp4">Run_Demo</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 2: Clash-Royale Engine -->
-                    <div class="project-container even" data-category="systems">
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">OOP game engine across 43 source files implementing Factory pattern and polymorphic inheritance with 10 entity types. Features autonomous AI with A* pathfinding, probabilistic decision-making, multi-layered combat calculations, and comprehensive Google Test suite with zero memory leaks via RAII.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>C++</span><span>CMake</span><span>OOP</span><span>GTest</span><span>CI/CD</span><span>Smart Pointers</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://github.com/kusum-bhattarai/Clash-Royale-Clone" target="_blank" class="btn">View_Source</a>
-                                <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/Sample_Gameplay.mp4">Run_Demo</a>
-                            </div>
-                        </div>
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">GameEngine.exe</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/CR1.jpeg" alt="Clash-Royale1" class="active">
-                                    <img src="PicsPortfolio/CR2.jpeg" alt="Clash-Royale2">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 3: Lit -->
-                    <div class="project-container odd" data-category="systems">
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">Lit.jar</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/Lit.png" alt="Lit Screenshot 1" class="active">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">Distributed version control system in Java implementing Git's core functionality with SHA-1 content hashing, three-way merge algorithms, and complete CLI supporting 9+ commands including branch switching, commit history, and conflict resolution.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>Java</span><span>Gradle</span><span>JUnit</span><span>File I/O</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://github.com/imraghavojha/lit" target="_blank" class="btn">View_Source</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 4: No_Chess.com -->
-                    <div class="project-container even" data-category="fullstack">
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">A React chess application offering free, unlimited PGN game reviews and live game sessions with live analysis powered by the Stockfish chess engine.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>Python</span><span>Stockfish</span><span>React</span><span>python-chess</span><span>FastAPI</span><span>WebSockets</span><span>Docker</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://github.com/kusum-bhattarai/No_Chess.com" target="_blank" class="btn">View_Source</a>
-                                <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/NC.mp4">Run_Demo</a>
-                            </div>
-                        </div>
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">No_Chess.py</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/NC1.png" alt="No_Chess" class="active">
-                                    <img src="PicsPortfolio/NC2.png" alt="No_Chess2">
-                                    <img src="PicsPortfolio/ReviewNC.png" alt="No_Chess3">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 5b: Maze Crawler -->
-                    <div class="project-container odd" data-category="frontend">
-                        <div class="mac-window-small" style="position:relative;">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">MazeCrawler.ts</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/maze2.png" alt="Maze Crawler - Algorithm Select" class="active">
-                                    <img src="PicsPortfolio/maze1.png" alt="Maze Crawler - DFS in progress">
-                                    <img src="PicsPortfolio/maze3.png" alt="Maze Crawler - BFS solved">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">A pixel art maze solver/visualizer built as an interactive game. Watch DFS and BFS navigate a procedurally generated maze step by step — backtracking, frontier expansion, and shortest-path reconstruction — controlled by a playable character chased by two algorithm-themed monsters. Zero runtime dependencies.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>TypeScript</span><span>Vite</span><span>Canvas API</span><span>Zero Deps</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://maze-ashy.vercel.app" target="_blank" class="btn">Launch_App</a>
-                                <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/Maze.mov">Run_Demo</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 5: Watched -->
-                    <div class="project-container even" data-category="frontend">
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">A personal media library to track watched movies and series, leveraging the TMDB API to fetch posters and ratings alongside your own custom reviews and categories.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>React</span><span>JavaScript</span><span>CSS3</span><span>TMDB API</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://watched-theta.vercel.app/" target="_blank" class="btn">Launch_App</a>
-                                <a href="https://github.com/kusum-bhattarai/Watched" target="_blank" class="btn btn-secondary">View_Source</a>
-                            </div>
-                        </div>
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">Watched.app</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/Watched1.png" alt="Watched1" class="active">
-                                    <img src="PicsPortfolio/Watched2.png" alt="Watched2">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 6: Sudoku -->
-                    <div class="project-container even" data-category="frontend">
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">A Sudoku game capable of generating puzzles across three difficulty levels. Users can request hints, undo moves, submit upon completion, and see error-highlighted cells in real time.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>C++</span><span>ncurses</span><span>Vite</span><span>TypeScript</span><span>Tailwind CSS</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://github.com/kusum-bhattarai/sudoku" target="_blank" class="btn">C++_Source</a>
-                                <a href="https://github.com/kusum-bhattarai/sudoku-frontend" target="_blank" class="btn btn-secondary">TS_Source</a>
-                            </div>
-                        </div>
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">Sudoku.app</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/sudoku2.png" alt="Sudoku" class="active">
-                                    <img src="PicsPortfolio/sudoku3.png" alt="Sudoku">
-                                    <img src="PicsPortfolio/sudoku.png" alt="Sudoku">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 7: Retail-Rethink -->
-                    <div class="project-container odd" data-category="frontend">
-                        <div class="mac-window-small">
-                            <div class="title-bar">
-                                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                                <div class="title">RetailRethink.app</div>
-                            </div>
-                            <div class="window-content">
-                                <div class="project-card-gallery">
-                                    <img src="PicsPortfolio/RR1.jpeg" alt="Retail-Rethink1" class="active">
-                                    <img src="PicsPortfolio/RR2.jpeg" alt="Retail-Rethink2">
-                                    <img src="PicsPortfolio/RR3.png" alt="Retail-Rethink3">
-                                    <button class="gallery-btn prev-btn">&lt;</button>
-                                    <button class="gallery-btn next-btn">&gt;</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="terminal-window">
-                            <div class="terminal-section">
-                                <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">An expense tracking app to help you rethink your budget, featuring custom categories, an analysis dashboard, and historical spending data.</p>
-                                <p class="prompt">&gt; Loading dependencies...</p>
-                                <div class="card-tech-stack">
-                                    <span>React</span><span>TypeScript</span><span>Vite</span><span>Tailwind</span>
-                                </div>
-                            </div>
-                            <div class="project-card-links">
-                                <a href="https://github.com/kusum-bhattarai/retailrethink" target="_blank" class="btn">View_Source</a>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
+
             </div>
         </section>
 
