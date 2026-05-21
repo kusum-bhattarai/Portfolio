@@ -352,31 +352,28 @@
                                 <div class="title">os-sim.cpp</div>
                             </div>
                             <div class="window-content">
-                                <div class="project-card-gallery" style="display:flex;align-items:center;justify-content:center;padding:1rem;font-family:'Source Code Pro',monospace;font-size:0.65rem;color:#00ffc3;line-height:1.6;text-align:left;">
-                                    <pre style="margin:0;">Algorithm Comparison (64 frames)
-──────────────────────────────
-FIFO │ faults: 142  hits: 858
-LRU  │ faults: 118  hits: 882
-OPT  │ faults:  89  hits: 911
-──────────────────────────────
-CoW fork (read-heavy)
-  copies avoided: 512 / 512
-CoW fork (write-heavy)
-  copies triggered: 512 / 512</pre>
+                                <div class="project-card-gallery">
+                                    <img src="PicsPortfolio/read.png" alt="First page fault — TLB and frame pool populate" class="active">
+                                    <img src="PicsPortfolio/write.png" alt="Write access with dirty bit via TLB hit">
+                                    <img src="PicsPortfolio/thrashing.png" alt="Thrashing — 4 frames, 8-page working set">
+                                    <img src="PicsPortfolio/cow.png" alt="Copy-on-Write fork and frame split">
+                                    <button class="gallery-btn prev-btn">&lt;</button>
+                                    <button class="gallery-btn next-btn">&gt;</button>
                                 </div>
                             </div>
                         </div>
                         <div class="terminal-window">
                             <div class="terminal-section">
                                 <p class="prompt">&gt; Executing description.txt...</p>
-                                <p class="description">Virtual memory simulator in C++17 — frame allocation, virtual-to-physical translation, and three replacement policies: FIFO, LRU (O(1) list + hash map), and OPT/Belady's. Implements copy-on-write fork with reference counting; 5 experiments benchmark policy fault rates and CoW efficiency across read-heavy vs. write-heavy workloads.</p>
+                                <p class="description">Full-screen FTXUI TUI simulating OS virtual memory in C++17. Four replacement policies (FIFO, LRU with O(1) list+hash map, CLOCK second-chance, OPT/Belady's), copy-on-write fork with reference counting, and a 16-entry per-process TLB with LRU eviction and TLB shootdown. 50+ tests across 9 binaries; 8 experiments benchmark policy faults, TLB hit rates, and CoW efficiency.</p>
                                 <p class="prompt">&gt; Loading dependencies...</p>
                                 <div class="card-tech-stack">
-                                    <span>C++17</span><span>CMake</span><span>GTest</span><span>Memory Management</span>
+                                    <span>C++17</span><span>CMake</span><span>FTXUI</span><span>GTest</span><span>TLB</span><span>CoW</span><span>CLOCK</span>
                                 </div>
                             </div>
                             <div class="project-card-links">
                                 <a href="https://github.com/kusum-bhattarai/os-sim" target="_blank" class="btn">View_Source</a>
+                                <a href="#" class="btn btn-secondary" data-modal-target="#video-modal" data-video-src="PicsPortfolio/os-sim.mp4">Run_Demo</a>
                             </div>
                         </div>
                     </div>
