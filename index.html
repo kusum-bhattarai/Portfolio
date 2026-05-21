@@ -284,40 +284,42 @@
                     <button class="filter-btn" data-filter="frontend">Frontend</button>
                 </div>
                 <div class="showcase-container">
-                    <!-- Mac-style monitor window -->
-                    <div class="showcase-monitor">
-                        <div class="title-bar">
-                            <div class="buttons">
-                                <div class="close"></div>
-                                <div class="minimize"></div>
-                                <div class="zoom"></div>
+                    <div class="showcase-main-row">
+                        <!-- Left: monitor + nav -->
+                        <div class="showcase-monitor-col">
+                            <div class="showcase-monitor">
+                                <div class="title-bar">
+                                    <div class="buttons">
+                                        <div class="close"></div>
+                                        <div class="minimize"></div>
+                                        <div class="zoom"></div>
+                                    </div>
+                                    <div class="title" id="showcase-win-title">loading...</div>
+                                </div>
+                                <div class="window-content">
+                                    <div class="showcase-gallery" id="showcase-gallery">
+                                        <button class="gallery-btn prev-btn" id="sg-prev">&lt;</button>
+                                        <button class="gallery-btn next-btn" id="sg-next">&gt;</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="title" id="showcase-win-title">loading...</div>
-                        </div>
-                        <div class="window-content">
-                            <div class="showcase-gallery" id="showcase-gallery">
-                                <button class="gallery-btn prev-btn" id="sg-prev">&lt;</button>
-                                <button class="gallery-btn next-btn" id="sg-next">&gt;</button>
+                            <div class="showcase-nav-row">
+                                <button class="showcase-nav-btn" id="showcase-prev">&#9664; PREV</button>
+                                <span class="showcase-counter" id="showcase-counter">01 / 11</span>
+                                <button class="showcase-nav-btn" id="showcase-next">NEXT &#9654;</button>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Project navigation row -->
-                    <div class="showcase-nav-row">
-                        <button class="showcase-nav-btn" id="showcase-prev">&#9664; PREV</button>
-                        <span class="showcase-counter" id="showcase-counter">01 / 11</span>
-                        <button class="showcase-nav-btn" id="showcase-next">NEXT &#9654;</button>
-                    </div>
-
-                    <!-- Info terminal panel -->
-                    <div class="showcase-info" id="showcase-info">
-                        <div class="terminal-section">
-                            <p class="prompt"><span id="showcase-filename">project.exe</span></p>
-                            <p class="showcase-desc" id="showcase-desc"></p>
-                            <p class="prompt">dependencies.json</p>
-                            <div class="card-tech-stack" id="showcase-tech"></div>
+                        <!-- Right: info terminal -->
+                        <div class="showcase-info" id="showcase-info">
+                            <div class="terminal-section">
+                                <p class="prompt"><span id="showcase-filename">project.exe</span></p>
+                                <p class="showcase-desc" id="showcase-desc"></p>
+                                <p class="prompt">dependencies.json</p>
+                                <div class="card-tech-stack" id="showcase-tech"></div>
+                            </div>
+                            <div class="project-card-links" id="showcase-links"></div>
                         </div>
-                        <div class="project-card-links" id="showcase-links"></div>
                     </div>
                 </div>
 
