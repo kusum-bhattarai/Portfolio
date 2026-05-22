@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             title: 'Lit.jar', category: 'systems',
-            images: ['Lit.png'],
+            images: ['lit1.png','lit2.png','lit3.png'],
             desc: 'Distributed VCS in Java implementing Git core — SHA-1 content hashing, three-way merge, branch switching, conflict resolution, 9+ CLI commands.',
             tech: ['Java','Gradle','JUnit','File I/O'],
             links: [
