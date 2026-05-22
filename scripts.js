@@ -321,6 +321,15 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
+            title: 'ClashExchange.cpp', category: 'fullstack',
+            images: ['crt1.png','crt2.png','crt3.png'],
+            desc: 'Real-time card trading platform modeled on a financial exchange. C++17 matching engine with price-time priority order book (shared_mutex reader-writer locking), atomic PostgreSQL settlement, and SHA-256 Merkle-hashed trade records. 411k orders/sec single-thread throughput, 3.7µs match latency, 0.00% 5xx rate under 74k HTTP requests. React/TypeScript frontend with live candlestick charts, depth chart, and real-time order book via WebSocket.',
+            tech: ['C++17','Boost.Beast','PostgreSQL','Redis','React 19','TypeScript','Docker','WebSocket','JWT','Google Benchmark'],
+            links: [
+                { label: 'View_Source', url: 'https://github.com/kusum-bhattarai/Clash-Royale-Trading', primary: true }
+            ]
+        },
+        {
             title: 'GameEngine.exe', category: 'systems',
             images: ['CR1.jpeg','CR2.jpeg'],
             desc: 'OOP game engine across 43 source files implementing Factory pattern and polymorphic inheritance with 10 entity types. Features autonomous AI with A* pathfinding, probabilistic decision-making, multi-layered combat calculations, and a comprehensive Google Test suite with zero memory leaks via RAII.',
