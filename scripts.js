@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const counters = document.querySelectorAll('.stat-value');
         counters.forEach(counter => {
             const target = parseFloat(counter.getAttribute('data-target'));
-            const useDecimals = counter.getAttribute('data-decimals') === '1';
+            const decimals = parseInt(counter.getAttribute('data-decimals'), 10) || 0;
+            const useDecimals = decimals > 0;
             const duration = 1800;
             const startTime = performance.now();
 
@@ -22,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Ease-out cubic
                 const eased = 1 - Math.pow(1 - progress, 3);
                 const current = target * eased;
-                counter.textContent = useDecimals ? current.toFixed(1) : Math.floor(current);
+                counter.textContent = useDecimals ? current.toFixed(decimals) : Math.floor(current);
                 if (progress < 1) requestAnimationFrame(update);
-                else counter.textContent = useDecimals ? target.toFixed(1) : target;
+                else counter.textContent = useDecimals ? target.toFixed(decimals) : target;
             }
             requestAnimationFrame(update);
         });

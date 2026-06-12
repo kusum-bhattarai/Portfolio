@@ -509,7 +509,7 @@ header .container {
 /* === Achievements Section === */
 .achievements-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 28px;
     margin-top: 40px;
     text-align: left;
@@ -522,6 +522,8 @@ header .container {
     box-shadow: inset 0 0 10px #000;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -556,6 +558,7 @@ header .container {
 .achievement-card:nth-child(1) { transition-delay: 0s; }
 .achievement-card:nth-child(2) { transition-delay: 0.15s; }
 .achievement-card:nth-child(3) { transition-delay: 0.3s; }
+.achievement-card:nth-child(4) { transition-delay: 0.45s; }
 
 .achievement-tag {
     font-family: 'Source Code Pro', monospace;
@@ -565,6 +568,7 @@ header .container {
     border: 1px solid rgba(0, 255, 195, 0.3);
     padding: 3px 10px;
     display: inline-block;
+    align-self: flex-start;
     margin-bottom: 16px;
     letter-spacing: 2px;
 }
@@ -574,6 +578,9 @@ header .container {
     color: #e0e0e0;
     margin-bottom: 10px;
     line-height: 1.7;
+    min-height: 2.8em;
+    display: flex;
+    align-items: flex-start;
 }
 
 .achievement-meta {
@@ -983,6 +990,10 @@ header .container {
 }
 
 /* === Responsive Adjustments === */
+@media (max-width: 1100px) and (min-width: 769px) {
+    .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 .menu-toggle { display: none; }
 
 @media (max-width: 768px) {
@@ -1003,6 +1014,7 @@ header .container {
     .terminal-window { flex-basis: auto; }
 
     .achievements-grid { grid-template-columns: 1fr; }
+    .achievement-title { min-height: 0; }
 
     .hero-stats { gap: 15px; padding: 14px 20px; }
     .stat-value { font-size: 1rem; }
