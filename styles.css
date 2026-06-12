@@ -1714,17 +1714,17 @@ body::before {
 
 .skills-ticker {
     display: inline-block;
-    animation: skillsTicker 40s linear infinite;
+    white-space: nowrap;
+    animation: skillsTicker 45s linear infinite;
     font-family: 'Source Code Pro', monospace;
-    font-size: 0.72rem;
+    font-size: 0.9rem;
     color: rgba(0, 255, 195, 0.38);
     letter-spacing: 3px;
-    padding-left: 100%;
 }
 
 @keyframes skillsTicker {
     from { transform: translateX(0); }
-    to   { transform: translateX(-100%); }
+    to   { transform: translateX(-50%); }
 }
 
 .skills-ticker-wrap:hover .skills-ticker {
