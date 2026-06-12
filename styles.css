@@ -7,6 +7,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -350,6 +351,8 @@ header .container {
     border: 3px solid #4e4e50;
     padding: 20px 30px;
     display: inline-block;
+    max-width: 100%;
+    overflow-wrap: break-word;
     background: #2c2c30;
     box-shadow: inset 0 0 10px #000;
 }
@@ -1057,14 +1060,29 @@ header .container {
     .nav ul li { width: 100%; text-align: center; }
 }
 
+@media (max-width: 600px) {
+    .section { padding: 55px 0; }
+    .section-title { font-size: 1.15rem; padding: 13px 16px; letter-spacing: 0.5px; margin-bottom: 40px; }
+    .skills-section { margin-top: 55px; }
+}
+
 @media (max-width: 480px) {
     .hero-name { font-size: 1.8rem; }
     #hero p { font-size: 1.2rem; }
-    .section-title { font-size: 1.5rem; padding: 15px 20px; }
+    .section-title { font-size: 0.95rem; padding: 11px 13px; letter-spacing: 0; }
     .exp-title { font-size: 1rem; }
     .stat-divider { display: none; }
     .hero-stats { gap: 20px; }
     .project-card-links { flex-wrap: wrap; }
+}
+
+@media (max-width: 360px) {
+    .section-title { font-size: 0.82rem; }
+}
+
+/* Touch / no-hover devices: drop cursor-only flourishes */
+@media (hover: none), (pointer: coarse) {
+    #cursor-glow { display: none; }
 }
 
 /* === About Card (Static, Non-Draggable) === */
