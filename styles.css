@@ -174,40 +174,12 @@ header .container {
     z-index: 2;
 }
 
-/* === Hero Name Glitch === */
+/* === Hero Name — clean glowing pixel title === */
 .hero-name {
     font-size: 2.5rem;
     margin-bottom: 20px;
     color: #00ffc3;
-    text-shadow: 3px 3px 0px #3a3a3a, 5px 5px 10px #000;
-    animation: glitch 10s infinite;
-}
-
-@keyframes glitch {
-    0%, 87%, 100% {
-        text-shadow: 3px 3px 0px #3a3a3a, 5px 5px 10px #000;
-        transform: none;
-        clip-path: none;
-    }
-    88% {
-        text-shadow: -3px 0 #ff0040, 3px 0 #00ffc3;
-        transform: skewX(-1.5deg) translateX(-3px);
-    }
-    89% {
-        text-shadow: 3px 0 #ff0040, -3px 0 #00ffc3;
-        transform: skewX(1.5deg) translateX(3px);
-        clip-path: inset(20% 0 55% 0);
-    }
-    90% {
-        text-shadow: -2px 0 #ff0040, 2px 0 #00ffc3;
-        transform: skewX(-0.5deg);
-        clip-path: inset(50% 0 15% 0);
-    }
-    91% {
-        text-shadow: 3px 3px 0px #3a3a3a, 5px 5px 10px #000;
-        transform: none;
-        clip-path: none;
-    }
+    text-shadow: 3px 3px 0px #3a3a3a, 5px 5px 10px #000, 0 0 28px rgba(0, 255, 195, 0.22);
 }
 
 #hero p {
@@ -310,16 +282,6 @@ header .container {
 
 .section .container {
     text-align: center;
-}
-
-/* quest-log kicker above each section title — the narrative thread */
-.section-kicker {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 0.55rem;
-    color: #00ffc3;
-    opacity: 0.65;
-    letter-spacing: 3px;
-    margin: 18px 0 16px;
 }
 
 .section-title {
@@ -521,11 +483,12 @@ header .container {
     border-color: #00ffc3;
 }
 
-.buttons { display: flex; align-items: center; gap: 6px; position: absolute; margin-left: 5px; }
-.buttons div { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #333; }
-.close { background-color: #ff5f57; }
-.minimize { background-color: #febb2e; }
-.zoom { background-color: #28c840; }
+/* monochrome square pips — handheld console, not macOS */
+.buttons { display: flex; align-items: center; gap: 7px; position: absolute; margin-left: 7px; }
+.buttons div { width: 9px; height: 9px; border: 1px solid #0b0b0e; }
+.close { background-color: #3c423e; }
+.minimize { background-color: #59635c; }
+.zoom { background-color: rgba(0, 255, 195, 0.55); }
 
 .gallery-btn {
     position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(11, 12, 16, 0.5);
@@ -604,8 +567,12 @@ header .container {
     transform: translateY(1px);
 }
 
-.btn-secondary { background-color: #0058d0; color: white; }
-.btn-secondary:hover { background-color: #0069f1; }
+.btn-secondary {
+    background-color: #16161c;
+    color: var(--teal, #00ffc3);
+    border-color: #2e2e36 #101014 #101014 #2e2e36;
+}
+.btn-secondary:hover { background-color: #1f1f27; }
 
 
 /* === Contact Section === */
@@ -768,22 +735,23 @@ header .container {
 }
 
 .about-card-header {
-    background: linear-gradient(to bottom, #0058d0, #0045a4);
+    background: #15151b;
     padding: 5px;
     display: flex;
     align-items: center;
     height: 30px;
-    border-bottom: 2px solid #4e4e50;
+    border-bottom: 2px solid #24242c;
     position: relative;
 }
 
 .about-card-header .title {
     font-family: 'Source Code Pro', monospace;
-    color: white;
+    color: #a8b3ac;
     font-weight: bold;
     flex-grow: 1;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
 }
 
 .about-card-body {
@@ -959,8 +927,7 @@ body::before {
 }
 
 .hero-name {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
-               glitch 12s 4s infinite;
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
 #hero p {
@@ -1259,23 +1226,25 @@ body::before {
     overflow: hidden;
 }
 
+/* flat handheld-console chrome — no gradients, monochrome pips */
 .program-titlebar {
-    background: linear-gradient(to bottom, #0058d0, #0045a4);
+    background: #15151b;
     padding: 5px;
     display: flex;
     align-items: center;
     height: 30px;
-    border-bottom: 2px solid var(--line);
+    border-bottom: 2px solid #24242c;
     position: relative;
 }
 
 .program-titlebar .title {
     font-family: var(--font-body);
-    color: white;
+    color: #a8b3ac;
     font-weight: bold;
     flex-grow: 1;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1306,71 +1275,6 @@ body::before {
     margin-left: 1px;
     vertical-align: text-bottom;
     animation: blink 0.7s step-end infinite;
-}
-
-/* ============================================================
-   HERO: resident mascot (grounded, no floating)
-   ============================================================ */
-.hero-sprite {
-    position: absolute;
-    z-index: 2;
-    opacity: 0.75;
-    transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.hero-sprite img {
-    display: block;
-    image-rendering: pixelated;
-    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.5));
-}
-
-/* stands on the bottom edge of the viewport like a sentry */
-.hero-sprite-pekka {
-    left: 5%;
-    bottom: 0;
-    cursor: pointer;
-}
-
-.hero-sprite-pekka:hover,
-.hero-sprite-pekka:focus-visible {
-    opacity: 1;
-    outline: none;
-}
-
-.pekka-shake {
-    animation: pekkaShake 0.4s steps(2) 2 !important;
-}
-
-@keyframes pekkaShake {
-    0%, 100% { transform: translateX(0); }
-    25%      { transform: translateX(-5px) rotate(-3deg); }
-    75%      { transform: translateX(5px) rotate(3deg); }
-}
-
-.pixel-bubble {
-    position: absolute;
-    bottom: calc(100% + 16px);
-    left: 40%;
-    background: #fff;
-    color: #000;
-    font-family: var(--font-head);
-    font-size: 0.5rem;
-    padding: 10px 12px;
-    white-space: nowrap;
-    box-shadow: 0 0 0 3px #000, 6px 6px 0 rgba(0, 0, 0, 0.45);
-    z-index: 6;
-}
-
-.pixel-bubble::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 14px;
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
-    clip-path: polygon(0 0, 100% 0, 0 100%);
 }
 
 /* ============================================================
@@ -1762,44 +1666,6 @@ body::before {
     letter-spacing: 1px;
 }
 
-/* Sprites live INSIDE their panels */
-.panel-sprite {
-    position: absolute;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.panel-sprite img {
-    display: block;
-    image-rendering: pixelated;
-    filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.5));
-}
-
-/* Iron Man and Batman both hold the bottom-right corner of their panels */
-.panel-sprite-iron {
-    right: 16px;
-    bottom: 8px;
-}
-
-.panel-sprite-bat {
-    right: 14px;
-    bottom: 5px;
-}
-
-.panel-sprite-trophy {
-    right: 26px;
-    bottom: 14px;
-}
-
-/* text clears the sprite corner */
-.comic-panel-2 .comic-desc,
-.comic-panel-2 .comic-prize,
-.comic-panel-3 .comic-desc,
-.comic-panel-3 .comic-prize,
-.comic-panel-5 .comic-desc,
-.comic-panel-5 .comic-prize {
-    max-width: calc(100% - 82px);
-}
 
 /* ============================================================
    PROGRAM: chess_match.pgn — experience (scrollytelling)
@@ -2232,7 +2098,7 @@ body.god-mode .deck-grid.is-visible .battle-card {
     transform: translateY(-50%);
     background: transparent;
     border: none;
-    color: #cfe0ff;
+    color: #a8b3ac;
     font-family: var(--font-head);
     font-size: 0.55rem;
     cursor: pointer;
@@ -2456,55 +2322,6 @@ body.god-mode .deck-grid.is-visible .battle-card {
     margin: 0 auto;
 }
 
-.boss-intro {
-    font-family: var(--font-body);
-    color: var(--teal);
-    font-size: 0.95rem;
-    min-height: 1.7em;
-    margin-bottom: 18px;
-}
-
-.boss-intro::before {
-    content: '> ';
-    color: #888;
-}
-
-.boss-cursor {
-    animation: blink 1s infinite;
-    color: var(--teal);
-}
-
-.boss-hp {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 28px;
-}
-
-.boss-hp-label,
-.boss-hp-num {
-    font-family: var(--font-head);
-    font-size: 0.48rem;
-    color: #9a9aa0;
-    letter-spacing: 1px;
-    white-space: nowrap;
-}
-
-.boss-hp-bar {
-    flex: 1;
-    height: 16px;
-    background: #1a1a20;
-    border: 2px solid var(--line-dim);
-    padding: 2px;
-}
-
-.boss-hp-fill {
-    height: 100%;
-    width: 100%;
-    background: repeating-linear-gradient(90deg, var(--teal) 0 8px, #00c496 8px 10px);
-    box-shadow: 0 0 8px rgba(0, 255, 195, 0.35);
-}
-
 .boss-window .contact-form {
     margin: 0 auto;
 }
@@ -2574,7 +2391,7 @@ body.god-mode #cursor-glow {
     }
     html { scroll-behavior: auto; }
     .skills-ticker { animation: none; transform: none; }
-    .scroll-indicator, .status-dot { animation: none; }
+    .scroll-indicator, .status-dot, .ready-block { animation: none; }
     .deck-grid.is-visible .battle-card { animation: none; opacity: 1; }
     /* chess scrollytelling degrades to a plain stacked list */
     .chess-scroll { height: auto; }
@@ -2646,7 +2463,6 @@ body.god-mode #cursor-glow {
 }
 
 @media (max-width: 768px) {
-    .hero-sprite { display: none; }
     .program-body { padding: 24px 18px; }
     .program-statusline { font-size: 0.42rem; }
     .comic-sprite { display: none; }
@@ -2693,5 +2509,4 @@ body.god-mode #cursor-glow {
     .char-stat-label { font-size: 0.38rem; }
     .chess-board { display: none; }
     .chess-side { grid-template-columns: 1fr; }
-    .panel-sprite img { width: 52px; height: 52px; }
 }

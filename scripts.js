@@ -475,8 +475,8 @@ document.addEventListener('DOMContentLoaded', function() {
        ============================================================ */
     const CHARACTERS = [
         {
-            id: 'pekka', name: 'P.E.K.K.A', sprite: 'pekka-s.png', interest: 'Clash Royale',
-            cls: 'TANK', flavor: 'Butterflies confuse its targeting system.',
+            id: 'witch', name: 'THE WITCH', sprite: 'witch-s.png', interest: 'Clash Royale',
+            cls: 'SUMMONER', flavor: 'Raises skeletons. And the trophy count.',
             highlight: { value: '11K', label: 'TROPHIES', icon: 'trophy-s.png' },
             stats: []
         },
@@ -927,34 +927,16 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     /* ============================================================
-       PROGRAM: final_boss.exe
+       PROGRAM: contact.exe (Formspree AJAX)
        ============================================================ */
-    (function initFinalBoss() {
-        const bossText = document.getElementById('boss-typewriter');
-        const contactSection = document.getElementById('contact');
-        if (bossText && contactSection) {
-            const line = 'A wild recruiter challenge appears... choose your attack.';
-            let fired = false;
-            const bossObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !fired) {
-                        fired = true;
-                        typewrite(line, bossText, 32);
-                        bossObserver.disconnect();
-                    }
-                });
-            }, { threshold: 0.3 });
-            bossObserver.observe(contactSection);
-        }
-
-        // Contact Form (Formspree AJAX)
+    (function initContact() {
         const contactForm = document.querySelector('.contact-form');
         if (contactForm) {
             contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const btn = contactForm.querySelector('button[type="submit"]');
                 const originalText = btn.textContent;
-                btn.textContent = 'Attacking...';
+                btn.textContent = 'Sending...';
                 btn.disabled = true;
 
                 try {
@@ -964,12 +946,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         headers: { 'Accept': 'application/json' }
                     });
                     if (res.ok) {
-                        contactForm.innerHTML = '<p class="form-success">&gt; CRITICAL HIT. Challenge received — the boss will respond shortly.</p>';
+                        contactForm.innerHTML = '<p class="form-success">&gt; Message received. I\'ll get back to you soon.</p>';
                     } else {
                         btn.textContent = originalText;
                         btn.disabled = false;
                         const errMsg = contactForm.querySelector('.form-error') || Object.assign(document.createElement('p'), { className: 'form-error' });
-                        errMsg.textContent = '> ATTACK MISSED. Something went wrong — try emailing directly.';
+                        errMsg.textContent = '> Something went wrong — try emailing directly.';
                         contactForm.appendChild(errMsg);
                     }
                 } catch {
@@ -1037,43 +1019,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.35, rootMargin: '-80px 0px -50% 0px' });
 
     allSections.forEach(s => spyObserver.observe(s));
-
-    /* ============================================================
-       EASTER EGG: P.E.K.K.A speech bubble
-       ============================================================ */
-    (function initPekka() {
-        const sprite = document.getElementById('pekka-sprite');
-        const bubble = document.getElementById('pekka-bubble');
-        if (!sprite || !bubble) return;
-
-        const lines = [
-            'PEKKA SMASH.',
-            'BUTTERFLY?',
-            'HELLO, RECRUITER.',
-            'ELIXIR LOW.',
-            'HIRE MY HUMAN.'
-        ];
-        let lineIdx = 0;
-        let hideTimer = null;
-
-        function speak() {
-            bubble.textContent = lines[lineIdx];
-            lineIdx = (lineIdx + 1) % lines.length;
-            bubble.hidden = false;
-            if (!REDUCED_MOTION) {
-                sprite.classList.remove('pekka-shake');
-                void sprite.offsetWidth;
-                sprite.classList.add('pekka-shake');
-            }
-            if (hideTimer) clearTimeout(hideTimer);
-            hideTimer = setTimeout(() => { bubble.hidden = true; }, 2200);
-        }
-
-        sprite.addEventListener('click', speak);
-        sprite.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); speak(); }
-        });
-    })();
 
     /* ============================================================
        EASTER EGG: Konami code — GOD MODE

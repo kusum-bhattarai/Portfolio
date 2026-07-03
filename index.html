@@ -43,12 +43,6 @@
 
     <main>
         <section id="hero">
-            <!-- Resident mascot (click it) -->
-            <div class="hero-sprite hero-sprite-pekka" id="pekka-sprite" role="button" tabindex="0" aria-label="P.E.K.K.A mascot">
-                <img src="PicsPortfolio/sprites/pekka-s.png" alt="" width="96" height="96" loading="lazy">
-                <span class="pixel-bubble" id="pekka-bubble" hidden></span>
-            </div>
-
             <div class="content">
                 <h2 class="hero-name">Kusum Bhattarai Sharma</h2>
                 <p>> <span id="typewriter">Systems/Software Engineer</span><span id="cursor">_</span></p>
@@ -82,7 +76,6 @@
 
         <section id="about" class="section">
             <div class="container">
-                <p class="section-kicker">PLAYER 1 // CHARACTER SHEET</p>
                 <h2 class="section-title">User_Profile</h2>
                 <div class="about-card">
                     <div class="about-card-header">
@@ -181,7 +174,6 @@
         <!-- Experience Section: chess_match -->
         <section id="experience" class="section">
             <div class="container">
-                <p class="section-kicker">MAIN QUEST 01 // THE CAMPAIGN</p>
                 <h2 class="section-title">Experiences.pgn</h2>
                 <div class="chess-scroll" id="chess-scroll">
                 <div class="chess-match program-window">
@@ -274,7 +266,6 @@
         <!-- Projects Section: battle_deck -->
         <section id="projects" class="section">
             <div class="container">
-                <p class="section-kicker">MAIN QUEST 02 // THE ARSENAL</p>
                 <h2 class="section-title">Projects.exe</h2>
                 <div class="deck-window program-window">
                     <div class="program-titlebar">
@@ -325,7 +316,6 @@
         <!-- Achievements Section: trophy_hall -->
         <section id="achievements" class="section">
             <div class="container">
-                <p class="section-kicker">QUEST REWARDS // LOOT COLLECTED</p>
                 <h2 class="section-title">Achievements.cbz</h2>
                 <div class="comic-page">
                     <article class="comic-panel comic-panel-1">
@@ -342,7 +332,6 @@
                         <h3 class="comic-title">Data Portability Hackathon</h3>
                         <p class="comic-desc">Winner — Agentic Companion Track. Hosted by AI Collective.</p>
                         <span class="comic-prize">REWARD: $1,000</span>
-                        <div class="panel-sprite panel-sprite-iron" aria-hidden="true"><img src="PicsPortfolio/sprites/iron-s.png" alt="" width="60" height="60" loading="lazy"></div>
                     </article>
 
                     <article class="comic-panel comic-panel-3">
@@ -351,7 +340,6 @@
                         <h3 class="comic-title">TXST Datathon 2025</h3>
                         <p class="comic-desc">Winner — Texas State University annual data science competition.</p>
                         <span class="comic-prize">REWARD: BRAGGING RIGHTS</span>
-                        <div class="panel-sprite panel-sprite-bat" aria-hidden="true"><img src="PicsPortfolio/sprites/bat-s.png" alt="" width="66" height="66" loading="lazy"></div>
                     </article>
 
                     <article class="comic-panel comic-panel-4">
@@ -368,7 +356,6 @@
                         <h3 class="comic-title">Robert Henry Family Scholarship</h3>
                         <p class="comic-desc">Awarded for excellent academic achievement.</p>
                         <span class="comic-prize">REWARD: TUITION SLAIN, AGAIN</span>
-                        <div class="panel-sprite panel-sprite-trophy" aria-hidden="true"><img src="PicsPortfolio/sprites/trophy-s.png" alt="" width="64" height="64" loading="lazy"></div>
                     </article>
                 </div>
             </div>
@@ -377,7 +364,6 @@
         <!-- Side Quests: character select + memory card -->
         <section id="gallery" class="section">
             <div class="container">
-                <p class="section-kicker">SIDE QUESTS // LIFE OUTSIDE THE TERMINAL</p>
                 <h2 class="section-title">Side_Quests.log</h2>
 
                 <!-- character_select.exe -->
@@ -410,31 +396,24 @@
         <!-- Contact Section: final_boss -->
         <section id="contact" class="section">
             <div class="container">
-                <p class="section-kicker">FINAL LEVEL // NEW GAME+</p>
                 <h2 class="section-title">Contact.exe</h2>
                 <div class="boss-window program-window">
                     <div class="program-titlebar">
                         <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                        <div class="title">final_boss.exe</div>
+                        <div class="title">contact.exe</div>
                     </div>
                     <div class="program-body">
-                        <p class="boss-intro"><span id="boss-typewriter"></span><span class="boss-cursor" id="boss-cursor">_</span></p>
-                        <div class="boss-hp" aria-hidden="true">
-                            <span class="boss-hp-label">BOSS: INBOX</span>
-                            <div class="boss-hp-bar"><div class="boss-hp-fill"></div></div>
-                            <span class="boss-hp-num">HP 100/100</span>
-                        </div>
                         <form action="https://formspree.io/f/mgorgenq" method="POST" class="contact-form">
                             <div class="form-group">
-                                <input type="email" name="email" placeholder="player_id (your email)" required>
+                                <input type="email" name="email" placeholder="your email" required>
                             </div>
                             <div class="form-group">
-                                <textarea name="message" placeholder="your_move (say hello, pitch a project, start a rivalry...)" required></textarea>
+                                <textarea name="message" placeholder="your message" required></textarea>
                             </div>
-                            <button type="submit" class="btn">Send_Challenge</button>
+                            <button type="submit" class="btn">Send_Message</button>
                         </form>
                     </div>
-                    <div class="program-statusline">&gt; THE BOSS ALWAYS ANSWERS. USUALLY WITHIN 24H.</div>
+                    <div class="program-statusline">&gt; USUALLY REPLIES WITHIN 24H</div>
                 </div>
             </div>
         </section>
@@ -443,7 +422,7 @@
     <footer id="footer">
         <div class="container">
             <p>&copy; 2026 Kusum Bhattarai Sharma. All Rights Reserved.</p>
-            <p class="footer-sub">KusumOS v4.0 // ARCADE BUILD — INSERT COIN TO CONTINUE</p>
+            <p class="footer-sub">KusumOS v4.0</p>
         </div>
     </footer>
 
