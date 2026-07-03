@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/draggabilly@3/dist/draggabilly.pkgd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -27,9 +26,10 @@
             <nav class="nav">
                 <ul>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#achievements">Awards</a></li>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#projects">Projects</a></li>
+                    <li><a href="#achievements">Awards</a></li>
+                    <li><a href="#gallery">Side Quests</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -43,6 +43,12 @@
 
     <main>
         <section id="hero">
+            <!-- Resident mascot (click it) -->
+            <div class="hero-sprite hero-sprite-pekka" id="pekka-sprite" role="button" tabindex="0" aria-label="P.E.K.K.A mascot">
+                <img src="PicsPortfolio/sprites/pekka-s.png" alt="" width="96" height="96" loading="lazy">
+                <span class="pixel-bubble" id="pekka-bubble" hidden></span>
+            </div>
+
             <div class="content">
                 <h2 class="hero-name">Kusum Bhattarai Sharma</h2>
                 <p>> <span id="typewriter">Systems/Software Engineer</span><span id="cursor">_</span></p>
@@ -65,17 +71,18 @@
                 <div class="hero-social-icons">
                     <a href="https://github.com/kusum-bhattarai" target="_blank"><i class="fab fa-github"></i></a>
                     <a href="https://www.linkedin.com/in/kusum-bhattarai-sharma" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    <a href="resume.pdf" target="_blank" download title="Download Resume"><i class="fas fa-file-alt"></i></a>
+                    <a href="KusumBhattaraiSharma_Resume.pdf" target="_blank" download title="Download Resume"><i class="fas fa-file-alt"></i></a>
                 </div>
             </div>
             <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
                 <div class="scroll-line"></div>
-                <span>SCROLL</span>
+                <span class="ready-prompt">Ready?<span class="ready-block"></span></span>
             </div>
         </section>
 
         <section id="about" class="section">
             <div class="container">
+                <p class="section-kicker">PLAYER 1 // CHARACTER SHEET</p>
                 <h2 class="section-title">User_Profile</h2>
                 <div class="about-card">
                     <div class="about-card-header">
@@ -85,7 +92,7 @@
                     <div class="about-card-body">
                         <div class="about-picture-column">
                             <div class="profile-pic">
-                                <img src="PicsPortfolio/pp.png" alt="Profile Picture">
+                                <img src="PicsPortfolio/profile/pp.png" alt="Profile Picture">
                             </div>
                             <div class="profile-status">
                                 <span class="status-dot"></span>
@@ -97,24 +104,16 @@
                             <p class="about-subtitle">B.S. Computer Science &bull; Texas State University &bull; Class of 2027</p>
                             <p class="about-bio">I'm a CS student at Texas State who'd rather build than talk about it. My work sits where latency, AI, and data meet — real-time XR voice agents, RAG-powered research tooling, and geographic health analysis. 3.88 GPA, a few hackathon wins, and plenty still on the build list.</p>
                             <div class="about-interests">
-                                <span class="interest-label">&gt; Interests</span>
-                                <div class="interest-tags">
-                                    <span>Philosophy</span>
-                                    <span>Astrophysics</span>
-                                    <span>F1 Racing</span>
-                                    <span>Chess</span>
-                                    <span>Soccer</span>
-                                    <span>Clash Royale</span>
-                                    <span>Literature</span>
-                                </div>
+                                <span class="interest-label">&gt; personality_dlc: installed — see SIDE QUESTS below</span>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="skills-section">
                     <h3 class="skills-title">My_Tech_Stack</h3>
                     <div class="skills-ticker-wrap" aria-hidden="true">
-                        <div class="skills-ticker"><span class="skills-ticker-group">C++ &nbsp;·&nbsp; Java &nbsp;·&nbsp; Python &nbsp;·&nbsp; JavaScript &nbsp;·&nbsp; TypeScript &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Bash &nbsp;·&nbsp; React &nbsp;·&nbsp; Spring Boot &nbsp;·&nbsp; FastAPI &nbsp;·&nbsp; LangChain &nbsp;·&nbsp; Kafka &nbsp;·&nbsp; Redis &nbsp;·&nbsp; Docker &nbsp;·&nbsp; Kubernetes &nbsp;·&nbsp; GCP &nbsp;·&nbsp; AWS &nbsp;·&nbsp; FTXUI &nbsp;·&nbsp; GTest &nbsp;·&nbsp; Terraform &nbsp;·&nbsp; Nginx &nbsp;·&nbsp; Git &nbsp;·&nbsp; Linux &nbsp;·&nbsp; </span><span class="skills-ticker-group">C++ &nbsp;·&nbsp; Java &nbsp;·&nbsp; Python &nbsp;·&nbsp; JavaScript &nbsp;·&nbsp; TypeScript &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Bash &nbsp;·&nbsp; React &nbsp;·&nbsp; Spring Boot &nbsp;·&nbsp; FastAPI &nbsp;·&nbsp; LangChain &nbsp;·&nbsp; Kafka &nbsp;·&nbsp; Redis &nbsp;·&nbsp; Docker &nbsp;·&nbsp; Kubernetes &nbsp;·&nbsp; GCP &nbsp;·&nbsp; AWS &nbsp;·&nbsp; FTXUI &nbsp;·&nbsp; GTest &nbsp;·&nbsp; Terraform &nbsp;·&nbsp; Nginx &nbsp;·&nbsp; Git &nbsp;·&nbsp; Linux &nbsp;·&nbsp; </span></div>
+                        <div class="skills-ticker"><span class="skills-ticker-group">C++ &nbsp;&middot;&nbsp; Java &nbsp;&middot;&nbsp; Python &nbsp;&middot;&nbsp; JavaScript &nbsp;&middot;&nbsp; TypeScript &nbsp;&middot;&nbsp; SQL &nbsp;&middot;&nbsp; Bash &nbsp;&middot;&nbsp; React &nbsp;&middot;&nbsp; Spring Boot &nbsp;&middot;&nbsp; FastAPI &nbsp;&middot;&nbsp; LangChain &nbsp;&middot;&nbsp; Kafka &nbsp;&middot;&nbsp; Redis &nbsp;&middot;&nbsp; Docker &nbsp;&middot;&nbsp; Kubernetes &nbsp;&middot;&nbsp; GCP &nbsp;&middot;&nbsp; AWS &nbsp;&middot;&nbsp; FTXUI &nbsp;&middot;&nbsp; GTest &nbsp;&middot;&nbsp; Terraform &nbsp;&middot;&nbsp; Nginx &nbsp;&middot;&nbsp; Git &nbsp;&middot;&nbsp; Linux &nbsp;&middot;&nbsp; </span><span class="skills-ticker-group">C++ &nbsp;&middot;&nbsp; Java &nbsp;&middot;&nbsp; Python &nbsp;&middot;&nbsp; JavaScript &nbsp;&middot;&nbsp; TypeScript &nbsp;&middot;&nbsp; SQL &nbsp;&middot;&nbsp; Bash &nbsp;&middot;&nbsp; React &nbsp;&middot;&nbsp; Spring Boot &nbsp;&middot;&nbsp; FastAPI &nbsp;&middot;&nbsp; LangChain &nbsp;&middot;&nbsp; Kafka &nbsp;&middot;&nbsp; Redis &nbsp;&middot;&nbsp; Docker &nbsp;&middot;&nbsp; Kubernetes &nbsp;&middot;&nbsp; GCP &nbsp;&middot;&nbsp; AWS &nbsp;&middot;&nbsp; FTXUI &nbsp;&middot;&nbsp; GTest &nbsp;&middot;&nbsp; Terraform &nbsp;&middot;&nbsp; Nginx &nbsp;&middot;&nbsp; Git &nbsp;&middot;&nbsp; Linux &nbsp;&middot;&nbsp; </span></div>
                     </div>
                     <div class="skills-tabs">
                         <button class="skills-tab active" data-tab="languages">Languages</button>
@@ -147,7 +146,7 @@
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/numpy.png" alt="NumPy"/><p>NumPy</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/jest.png" alt="Jest"/><p>Jest</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/cypress.png" alt="Cypress"/><p>Cypress</p></div>
-                            <div class="skill-item no-icon-item"><span class="no-icon-symbol">&#9749;</span><p>JUnit</p></div>
+                            <div class="skill-item no-icon-item"><span class="no-icon-symbol">JU</span><p>JUnit</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/kafka.png" alt="Kafka"/><p>Kafka</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/redis.png" alt="Redis"/><p>Redis</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/elasticsearch.png" alt="Elastic Search"/><p>Elastic Search</p></div>
@@ -166,7 +165,7 @@
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/linux.png" alt="Linux"/><p>Linux</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postman.png" alt="Postman"/><p>Postman</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/nginx.png" alt="Nginx"/><p>Nginx</p></div>
-                            <div class="skill-item no-icon-item"><span class="no-icon-symbol">&#9881;</span><p>Jenkins</p></div>
+                            <div class="skill-item no-icon-item"><span class="no-icon-symbol">JK</span><p>Jenkins</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/terraform.png" alt="Terraform"/><p>Terraform</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/neovim.png" alt="Neovim"/><p>Neovim</p></div>
                             <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/visual_studio_code.png" alt="VS Code"/><p>VS Code</p></div>
@@ -179,172 +178,264 @@
             </div>
         </section>
 
-        <!-- Achievements Section -->
-        <section id="achievements" class="section">
-            <div class="container">
-                <h2 class="section-title">Achievements.log</h2>
-                <div class="achievements-grid">
-                    <div class="achievement-card">
-                        <div class="achievement-tag">[WIN]</div>
-                        <h3 class="achievement-title">WebAI YOLO26 MLX Build Challenge</h3>
-                        <p class="achievement-meta">2026 // Hackathon</p>
-                        <p class="achievement-desc">Winner — built on YOLO26 with Apple MLX. Prize: $1,000. Hosted by WebAI.</p>
-                    </div>
-                    <div class="achievement-card">
-                        <div class="achievement-tag">[WIN]</div>
-                        <h3 class="achievement-title">Data Portability Hackathon</h3>
-                        <p class="achievement-meta">2026 // Hackathon</p>
-                        <p class="achievement-desc">Winner — Agentic Companion Track. Prize: $1,000. Hosted by AI Collective.</p>
-                    </div>
-                    <div class="achievement-card">
-                        <div class="achievement-tag">[WIN]</div>
-                        <h3 class="achievement-title">TXST Datathon 2025</h3>
-                        <p class="achievement-meta">2025 // Competition</p>
-                        <p class="achievement-desc">Winner — Texas State University annual data science competition.</p>
-                    </div>
-                    <div class="achievement-card">
-                        <div class="achievement-tag">[$32K]</div>
-                        <h3 class="achievement-title">Achievement Scholarship</h3>
-                        <p class="achievement-meta">2023 // Scholarship</p>
-                        <p class="achievement-desc">TXST merit-based scholarship awarded for academic excellence. GPA: 3.88/4.0.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        <!-- Experience Section: chess_match -->
         <section id="experience" class="section">
             <div class="container">
-                <h2 class="section-title">Experience.log</h2>
-                <div class="experience-list">
+                <p class="section-kicker">MAIN QUEST 01 // THE CAMPAIGN</p>
+                <h2 class="section-title">Experiences.pgn</h2>
+                <div class="chess-scroll" id="chess-scroll">
+                <div class="chess-match program-window">
+                    <div class="program-titlebar">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title">chess_match.pgn — game in progress</div>
+                    </div>
+                    <div class="program-body chess-layout">
+                        <aside class="chess-side">
+                            <div class="chess-board" id="chess-board">
+                                <div class="chess-sq chess-sq-from" id="chess-from"></div>
+                                <div class="chess-sq chess-sq-to" id="chess-to"></div>
+                            </div>
+                            <div class="chess-readout">
+                                <span class="chess-readout-move" id="chess-move-label">1. e4</span>
+                                <span class="chess-readout-note" id="chess-move-note">the opening</span>
+                            </div>
+                        </aside>
+                        <div class="move-stage" id="move-stage">
 
-                    <article class="experience-item exp-data">
-                        <div class="exp-header">
-                            <h3 class="exp-title">AI & Data Researcher</h3>
-                            <p class="exp-company">THRC, Texas State University</p>
-                            <p class="exp-date">Jan 2025 – Present</p>
-                        </div>
-                        <div class="exp-body">
-                            <ul>
-                                <li>Engineered multi-source data integration pipeline merging five years of CDC BRFSS SMART survey data (2015–2019) with MSA-level Distress Community Index (DCI) spatial statistics, producing a master dataset for population health analysis.</li>
-                                <li>Implemented spatial analytics (Global/Local Moran's I via PySAL, KNN spatial weights k=6, spatial Gini coefficient) and authored structured methodological documentation for data pipeline reproducibility.</li>
-                                <li>Developed MSA-level aggregation and LISA cluster classification (HH/LL/HL/LH) with population-weighted shares, enabling identification of geographic health disparity patterns across U.S. metro areas.</li>
-                            </ul>
-                        </div>
-                    </article>
+                            <article class="experience-item exp-research" id="exp-stem" data-move="0">
+                                <span class="move-san">1. e4</span>
+                                <div class="exp-header">
+                                    <h3 class="exp-title">Undergraduate Research Assistant</h3>
+                                    <p class="exp-company">Texas State University</p>
+                                    <p class="exp-date">Jan 2024 – Dec 2025</p>
+                                </div>
+                                <div class="exp-body">
+                                    <ul>
+                                        <li>Developed Python algorithms using k-means clustering to analyze course-taking patterns across <strong>500+</strong> middle/high school students, enabling research team to identify STEM pathway trends across diverse student populations.</li>
+                                        <li>Lead author on qualitative research manuscript examining STEM+C enrollment at a Hispanic-Serving Institution, analyzing data from <strong>168 undergraduates</strong> and <strong>1,000+</strong> summer camp survey responses.</li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                    <article class="experience-item exp-research">
-                        <div class="exp-header">
-                            <h3 class="exp-title">Undergraduate Research Assistant</h3>
-                            <p class="exp-company">Department of Engineering, Texas State University</p>
-                            <p class="exp-date">Dec 2025 – Present</p>
-                        </div>
-                        <div class="exp-body">
-                            <ul>
-                                <li>Engineered low-latency voice-to-voice XR agent for Magic Leap 2, integrating async FastAPI and Socket.IO backend with event-driven architecture for concurrent full-duplex audio streams, achieving <strong>&lt;150ms</strong> audio processing latency.</li>
-                                <li>Built context-aware knowledge engine using LangChain and ChromaDB, indexing 3 technical safety manuals with semantic search, deployed to <strong>40 students</strong> achieving <strong>&gt;90%</strong> user satisfaction.</li>
-                            </ul>
-                        </div>
-                    </article>
+                            <article class="experience-item exp-data" id="exp-thrc" data-move="1">
+                                <span class="move-san">2. Nf3</span>
+                                <div class="exp-header">
+                                    <h3 class="exp-title">AI & Data Researcher</h3>
+                                    <p class="exp-company">THRC, Texas State University</p>
+                                    <p class="exp-date">Jan 2025 – Present</p>
+                                </div>
+                                <div class="exp-body">
+                                    <ul>
+                                        <li>Engineered multi-source data integration pipeline merging five years of CDC BRFSS SMART survey data (2015–2019) with MSA-level Distress Community Index (DCI) spatial statistics, producing a master dataset for population health analysis.</li>
+                                        <li>Implemented spatial analytics (Global/Local Moran's I via PySAL, KNN spatial weights k=6, spatial Gini coefficient) and authored structured methodological documentation for data pipeline reproducibility.</li>
+                                        <li>Developed MSA-level aggregation and LISA cluster classification (HH/LL/HL/LH) with population-weighted shares, enabling identification of geographic health disparity patterns across U.S. metro areas.</li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                    <article class="experience-item exp-dev">
-                        <div class="exp-header">
-                            <h3 class="exp-title">Student Software Developer</h3>
-                            <p class="exp-company">Center of Analytics & Data Science, Texas State University</p>
-                            <p class="exp-date">Sep 2025 – Present</p>
-                        </div>
-                        <div class="exp-body">
-                            <ul>
-                                <li>Architected AI-driven proposal optimization engine implementing Hybrid RAG pipeline with FAISS vector search and cosine similarity ranking to evaluate narrative competency and provide actionable content restructuring recommendations.</li>
-                                <li>Built faculty competency module using polymorphic web scraping with k-means clustering for research categorization, reducing team evaluation time by <strong>80%</strong> and auto-calculating a 0–10 "Fit Score" against federal solicitation criteria.</li>
-                            </ul>
-                        </div>
-                    </article>
+                            <article class="experience-item exp-dev" id="exp-cads" data-move="2">
+                                <span class="move-san">3. Bc4</span>
+                                <div class="exp-header">
+                                    <h3 class="exp-title">Student Software Developer</h3>
+                                    <p class="exp-company">Center of Analytics & Data Science, Texas State University</p>
+                                    <p class="exp-date">Sep 2025 – Present</p>
+                                </div>
+                                <div class="exp-body">
+                                    <ul>
+                                        <li>Architected AI-driven proposal optimization engine implementing Hybrid RAG pipeline with FAISS vector search and cosine similarity ranking to evaluate narrative competency and provide actionable content restructuring recommendations.</li>
+                                        <li>Built faculty competency module using polymorphic web scraping with k-means clustering for research categorization, reducing team evaluation time by <strong>80%</strong> and auto-calculating a 0–10 "Fit Score" against federal solicitation criteria.</li>
+                                    </ul>
+                                </div>
+                            </article>
 
-                    <article class="experience-item exp-research">
-                        <div class="exp-header">
-                            <h3 class="exp-title">Undergraduate Research Assistant</h3>
-                            <p class="exp-company">Texas State University</p>
-                            <p class="exp-date">Jan 2024 – Dec 2025</p>
-                        </div>
-                        <div class="exp-body">
-                            <ul>
-                                <li>Developed Python algorithms using k-means clustering to analyze course-taking patterns across <strong>500+</strong> middle/high school students, enabling research team to identify STEM pathway trends across diverse student populations.</li>
-                                <li>Lead author on qualitative research manuscript examining STEM+C enrollment at a Hispanic-Serving Institution, analyzing data from <strong>168 undergraduates</strong> and <strong>1,000+</strong> summer camp survey responses.</li>
-                            </ul>
-                        </div>
-                    </article>
+                            <article class="experience-item exp-research" id="exp-xr" data-move="3">
+                                <span class="move-san">4. O-O</span>
+                                <div class="exp-header">
+                                    <h3 class="exp-title">Undergraduate Research Assistant</h3>
+                                    <p class="exp-company">Department of Engineering, Texas State University</p>
+                                    <p class="exp-date">Dec 2025 – Present</p>
+                                </div>
+                                <div class="exp-body">
+                                    <ul>
+                                        <li>Engineered low-latency voice-to-voice XR agent for Magic Leap 2, integrating async FastAPI and Socket.IO backend with event-driven architecture for concurrent full-duplex audio streams, achieving <strong>&lt;150ms</strong> audio processing latency.</li>
+                                        <li>Built context-aware knowledge engine using LangChain and ChromaDB, indexing 3 technical safety manuals with semantic search, deployed to <strong>40 students</strong> achieving <strong>&gt;90%</strong> user satisfaction.</li>
+                                    </ul>
+                                </div>
+                            </article>
 
+                        </div>
+                    </div>
+                    <div class="program-statusline">&gt; WHITE TO MOVE — CAREER STILL IN THE OPENING</div>
+                </div>
                 </div>
             </div>
         </section>
 
-
+        <!-- Projects Section: battle_deck -->
         <section id="projects" class="section">
             <div class="container">
-                <h2 class="section-title">Projects</h2>
-                <div class="project-filter">
-                    <span class="filter-label">&gt; filter:</span>
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="systems">Systems</button>
-                    <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
-                    <button class="filter-btn" data-filter="frontend">Frontend</button>
+                <p class="section-kicker">MAIN QUEST 02 // THE ARSENAL</p>
+                <h2 class="section-title">Projects.exe</h2>
+                <div class="deck-window program-window">
+                    <div class="program-titlebar">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title">deck_builder.exe — battle deck</div>
+                    </div>
+                    <div class="program-body deck-body">
+                        <div class="project-filter">
+                            <span class="filter-label">&gt; filter:</span>
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="systems">Systems</button>
+                            <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
+                            <button class="filter-btn" data-filter="frontend">Frontend</button>
+                        </div>
+                        <div class="deck-grid" id="deck-grid"></div>
+                    </div>
+                    <div class="program-statusline deck-statusline"><span id="deck-avg"></span></div>
                 </div>
-                <div class="showcase-container">
-                    <div class="showcase-main-row">
-                        <!-- Left: monitor + nav -->
-                        <div class="showcase-monitor-col">
-                            <div class="showcase-monitor">
-                                <div class="title-bar">
-                                    <div class="buttons">
-                                        <div class="close"></div>
-                                        <div class="minimize"></div>
-                                        <div class="zoom"></div>
-                                    </div>
-                                    <div class="title" id="showcase-win-title">loading...</div>
-                                </div>
-                                <div class="window-content">
-                                    <div class="showcase-gallery" id="showcase-gallery">
-                                        <button class="gallery-btn prev-btn" id="sg-prev">&lt;</button>
-                                        <button class="gallery-btn next-btn" id="sg-next">&gt;</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="showcase-nav-row">
-                                <button class="showcase-nav-btn" id="showcase-prev">&#9664; PREV</button>
-                                <span class="showcase-counter" id="showcase-counter">01 / 11</span>
-                                <button class="showcase-nav-btn" id="showcase-next">NEXT &#9654;</button>
+
+                <!-- Deployment zone: expanded project detail -->
+                <div class="arena-panel program-window" id="arena" hidden>
+                    <div class="program-titlebar">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title" id="arena-title">deployment_zone</div>
+                        <button class="arena-close" id="arena-close" aria-label="Close project detail">[x]</button>
+                    </div>
+                    <div class="arena-body">
+                        <div class="arena-gallery-col">
+                            <div class="arena-gallery" id="arena-gallery">
+                                <button class="gallery-btn prev-btn" id="ag-prev">&lt;</button>
+                                <button class="gallery-btn next-btn" id="ag-next">&gt;</button>
                             </div>
                         </div>
-
-                        <!-- Right: info terminal -->
-                        <div class="showcase-info" id="showcase-info">
-                            <div class="terminal-section">
-                                <p class="prompt"><span id="showcase-filename">project.exe</span></p>
-                                <p class="showcase-desc" id="showcase-desc"></p>
-                                <p class="prompt">dependencies.json</p>
-                                <div class="card-tech-stack" id="showcase-tech"></div>
-                            </div>
-                            <div class="project-card-links" id="showcase-links"></div>
+                        <div class="arena-info terminal-section">
+                            <div class="arena-rarity-row"><span class="arena-rarity" id="arena-rarity"></span><span class="arena-cost" id="arena-cost"></span></div>
+                            <p class="prompt"><span id="arena-filename">project.exe</span></p>
+                            <p class="arena-desc" id="arena-desc"></p>
+                            <p class="prompt">dependencies.json</p>
+                            <div class="card-tech-stack" id="arena-tech"></div>
+                            <div class="project-card-links" id="arena-links"></div>
                         </div>
                     </div>
+                    <div class="program-statusline">&gt; UNIT DEPLOYED — [ESC] TO RECALL, ARROW KEYS FOR NEXT UNIT</div>
                 </div>
-
             </div>
         </section>
 
+        <!-- Achievements Section: trophy_hall -->
+        <section id="achievements" class="section">
+            <div class="container">
+                <p class="section-kicker">QUEST REWARDS // LOOT COLLECTED</p>
+                <h2 class="section-title">Achievements.cbz</h2>
+                <div class="comic-page">
+                    <article class="comic-panel comic-panel-1">
+                        <span class="comic-caption">2026 // HACKATHON</span>
+                        <div class="comic-burst"><span>WIN!</span></div>
+                        <h3 class="comic-title">WebAI YOLO26 MLX Build Challenge</h3>
+                        <p class="comic-desc">Winner — built on YOLO26 with Apple MLX. Hosted by WebAI.</p>
+                        <span class="comic-prize">REWARD: $1,000</span>
+                    </article>
+
+                    <article class="comic-panel comic-panel-2">
+                        <span class="comic-caption">2026 // HACKATHON</span>
+                        <div class="comic-burst"><span>WIN!</span></div>
+                        <h3 class="comic-title">Data Portability Hackathon</h3>
+                        <p class="comic-desc">Winner — Agentic Companion Track. Hosted by AI Collective.</p>
+                        <span class="comic-prize">REWARD: $1,000</span>
+                        <div class="panel-sprite panel-sprite-iron" aria-hidden="true"><img src="PicsPortfolio/sprites/iron-s.png" alt="" width="60" height="60" loading="lazy"></div>
+                    </article>
+
+                    <article class="comic-panel comic-panel-3">
+                        <span class="comic-caption">2025 // COMPETITION</span>
+                        <div class="comic-burst"><span>1ST!</span></div>
+                        <h3 class="comic-title">TXST Datathon 2025</h3>
+                        <p class="comic-desc">Winner — Texas State University annual data science competition.</p>
+                        <span class="comic-prize">REWARD: BRAGGING RIGHTS</span>
+                        <div class="panel-sprite panel-sprite-bat" aria-hidden="true"><img src="PicsPortfolio/sprites/bat-s.png" alt="" width="66" height="66" loading="lazy"></div>
+                    </article>
+
+                    <article class="comic-panel comic-panel-4">
+                        <span class="comic-caption">2023 // SCHOLARSHIP</span>
+                        <div class="comic-burst"><span>$32K</span></div>
+                        <h3 class="comic-title">Achievement Scholarship</h3>
+                        <p class="comic-desc">TXST merit-based scholarship awarded for academic excellence. GPA: 3.88/4.0.</p>
+                        <span class="comic-prize">REWARD: TUITION SLAIN</span>
+                    </article>
+
+                    <article class="comic-panel comic-panel-5">
+                        <span class="comic-caption">TXST // SCHOLARSHIP</span>
+                        <div class="comic-burst"><span>A+!</span></div>
+                        <h3 class="comic-title">Robert Henry Family Scholarship</h3>
+                        <p class="comic-desc">Awarded for excellent academic achievement.</p>
+                        <span class="comic-prize">REWARD: TUITION SLAIN, AGAIN</span>
+                        <div class="panel-sprite panel-sprite-trophy" aria-hidden="true"><img src="PicsPortfolio/sprites/trophy-s.png" alt="" width="64" height="64" loading="lazy"></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Side Quests: character select + memory card -->
+        <section id="gallery" class="section">
+            <div class="container">
+                <p class="section-kicker">SIDE QUESTS // LIFE OUTSIDE THE TERMINAL</p>
+                <h2 class="section-title">Side_Quests.log</h2>
+
+                <!-- character_select.exe -->
+                <div class="char-select program-window">
+                    <div class="program-titlebar">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title">character_select.exe</div>
+                    </div>
+                    <div class="program-body">
+                        <p class="char-heading">CHOOSE YOUR FIGHTER <span class="char-heading-sub">// the sides of me off the clock</span></p>
+                        <div class="char-grid" id="char-grid"></div>
+                        <div class="char-detail" id="char-detail"></div>
+                    </div>
+                    <div class="program-statusline" id="char-statusline">&gt; PLAYER 1 — SELECT A CHARACTER</div>
+                </div>
+
+                <div class="memory-card program-window">
+                    <div class="program-titlebar">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title">memory_card.sav — saved moments</div>
+                    </div>
+                    <div class="program-body">
+                        <div class="save-strip" id="save-strip"></div>
+                    </div>
+                    <div class="program-statusline">&gt; 7 SLOTS DETECTED — SCROLL SIDEWAYS TO BROWSE</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section: final_boss -->
         <section id="contact" class="section">
             <div class="container">
-                <h2 class="section-title">Contact</h2>
-                <!-- Replace YOUR_FORM_ID: formspree.io → New Form → copy the ID -->
-                <form action="https://formspree.io/f/mgorgenq" method="POST" class="contact-form">
-                    <div class="form-group">
-                        <input type="email" name="email" placeholder="Your Email" required>
+                <p class="section-kicker">FINAL LEVEL // NEW GAME+</p>
+                <h2 class="section-title">Contact.exe</h2>
+                <div class="boss-window program-window">
+                    <div class="program-titlebar">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title">final_boss.exe</div>
                     </div>
-                    <div class="form-group">
-                        <textarea name="message" placeholder="Your Message" required></textarea>
+                    <div class="program-body">
+                        <p class="boss-intro"><span id="boss-typewriter"></span><span class="boss-cursor" id="boss-cursor">_</span></p>
+                        <div class="boss-hp" aria-hidden="true">
+                            <span class="boss-hp-label">BOSS: INBOX</span>
+                            <div class="boss-hp-bar"><div class="boss-hp-fill"></div></div>
+                            <span class="boss-hp-num">HP 100/100</span>
+                        </div>
+                        <form action="https://formspree.io/f/mgorgenq" method="POST" class="contact-form">
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="player_id (your email)" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="message" placeholder="your_move (say hello, pitch a project, start a rivalry...)" required></textarea>
+                            </div>
+                            <button type="submit" class="btn">Send_Challenge</button>
+                        </form>
                     </div>
-                    <button type="submit" class="btn">Send_Message</button>
-                </form>
+                    <div class="program-statusline">&gt; THE BOSS ALWAYS ANSWERS. USUALLY WITHIN 24H.</div>
+                </div>
             </div>
         </section>
     </main>
@@ -352,6 +443,7 @@
     <footer id="footer">
         <div class="container">
             <p>&copy; 2026 Kusum Bhattarai Sharma. All Rights Reserved.</p>
+            <p class="footer-sub">KusumOS v4.0 // ARCADE BUILD — INSERT COIN TO CONTINUE</p>
         </div>
     </footer>
 
