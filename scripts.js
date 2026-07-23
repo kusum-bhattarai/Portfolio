@@ -529,7 +529,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { img: 'img6-s.jpg', caption: 'headphones on, world off', meta: 'SPIDEY CASE EQUIPPED' },
         { img: 'img2-s.jpg', caption: 'where the waves argue with the rocks', meta: 'WEATHER: MOODY' },
         { img: 'img7-s.jpg', caption: 'sunset drive through the palms', meta: 'GOLDEN HOUR: CAUGHT' },
-        { img: 'img5-s.jpg', caption: 'front seat, full sun', meta: 'MOOD: RECHARGED' }
+        { img: 'img5-s.jpg', caption: 'front seat, full sun', meta: 'MOOD: RECHARGED' },
+        { img: 'img-8.JPG', caption: 'kusum means flower in sanskrit', meta: 'FAV: PEONIES' }
     ];
 
     /* ============================================================
