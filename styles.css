@@ -1572,14 +1572,8 @@ body::before {
                 opacity 0.6s ease-out;
 }
 
-.comic-panel-2, .comic-panel-4 {
+.comic-panel-2, .comic-panel-4, .comic-panel-6 {
     transform: rotate(0.7deg);
-}
-
-/* wide finale panel across the bottom of the page */
-.comic-panel-5 {
-    grid-column: 1 / -1;
-    transform: rotate(-0.4deg);
 }
 
 .comic-panel:hover {
@@ -1596,6 +1590,7 @@ body::before {
 .comic-panel-3 { transition-delay: 0.24s; }
 .comic-panel-4 { transition-delay: 0.36s; }
 .comic-panel-5 { transition-delay: 0.48s; }
+.comic-panel-6 { transition-delay: 0.6s; }
 
 .comic-caption {
     position: absolute;
