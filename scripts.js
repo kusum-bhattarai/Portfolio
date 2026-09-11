@@ -534,6 +534,144 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     /* ============================================================
+       DATA — bookshelf.db
+       Array order = shelf order (left to right, top shelf first).
+       cover  → PicsPortfolio/books/<id>.jpg  (swap the file to change art)
+       pages  → sets spine thickness
+       spine  → spine color (picked from the cover; any hex works)
+       tags   → themes the search matches on (never shown as a wall)
+       status: 'reading' puts the book face-out with a bookmark.
+       ============================================================ */
+    const BOOKS = [
+        { id: 'brave-new-world', title: 'Brave New World', author: 'Aldous Huxley', pages: 288, spine: '#87804a', status: 'reading', rating: null,
+          blurb: 'A future World State keeps everyone content with conditioning, castes and soma, until someone raised outside it arrives.',
+          tags: ['dystopia', 'control', 'pleasure', 'conformity', 'technology', 'society'] },
+        { id: 'nineteen-eighty-four', title: '1984', author: 'George Orwell', pages: 328, spine: '#b3262a', rating: 4,
+          blurb: 'Winston Smith rewrites history for the Party under the eye of Big Brother, and starts to quietly rebel.',
+          quote: 'Who controls the past controls the future. Who controls the present controls the past.',
+          tags: ['dystopia', 'surveillance', 'totalitarianism', 'propaganda', 'truth', 'rebellion'] },
+        { id: 'notes-from-underground', title: 'Notes from Underground', author: 'Fyodor Dostoyevsky', pages: 136, spine: '#e2dfdb', rating: 5,
+          blurb: 'A bitter retired official rants from his "underground" against reason, progress, and mostly himself.',
+          quote: 'It is clear to me now that, owing to my unbounded vanity and to the high standard I set for myself, I often looked at myself with furious discontent, which verged on loathing, and so I inwardly attributed the same feeling to everyone.',
+          tags: ['existentialism', 'alienation', 'spite', 'self-loathing', 'free will', 'russian literature', 'dostoevsky'] },
+        { id: 'crime-and-punishment', title: 'Crime and Punishment', author: 'Fyodor Dostoyevsky', pages: 560, spine: '#908b6e', rating: 4.5,
+          blurb: 'A broke former student in St. Petersburg commits a murder to prove a theory, then has to live inside the guilt.',
+          quote: "To go wrong in one's own way is better than to go right in someone else's.",
+          tags: ['guilt', 'morality', 'murder', 'redemption', 'poverty', 'psychological', 'russian literature', 'dostoevsky'] },
+        { id: 'white-nights', title: 'White Nights', author: 'Fyodor Dostoyevsky', pages: 96, spine: '#1c1c20', rating: 5,
+          blurb: 'Over four sleepless summer nights in St. Petersburg, a lonely dreamer falls for a young woman who is waiting for someone else.',
+          quote: 'I like revisiting, at certain times, spots where I was once happy; I like to shape the present in the image of the irretrievable past.',
+          tags: ['loneliness', 'unrequited love', 'daydreaming', 'nostalgia', 'short story', 'russian literature', 'dostoevsky'] },
+        { id: 'the-metamorphosis', title: 'The Metamorphosis', author: 'Franz Kafka', pages: 74, spine: '#b89b79', rating: 5,
+          blurb: "Gregor Samsa wakes up transformed into a giant insect, and his family's patience slowly runs out.",
+          note: 'the blend of absurd, surreal and mundane which gave rise to the adjective "kafkaesque"',
+          tags: ['absurdism', 'alienation', 'family', 'duty', 'surreal', 'kafkaesque', 'novella'] },
+        { id: 'letters-to-milena', title: 'Letters to Milena', author: 'Franz Kafka', pages: 276, spine: '#538969', rating: 4.5,
+          blurb: 'Kafka’s letters to Milena Jesenská, his Czech translator: intense, anxious and tender.',
+          quote: 'You are the knife I turn inside myself; that is love. That, my dear, is love.',
+          tags: ['love letters', 'longing', 'anxiety', 'intimacy', 'correspondence', 'nonfiction'] },
+        { id: 'the-stranger', title: 'The Stranger', author: 'Albert Camus', pages: 123, spine: '#1c294c', rating: 5,
+          blurb: 'Meursault, detached and indifferent in Algiers, kills a man and is judged as much for his indifference as for the crime.',
+          quote: 'I didn’t like having to explain to them, so I just shut up, smoked a cigarette, and looked at the sea.',
+          tags: ['absurdism', 'existentialism', 'indifference', 'death', 'meaning', 'french literature'] },
+        { id: 'no-longer-human', title: 'No Longer Human', author: 'Osamu Dazai', pages: 176, spine: '#e6e6de', rating: 4.5,
+          blurb: 'In three notebooks, Ōba Yōzō describes a lifetime of feeling unable to be human and hiding behind the role of the clown.',
+          quote: "Mine has been a life of much shame. I can't even guess myself what it must be to live the life of a human being.",
+          tags: ['alienation', 'depression', 'shame', 'identity', 'masks', 'japanese literature'] },
+        { id: 'norwegian-wood', title: 'Norwegian Wood', author: 'Haruki Murakami', pages: 296, spine: '#c83535', rating: 4,
+          blurb: 'Toru Watanabe looks back on his student years in 1960s Tokyo, torn between fragile Naoko and vivid Midori.',
+          quote: 'If you only read the books that everyone else is reading, you can only think what everyone else is thinking.',
+          tags: ['grief', 'first love', 'memory', 'coming of age', 'melancholy', 'japanese literature'] },
+        { id: 'kafka-on-the-shore', title: 'Kafka on the Shore', author: 'Haruki Murakami', pages: 480, spine: '#bb6f55', rating: 4,
+          blurb: 'A fifteen-year-old runaway and an old man who can talk to cats follow parallel, dreamlike paths.',
+          quote: "Things outside you are projections of what's inside you, and what's inside you is a projection of what's outside. So when you step into the labyrinth outside you, at the same time you're stepping into the labyrinth inside.",
+          tags: ['magical realism', 'fate', 'dreams', 'identity', 'surreal', 'japanese literature'] },
+        { id: 'sputnik-sweetheart', title: 'Sputnik Sweetheart', author: 'Haruki Murakami', pages: 210, spine: '#cc1330', rating: 4,
+          blurb: 'K loves Sumire, Sumire loves an older woman named Miu, and then Sumire disappears on a Greek island.',
+          quote: "Don't pointless things have a place, too, in this far-from-perfect world?",
+          tags: ['unrequited love', 'loneliness', 'disappearance', 'surreal', 'japanese literature'] },
+        { id: 'dorian-gray', title: 'The Picture of Dorian Gray', author: 'Oscar Wilde', spineTitle: 'Dorian Gray', pages: 254, spine: '#858585', rating: 5,
+          blurb: 'A beautiful young man stays untouched by time while his portrait ages and rots in his place.',
+          quote: 'To define is to limit.',
+          tags: ['beauty', 'vanity', 'corruption', 'hedonism', 'gothic', 'art', 'victorian'] },
+        { id: 'pride-and-prejudice', title: 'Pride and Prejudice', author: 'Jane Austen', pages: 432, spine: '#5b4a3a', rating: 4,
+          blurb: 'Elizabeth Bennet and Mr. Darcy misjudge each other badly, then slowly learn better.',
+          quote: 'I could easily forgive his pride, if he had not mortified mine.',
+          tags: ['romance', 'class', 'marriage', 'wit', 'first impressions', 'classic'] },
+        { id: 'little-women', title: 'Little Women', author: 'Louisa May Alcott', pages: 449, spine: '#dc5941', rating: 4.5,
+          blurb: 'The four March sisters grow up in Civil War-era Massachusetts, and Jo is determined to be a writer.',
+          quote: 'Women, they have minds, and they have souls, as well as just hearts. And they’ve got ambition, and they’ve got talent, as well as just beauty. I’m so sick of people saying that love is all a woman is fit for.',
+          tags: ['sisterhood', 'family', 'ambition', 'women', 'coming of age', 'classic'] },
+        { id: 'wuthering-heights', title: 'Wuthering Heights', author: 'Emily Brontë', pages: 342, spine: '#4f6670', rating: 3.5,
+          blurb: 'The obsessive love between Catherine and Heathcliff on the Yorkshire moors, and the damage it does to everyone after them.',
+          quote: 'I have not broken your heart - you have broken it; and in breaking it, you have broken mine.',
+          tags: ['obsession', 'revenge', 'doomed love', 'gothic', 'moors', 'classic'] },
+        { id: 'song-of-achilles', title: 'The Song of Achilles', author: 'Madeline Miller', pages: 378, spine: '#bd9a45', rating: 3.5,
+          blurb: 'The Trojan War retold by Patroclus, from boyhood with Achilles to the ending everyone already knows.',
+          quote: 'Name one hero who was happy.',
+          tags: ['greek mythology', 'love', 'war', 'fate', 'heroes', 'tragedy'] },
+        { id: 'the-kite-runner', title: 'The Kite Runner', author: 'Khaled Hosseini', pages: 371, spine: '#5e6b51', rating: 4.5,
+          blurb: 'Amir betrays his closest friend Hassan in 1970s Kabul, and comes back as an adult to try to make it right.',
+          quote: "And that's the thing about people who mean everything they say. They think everyone else does too.",
+          tags: ['friendship', 'betrayal', 'guilt', 'redemption', 'fathers and sons', 'afghanistan'] },
+        { id: 'the-atlas-six', title: 'The Atlas Six', author: 'Olivie Blake', pages: 374, spine: '#363636', rating: 4,
+          blurb: 'Six young magicians compete for a place in the secretive Alexandrian Society. Only five will be initiated.',
+          quote: 'Really, there was nothing more dangerous than a woman who knew her own worth.',
+          tags: ['dark academia', 'magic', 'ambition', 'rivalry', 'secret society', 'fantasy'] },
+        { id: 'the-atlas-paradox', title: 'The Atlas Paradox', author: 'Olivie Blake', pages: 432, spine: '#e3dcca', rating: 3.5,
+          blurb: 'The Society’s new initiates start finding out what their place in the archives really costs.',
+          quote: 'The presumption that she was in pieces just because she had once been broken was a dangerous one',
+          tags: ['dark academia', 'magic', 'power', 'morality', 'secret society', 'fantasy'] },
+        { id: 'alone-with-you-in-the-ether', title: 'Alone With You in the Ether', author: 'Olivie Blake', spineTitle: 'Alone With You', pages: 400, spine: '#23b7c3', rating: 5,
+          blurb: 'Two people with complicated minds meet by chance in front of a painting at the Art Institute of Chicago, and build a relationship out of conversation.',
+          quote: '“I like it,” he said. “What?” He loosened the wine from his lips. “Your brain.”',
+          tags: ['romance', 'mental health', 'intimacy', 'art', 'conversation', 'chicago'] },
+        { id: 'hp1', title: "Harry Potter and the Sorcerer's Stone", spineTitle: "Sorcerer's Stone", author: 'J.K. Rowling', series: 'hp', pages: 309, spine: '#7a2a1c', rating: 4,
+          blurb: 'An eleven-year-old finds out he is a wizard and leaves the cupboard under the stairs for Hogwarts.',
+          tags: ['magic', 'hogwarts', 'friendship', 'school', 'wizards', 'fantasy'] },
+        { id: 'hp2', title: 'Harry Potter and the Chamber of Secrets', spineTitle: 'Chamber of Secrets', author: 'J.K. Rowling', series: 'hp', pages: 341, spine: '#513b8f', rating: 4,
+          blurb: 'A hidden chamber opens somewhere in Hogwarts, and students start turning up petrified.',
+          tags: ['magic', 'hogwarts', 'mystery', 'basilisk', 'wizards', 'fantasy'] },
+        { id: 'hp3', title: 'Harry Potter and the Prisoner of Azkaban', spineTitle: 'Prisoner of Azkaban', author: 'J.K. Rowling', series: 'hp', pages: 435, spine: '#7b5737', rating: 5,
+          blurb: 'A notorious prisoner escapes Azkaban, and he seems to be coming for Harry.',
+          tags: ['magic', 'hogwarts', 'time travel', 'dementors', 'wizards', 'fantasy'] },
+        { id: 'hp4', title: 'Harry Potter and the Goblet of Fire', spineTitle: 'Goblet of Fire', author: 'J.K. Rowling', series: 'hp', pages: 734, spine: '#b31608', rating: 4,
+          blurb: 'Harry is entered into the deadly Triwizard Tournament without ever putting his name in.',
+          tags: ['magic', 'hogwarts', 'tournament', 'dragons', 'wizards', 'fantasy'] },
+        { id: 'hp5', title: 'Harry Potter and the Order of the Phoenix', spineTitle: 'Order of the Phoenix', author: 'J.K. Rowling', series: 'hp', pages: 870, spine: '#a49426', rating: 4,
+          blurb: 'Nobody believes Voldemort is back, and Hogwarts gets a new teacher who runs it like a tyrant.',
+          tags: ['magic', 'hogwarts', 'rebellion', 'authority', 'wizards', 'fantasy'] },
+        { id: 'hp6', title: 'Harry Potter and the Half-Blood Prince', spineTitle: 'Half-Blood Prince', author: 'J.K. Rowling', series: 'hp', pages: 652, spine: '#2c6e3f', rating: 5,
+          blurb: 'Dumbledore shows Harry Voldemort’s past while Harry learns from an old potions book signed "the Half-Blood Prince".',
+          tags: ['magic', 'hogwarts', 'memories', 'potions', 'wizards', 'fantasy'] },
+        { id: 'hp7', title: 'Harry Potter and the Deathly Hallows', spineTitle: 'Deathly Hallows', author: 'J.K. Rowling', series: 'hp', pages: 759, spine: '#b8741a', rating: 4,
+          blurb: 'Harry, Ron and Hermione leave Hogwarts behind to hunt down Voldemort’s Horcruxes.',
+          tags: ['magic', 'war', 'sacrifice', 'death', 'wizards', 'fantasy'] },
+        { id: 'the-elegant-universe', title: 'The Elegant Universe', author: 'Brian Greene', pages: 448, spine: '#161b3a', rating: 4.5,
+          blurb: 'A readable tour of superstrings, hidden dimensions and the search for one theory that unites relativity and quantum mechanics.',
+          quote: 'We all love a good story. We all love a tantalizing mystery. We all love the underdog pressing onward against seemingly insurmountable odds. We all, in one form or another, are trying to make sense of the world around us. And all of these elements lie at the core of modern physics. The story is among the grandest -- the unfolding of the entire universe; the mystery is among the toughest -- finding out how the cosmos came to be; the odds are among the most daunting -- bipeds, newly arrived by cosmic time scales trying to reveal the secrets of the ages; and the quest is among the deepest -- the search for fundamental laws to explain all we see and beyond, from the tiniest particles to the most distant galaxies.',
+          tags: ['physics', 'string theory', 'quantum mechanics', 'relativity', 'cosmos', 'science', 'nonfiction'] },
+        { id: 'a-brief-history-of-time', title: 'A Brief History of Time', author: 'Stephen Hawking', pages: 212, spine: '#3a2c1c', rating: 4,
+          blurb: 'Hawking explains the big bang, black holes and the nature of time for people who are not physicists.',
+          quote: 'The increase of disorder or entropy is what distinguishes the past from the future, giving a direction to time.',
+          tags: ['physics', 'black holes', 'time', 'big bang', 'cosmology', 'science', 'nonfiction'] },
+        { id: 'the-grand-design', title: 'The Grand Design', author: 'Stephen Hawking & Leonard Mlodinow', pages: 208, spine: '#1d222b', rating: 4.5,
+          blurb: 'Hawking and Mlodinow ask why there is a universe at all, and argue it does not need a creator to explain it.',
+          quote: 'It is hard to imagine how free will can operate if our behavior is determined by physical law, so it seems that we are no more than biological machines and that free will is just an illusion.',
+          tags: ['physics', 'free will', 'm-theory', 'cosmology', 'philosophy', 'science', 'nonfiction'] },
+        { id: 'courage-to-be-disliked', title: 'The Courage to Be Disliked', author: 'Ichiro Kishimi & Fumitake Koga', spineTitle: 'Courage to Be Disliked', pages: 288, spine: '#ded5cb', rating: 4.5,
+          blurb: 'A philosopher and a skeptical young man argue through Adlerian psychology: freedom, happiness and not living for approval.',
+          quote: 'We cannot alter objective facts. But subjective interpretations can be altered as much as one likes. And we are inhabitants of a subjective world.',
+          tags: ['psychology', 'philosophy', 'self-help', 'freedom', 'happiness', 'dialogue', 'nonfiction'] },
+        { id: 'it-ends-with-us', title: 'It Ends with Us', author: 'Colleen Hoover', pages: 384, spine: '#983071', rating: 2,
+          blurb: 'Lily falls for a neurosurgeon named Ryle and has to face a pattern she swore she would never repeat.',
+          tags: ['romance', 'abuse', 'relationships', 'family', 'contemporary'] },
+        { id: 'ugly-love', title: 'Ugly Love', author: 'Colleen Hoover', pages: 336, spine: '#1c87b3', rating: 1,
+          blurb: 'Tate and Miles agree to something with no strings. It does not stay simple.',
+          tags: ['romance', 'heartbreak', 'relationships', 'contemporary'] }
+    ];
+
+    /* ============================================================
        PROGRAM: battle_deck.exe
        ============================================================ */
     (function initBattleDeck() {
@@ -928,6 +1066,277 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     /* ============================================================
+       PROGRAM: bookshelf.db
+       Shelf of 3D books + detail <dialog> + search. Search is
+       keyword-only at first; focusing the search box lazy-loads a
+       small sentence-embedding model (~23MB, cached by the browser)
+       so queries like "feeling like an outsider" match by meaning.
+       ============================================================ */
+    (function initBookshelf() {
+        const shelf = document.getElementById('shelf');
+        const dialog = document.getElementById('book-dialog');
+        if (!shelf || !dialog || typeof dialog.showModal !== 'function') return;
+
+        const COVER_DIR = 'PicsPortfolio/books/';
+        const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0/dist/transformers.min.js';
+        const FALLBACK_SPINES = ['#5b3a3a', '#2f4858', '#3d5a45', '#6b5b3e', '#4a3f6b', '#3a3a44'];
+        const statusline = document.getElementById('shelf-statusline');
+        const search = document.getElementById('shelf-search');
+        const $ = id => document.getElementById(id);
+        const bd = {
+            file: $('bd-file'), cover: $('bd-cover'), title: $('bd-title'), author: $('bd-author'),
+            rating: $('bd-rating'), blurb: $('bd-blurb'), quote: $('bd-quote'),
+            quoteLabel: $('bd-quote-label'), quoteText: $('bd-quote-text')
+        };
+
+        const hash = s => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+        const spineOf = b => b.spine || FALLBACK_SPINES[hash(b.id) % FALLBACK_SPINES.length];
+        const inkOf = hex => {
+            const n = parseInt(hex.slice(1), 16);
+            const lum = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+            return lum > 0.6 ? '#16140f' : '#f3efe6';
+        };
+        const surname = author => author.split(' & ')[0].split(' ').pop();
+        const coverArt = b => `<span class="cover-art"><span>${b.title}</span><span>${surname(b.author)}</span><img src="${COVER_DIR}${b.id}.jpg" alt="" loading="lazy"></span>`;
+
+        // --- build the shelf ---
+        BOOKS.forEach(b => {
+            const reading = b.status === 'reading';
+            const spine = spineOf(b);
+            const w = reading ? 150 : Math.round(Math.min(56, Math.max(20, 14 + b.pages * 0.05)));
+            const h = reading ? 224 : b.series ? 232 : 198 + hash(b.id) % 34;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'book' + (reading ? ' is-reading' : '');
+            btn.dataset.id = b.id;
+            btn.setAttribute('aria-label', `${b.title} by ${b.author}`);
+            btn.style.cssText = `--w:${w}px; --h:${h}px; --spine:${spine}; --ink:${inkOf(spine)}`;
+            btn.innerHTML = reading
+                ? `<span class="book-3d"><span class="book-face">${coverArt(b)}</span><span class="book-ribbon"></span></span>`
+                : `<span class="book-3d">
+                       <span class="book-spine"><span class="book-title">${b.spineTitle || b.title}</span><span class="book-author">${surname(b.author)}</span></span>
+                       <span class="book-cover">${coverArt(b)}</span>
+                   </span>`;
+            shelf.appendChild(btn);
+        });
+        // a missing cover file just reveals the typographic cover underneath
+        const hideBrokenCover = e => { if (e.target.tagName === 'IMG') e.target.hidden = true; };
+        shelf.addEventListener('error', hideBrokenCover, true);
+        bd.cover.addEventListener('error', hideBrokenCover, true);
+
+        const current = BOOKS.find(b => b.status === 'reading');
+        const idleStatus = `> ${BOOKS.length} VOLUMES` + (current ? ` — NOW READING: ${current.title.toUpperCase()}` : '');
+        statusline.textContent = idleStatus;
+
+        // --- detail dialog ---
+        const STAR_ROWS = ['....#....', '...###...', '...###...', '#########', '.#######.', '..#####..', '..#####..', '.###.###.', '.##...##.'];
+        const STAR_PATH = STAR_ROWS.flatMap((row, y) => [...row].map((c, x) => c === '#' ? `M${x} ${y}h1v1h-1z` : '')).join('');
+        const STAR_SVG = `<svg viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true"><path d="${STAR_PATH}"/></svg>`;
+        const starsHTML = rating => [0, 1, 2, 3, 4].map(i =>
+            `<span class="star" style="--fill:${Math.max(0, Math.min(1, rating - i)) * 100}%">${STAR_SVG}<span class="star-fill">${STAR_SVG}</span></span>`
+        ).join('') + `<span class="bd-score">${rating}/5</span>`;
+
+        function fillDialog(b) {
+            const spine = spineOf(b);
+            bd.file.textContent = `${b.id}.txt`;
+            bd.cover.style.cssText = `--spine:${spine}; --ink:${inkOf(spine)}`;
+            bd.cover.innerHTML = coverArt(b);
+            bd.cover.querySelector('img').alt = `Cover of ${b.title}`;
+            bd.title.textContent = b.title;
+            bd.author.textContent = b.author;
+            bd.rating.innerHTML = b.status === 'reading'
+                ? '<span class="bd-reading">NOW READING<span class="type-cursor"></span></span>'
+                : starsHTML(b.rating);
+            bd.rating.setAttribute('aria-label', b.status === 'reading' ? 'Currently reading' : `Rated ${b.rating} out of 5`);
+            bd.blurb.textContent = b.blurb;
+            bd.quote.hidden = !(b.quote || b.note);
+            bd.quoteLabel.textContent = b.quote ? 'FAV QUOTE' : 'NOTE';
+            bd.quoteText.textContent = b.quote || b.note || '';
+        }
+
+        let openBtn = null;
+        let closing = false;
+
+        // the cover flies between its spot on the shelf and the dialog
+        function flight(from, reverse) {
+            const to = bd.cover.getBoundingClientRect();
+            const faceOut = openBtn.classList.contains('is-reading');
+            const x = (faceOut ? from.left : from.right) - to.left;
+            const y = from.top + from.height / 2 - (to.top + to.height / 2);
+            const frames = [
+                { transform: `perspective(900px) translate(${x}px, ${y}px) scale(${from.height / to.height}) rotateY(${faceOut ? 0 : 70}deg)`, opacity: faceOut ? 1 : 0.3 },
+                { transform: 'perspective(900px) translate(0px, 0px) scale(1) rotateY(0deg)', opacity: 1 }
+            ];
+            if (reverse) frames.reverse();
+            return bd.cover.animate(frames, { duration: reverse ? 420 : 560, easing: 'cubic-bezier(0.2, 0.75, 0.25, 1)' });
+        }
+
+        function fadeChrome(reverse) {
+            const win = dialog.querySelector('.bd-window');
+            const opts = { duration: 260, easing: 'ease-out', delay: reverse ? 0 : 160, fill: 'backwards' };
+            const chrome = [{ backgroundColor: 'transparent', borderColor: 'transparent', boxShadow: 'none' }, {}];
+            const fade = [{ opacity: 0 }, { opacity: 1 }];
+            if (reverse) { chrome.reverse(); fade.reverse(); opts.fill = 'forwards'; }
+            return [win.animate(chrome, opts), ...[...dialog.querySelectorAll('.bd-fade')].map(el => el.animate(fade, opts))];
+        }
+
+        // where the book sits on the shelf when it isn't lifted
+        function restingRect(btn) {
+            const r = btn.getBoundingClientRect();
+            const book = btn.querySelector('.book-3d').getBoundingClientRect();
+            const plank = parseFloat(getComputedStyle(btn).paddingBottom);
+            return { left: r.left, right: r.left + book.width, top: r.bottom - plank - book.height, height: book.height };
+        }
+
+        function openBook(btn) {
+            const book = BOOKS.find(b => b.id === btn.dataset.id);
+            if (!book || dialog.open) return;
+            const from = btn.querySelector('.book-3d').getBoundingClientRect();
+            fillDialog(book);
+            openBtn = btn;
+            dialog.showModal();
+            btn.classList.add('is-out');
+            if (!REDUCED_MOTION) {
+                flight(from, false);
+                fadeChrome(false);
+            }
+        }
+
+        async function closeBook() {
+            if (!dialog.open || closing) return;
+            closing = true;
+            if (!REDUCED_MOTION && openBtn) {
+                const from = restingRect(openBtn);
+                const onScreen = from.top < window.innerHeight && from.top + from.height > 0;
+                const anims = [...fadeChrome(true), ...(onScreen ? [flight(from, true)] : [])];
+                await Promise.all(anims.map(a => a.finished.catch(() => {})));
+            }
+            dialog.close();
+            dialog.getAnimations({ subtree: true }).forEach(a => a.cancel());
+            closing = false;
+        }
+
+        shelf.addEventListener('click', e => {
+            const btn = e.target.closest('.book');
+            if (btn) openBook(btn);
+        });
+        $('bd-close').addEventListener('click', closeBook);
+        dialog.addEventListener('cancel', e => { e.preventDefault(); closeBook(); });
+        // clicks on the backdrop land on the <dialog> itself
+        dialog.addEventListener('click', e => { if (e.target === dialog) closeBook(); });
+        dialog.addEventListener('close', () => {
+            if (openBtn) openBtn.classList.remove('is-out');
+            openBtn = null;
+        });
+
+        // --- search: keywords now, meaning once the model is ready ---
+        const STOPWORDS = new Set(['a', 'an', 'the', 'of', 'and', 'or', 'about', 'book', 'books', 'something', 'that', 'with', 'in', 'on', 'for', 'to', 'by', 'like', 'me', 'my', 'i', 'is', 'it', 'some', 'any', 'story', 'stories', 'novel']);
+        const fold = s => s.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        const tokenize = s => fold(s).split(/[^a-z0-9]+/).filter(w => w && !STOPWORDS.has(w));
+        const bookText = b => `${b.title} by ${b.author}. ${b.blurb} Themes: ${b.tags.join(', ')}.`;
+        const haystacks = BOOKS.map(b => tokenize(`${b.title} ${b.author} ${b.tags.join(' ')}`));
+
+        // share of query words found in a book's title/author/tags ("dystopian" still finds "dystopia")
+        const coverage = (i, words) => words.length
+            ? words.filter(w => haystacks[i].some(h => h.startsWith(w) || (h.length >= 5 && w.startsWith(h)))).length / words.length
+            : 0;
+
+        function rankBooks(query, docVecs, queryVec) {
+            const q = fold(query);
+            const words = tokenize(q);
+            // a title/author lookup ("kafka", "harry potter") shows exactly those books
+            const byName = BOOKS.filter(b => fold(`${b.title} ${b.author}`).includes(q));
+            if (byName.length) return byName.map(b => b.id);
+            if (!queryVec) {
+                const hits = BOOKS.map((b, i) => [b.id, coverage(i, words)]).filter(([, c]) => c > 0);
+                const best = Math.max(0, ...hits.map(([, c]) => c));
+                return hits.filter(([, c]) => c === best).map(([id]) => id);
+            }
+            const scored = BOOKS.map((b, i) => {
+                const cosine = docVecs[i].reduce((s, v, k) => s + v * queryVec[k], 0);
+                return [b.id, cosine + 0.25 * coverage(i, words)];
+            }).sort((a, b) => b[1] - a[1]);
+            const cut = Math.max(0.22, scored[0][1] * 0.68);
+            return scored.filter(([, s]) => s >= cut).slice(0, 9).map(([id]) => id);
+        }
+
+        let sem = null;          // { embed, docVecs } once the model is ready
+        let semState = 'idle';   // idle | loading | ready | failed
+        let modelPct = 0;
+        let matchCount = 0;
+
+        function renderStatus() {
+            const q = search.value.trim();
+            if (q.length < 2) { statusline.textContent = idleStatus; return; }
+            const found = matchCount ? `${matchCount} MATCH${matchCount === 1 ? '' : 'ES'}` : 'NO MATCHES';
+            const loading = semState === 'loading' ? ` — LOADING SEMANTIC SEARCH ${modelPct}%` : '';
+            statusline.textContent = `> ${found}${loading}`;
+        }
+
+        function warmSemantic() {
+            if (semState !== 'idle') return;
+            semState = 'loading';
+            import(MODEL_URL)
+                .then(async ({ pipeline, env }) => {
+                    env.allowLocalModels = false;
+                    const extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
+                        dtype: 'q8',
+                        progress_callback: p => {
+                            if (p.status === 'progress' && p.file.endsWith('.onnx')) {
+                                modelPct = Math.round(p.progress);
+                                renderStatus();
+                            }
+                        }
+                    });
+                    const embed = async texts => (await extractor(texts, { pooling: 'mean', normalize: true })).tolist();
+                    sem = { embed, docVecs: await embed(BOOKS.map(bookText)) };
+                    semState = 'ready';
+                    runSearch();
+                })
+                .catch(err => {
+                    semState = 'failed';
+                    renderStatus();
+                    console.warn('bookshelf.db: semantic search unavailable, keywords only.', err);
+                });
+        }
+
+        let searchSeq = 0;
+        async function runSearch() {
+            const seq = ++searchSeq;
+            const q = search.value.trim();
+            let ids = null;
+            if (q.length >= 2) {
+                const queryVec = sem ? (await sem.embed([q]))[0] : null;
+                if (seq !== searchSeq) return;
+                ids = new Set(rankBooks(q, sem && sem.docVecs, queryVec));
+            }
+            shelf.classList.toggle('is-searching', !!ids);
+            shelf.querySelectorAll('.book').forEach(el => el.classList.toggle('is-match', !!ids && ids.has(el.dataset.id)));
+            matchCount = ids ? ids.size : 0;
+            renderStatus();
+            // phones: bring the first match into the sideways shelf's view
+            const first = shelf.querySelector('.book.is-match');
+            if (first && shelf.scrollWidth > shelf.clientWidth) {
+                shelf.scrollTo({ left: first.offsetLeft - 24, behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+            }
+        }
+
+        let debounce;
+        search.addEventListener('focus', warmSemantic);
+        search.addEventListener('input', () => {
+            clearTimeout(debounce);
+            debounce = setTimeout(runSearch, 180);
+        });
+        search.addEventListener('keydown', e => {
+            if (e.key !== 'Enter') return;
+            // stop the same keypress from also "clicking" the dialog's close button
+            e.preventDefault();
+            const first = shelf.querySelector('.book.is-match');
+            if (first) openBook(first);
+        });
+    })();
+
+    /* ============================================================
        PROGRAM: contact.exe (Formspree AJAX)
        ============================================================ */
     (function initContact() {
@@ -974,7 +1383,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.1 });
 
     const elementsToAnimate = document.querySelectorAll(
-        '.about-card, .char-select, .skill-category, .comic-panel, .deck-grid, .memory-card, .boss-window'
+        '.about-card, .char-select, .skill-category, .comic-panel, .deck-grid, .memory-card, .bookshelf, .boss-window'
     );
     elementsToAnimate.forEach(element => {
         observer.observe(element);

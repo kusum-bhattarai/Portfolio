@@ -29,6 +29,7 @@
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#achievements">Awards</a></li>
+                    <li><a href="#books">Books</a></li>
                     <li><a href="#gallery">Side Quests</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -369,6 +370,29 @@
             </div>
         </section>
 
+        <!-- Books Section: bookshelf -->
+        <section id="books" class="section">
+            <div class="container">
+                <h2 class="section-title">Books.epub</h2>
+
+                <!-- bookshelf.db -->
+                <div class="bookshelf program-window">
+                    <div class="program-titlebar">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title">bookshelf.db</div>
+                    </div>
+                    <div class="program-body">
+                        <label class="shelf-search">
+                            <span class="shelf-search-prompt">&gt; find</span>
+                            <input type="search" id="shelf-search" placeholder="title, author, vibe" autocomplete="off" spellcheck="false">
+                        </label>
+                        <div class="shelf" id="shelf"></div>
+                    </div>
+                    <div class="program-statusline" id="shelf-statusline" aria-live="polite"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- Side Quests: character select + memory card -->
         <section id="gallery" class="section">
             <div class="container">
@@ -435,6 +459,30 @@
     </footer>
 
     <script src="scripts.js"></script>
+
+    <dialog class="book-dialog" id="book-dialog" aria-labelledby="bd-title">
+        <div class="bd-window program-window">
+            <div class="program-titlebar bd-fade">
+                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                <div class="title" id="bd-file"></div>
+                <button type="button" class="bd-close" id="bd-close" aria-label="Close book">[x]</button>
+            </div>
+            <div class="bd-body">
+                <div class="bd-cover-wrap" id="bd-cover"></div>
+                <div class="bd-info bd-fade">
+                    <h3 class="bd-title" id="bd-title"></h3>
+                    <p class="bd-author" id="bd-author"></p>
+                    <div class="bd-rating" id="bd-rating"></div>
+                    <p class="bd-blurb" id="bd-blurb"></p>
+                    <div class="bd-quote" id="bd-quote">
+                        <span class="bd-quote-label" id="bd-quote-label"></span>
+                        <blockquote id="bd-quote-text"></blockquote>
+                    </div>
+                </div>
+            </div>
+            <div class="program-statusline bd-fade">&gt; <span class="hint-key">ESC</span><span class="hint-touch">TAP OUTSIDE</span> TO PUT IT BACK</div>
+        </div>
+    </dialog>
 
     <div class="modal" id="video-modal">
         <div class="modal-content">

@@ -635,7 +635,7 @@ header .container {
 
 /* === Scroll-Reveal Animation === */
 .about-card, .char-select, .skill-category,
-.comic-panel, .deck-grid, .memory-card, .boss-window {
+.comic-panel, .deck-grid, .memory-card, .bookshelf, .boss-window {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -644,7 +644,7 @@ header .container {
 .about-card.is-visible, .char-select.is-visible,
 .skill-category.is-visible,
 .comic-panel.is-visible, .deck-grid.is-visible,
-.memory-card.is-visible, .boss-window.is-visible {
+.memory-card.is-visible, .bookshelf.is-visible, .boss-window.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -2310,6 +2310,439 @@ body.god-mode .deck-grid.is-visible .battle-card {
 }
 
 /* ============================================================
+   PROGRAM: bookshelf.db — reading shelf
+   Books are 3D boxes: spine faces out, cover hinged on its right
+   edge (rotateY 90deg). Rows share one height so the planks, drawn
+   as a repeating gradient, line up under every wrapped row.
+   ============================================================ */
+.shelf-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 420px;
+    margin: 0 auto 30px;
+    border-bottom: 2px solid var(--line-dim);
+    padding: 4px 2px;
+    transition: border-color 0.2s ease;
+}
+
+.shelf-search:focus-within {
+    border-color: var(--teal);
+}
+
+.shelf-search-prompt {
+    font-family: var(--font-head);
+    font-size: 0.55rem;
+    color: var(--teal);
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.shelf-search input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    caret-color: var(--teal);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    padding: 6px 0;
+}
+
+.shelf-search input::placeholder {
+    color: #55555c;
+}
+
+.shelf-search input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+    background:
+        linear-gradient(45deg, transparent 42%, var(--teal) 42% 58%, transparent 58%),
+        linear-gradient(-45deg, transparent 42%, var(--teal) 42% 58%, transparent 58%);
+}
+
+/* dialog hint: keyboard wording on desktop, tap wording on touch */
+.hint-touch { display: none; }
+@media (hover: none) {
+    .hint-key { display: none; }
+    .hint-touch { display: inline; }
+}
+
+.shelf {
+    --row: 270px;
+    --plank: 16px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 14px;
+    background-color: #08080b;
+    background-image: repeating-linear-gradient(to bottom,
+        transparent 0 calc(var(--row) - var(--plank)),
+        rgba(0, 255, 195, 0.4) calc(var(--row) - var(--plank)) calc(var(--row) - var(--plank) + 2px),
+        #1d1d24 calc(var(--row) - var(--plank) + 2px) calc(var(--row) - 5px),
+        #111115 calc(var(--row) - 5px) var(--row));
+    border-left: 10px solid #15151b;
+    border-right: 10px solid #15151b;
+    box-shadow: inset 0 18px 30px -18px rgba(0, 0, 0, 0.9);
+}
+
+.book {
+    position: relative;
+    height: var(--row);
+    padding: 0 0 var(--plank);
+    margin-right: 2px;
+    display: flex;
+    align-items: flex-end;
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    perspective: 900px;
+    transition: opacity 0.3s ease;
+}
+
+.book:focus-visible {
+    outline: none;
+}
+
+.book-3d {
+    position: relative;
+    display: block;
+    width: var(--w);
+    height: var(--h);
+    transform-style: preserve-3d;
+    transform-origin: 50% 100%;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease;
+}
+
+/* filters would flatten the 3D box, so dim each face instead */
+.book-spine,
+.book-cover,
+.book-face {
+    filter: brightness(0.8) saturate(0.85);
+    transition: filter 0.25s ease, box-shadow 0.25s ease;
+}
+
+.book-spine {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 14px 0 10px;
+    overflow: hidden;
+    background-color: var(--spine);
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.1) 28%, rgba(0, 0, 0, 0.06) 72%, rgba(0, 0, 0, 0.32));
+    color: var(--ink);
+    border-radius: 2px 2px 0 0;
+}
+
+/* thin decorative bands near the head and tail of the spine */
+.book-spine::before,
+.book-spine::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.35;
+}
+
+.book-spine::before { top: 6px; }
+.book-spine::after { bottom: 5px; }
+
+.book-title {
+    writing-mode: vertical-rl;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: clamp(8px, calc(var(--w) * 0.3), 11px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 0 1 auto;
+    min-height: 0;
+}
+
+.book-author {
+    writing-mode: vertical-rl;
+    font-family: var(--font-body);
+    font-size: 7px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    white-space: nowrap;
+    flex: none;
+}
+
+.book-cover {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: calc(var(--h) * 0.66);
+    height: 100%;
+    transform-origin: left center;
+    transform: rotateY(90deg);
+    backface-visibility: hidden;
+}
+
+/* the current read stands face-out with a bookmark ribbon */
+.book-face {
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 26px rgba(0, 255, 195, 0.18);
+}
+
+.book-ribbon {
+    position: absolute;
+    bottom: -13px;
+    right: 22%;
+    width: 8px;
+    height: 22px;
+    background: var(--teal);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+    box-shadow: 0 0 10px rgba(0, 255, 195, 0.6);
+}
+
+/* cover art + a typographic fallback underneath if the image is missing */
+.cover-art {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12% 10%;
+    overflow: hidden;
+    background-color: var(--spine);
+    color: var(--ink);
+    font-family: var(--font-head);
+    font-size: 0.5rem;
+    line-height: 1.7;
+    text-transform: uppercase;
+}
+
+.cover-art img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (hover: hover) {
+    .book:hover { z-index: 2; }
+    .book:hover .book-3d { transform: translateY(-12px) rotateY(-26deg) scale(1.05); }
+    .book.is-reading:hover .book-3d { transform: translateY(-8px) scale(1.04); }
+    .book:hover :is(.book-spine, .book-cover, .book-face) { filter: none; }
+}
+
+.book:focus-visible { z-index: 2; }
+.book:focus-visible .book-3d { transform: translateY(-12px) rotateY(-26deg) scale(1.05); }
+.book.is-reading:focus-visible .book-3d { transform: translateY(-8px) scale(1.04); }
+.book:focus-visible :is(.book-spine, .book-cover, .book-face) { filter: none; }
+
+/* search: matches lift and glow, everything else fades back */
+.shelf.is-searching .book:not(.is-match) { opacity: 0.16; }
+.book.is-match .book-3d { transform: translateY(-8px); }
+.book.is-match :is(.book-spine, .book-face) {
+    filter: none;
+    box-shadow: 0 10px 22px -8px rgba(0, 255, 195, 0.75);
+}
+
+/* pulled off the shelf while its detail window is open */
+.book.is-out .book-3d {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+/* ---------- book detail (native <dialog>) ---------- */
+.book-dialog {
+    margin: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    width: min(760px, calc(100% - 32px));
+    max-width: none;
+    max-height: calc(100dvh - 48px);
+    overflow: visible;
+}
+
+.book-dialog::backdrop {
+    background: rgba(5, 5, 8, 0.85);
+}
+
+.book-dialog[open]::backdrop {
+    animation: bdBackdropIn 0.3s ease-out;
+}
+
+@keyframes bdBackdropIn {
+    from { opacity: 0; }
+}
+
+.bd-window {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - 48px);
+}
+
+.bd-close {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #a8b3ac;
+    font-family: var(--font-head);
+    font-size: 0.55rem;
+    cursor: pointer;
+    padding: 4px 6px;
+    z-index: 2;
+}
+
+.bd-close:hover,
+.bd-close:focus-visible {
+    color: #fff;
+}
+
+.bd-body {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 30px;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.bd-cover-wrap {
+    position: relative;
+    align-self: start;
+    aspect-ratio: 2 / 3;
+    border: 2px solid var(--line-dim);
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.45);
+    transform-origin: left center;
+}
+
+.bd-cover-wrap .cover-art {
+    font-size: 0.6rem;
+}
+
+/* same CRT scanlines as the page (the dialog renders above the global overlay) */
+.bd-cover-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.12) 3px 4px);
+    pointer-events: none;
+}
+
+.bd-info {
+    min-width: 0;
+}
+
+.bd-title {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.bd-author {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.bd-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+.star {
+    position: relative;
+    width: 18px;
+    height: 18px;
+}
+
+.star svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+    fill: #3a3a42;
+}
+
+.star-fill {
+    position: absolute;
+    inset: 0;
+    width: var(--fill);
+    overflow: hidden;
+}
+
+.star-fill svg {
+    fill: var(--gold);
+    filter: drop-shadow(0 0 4px rgba(255, 209, 102, 0.45));
+}
+
+.bd-score,
+.bd-reading,
+.bd-quote-label {
+    font-family: var(--font-head);
+    letter-spacing: 1px;
+}
+
+.bd-score {
+    font-size: 0.5rem;
+    color: var(--gold);
+    margin-left: 10px;
+}
+
+.bd-reading {
+    font-size: 0.55rem;
+    color: var(--teal);
+}
+
+.bd-blurb {
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+}
+
+.bd-quote {
+    margin-top: 22px;
+}
+
+.bd-quote-label {
+    display: block;
+    font-size: 0.45rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.bd-quote blockquote {
+    border-left: 3px solid var(--teal);
+    padding-left: 14px;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    font-style: italic;
+    color: var(--text);
+}
+
+/* ============================================================
    PROGRAM: final_boss.exe — contact
    ============================================================ */
 .boss-window {
@@ -2393,6 +2826,7 @@ body.god-mode #cursor-glow {
     .chess-match { position: static; }
     .move-stage { display: flex; flex-direction: column; gap: 30px; }
     .move-stage .experience-item { opacity: 1; transform: none; pointer-events: auto; }
+    .book-ribbon { box-shadow: none; }
 }
 
 /* ============================================================
@@ -2478,6 +2912,24 @@ body.god-mode #cursor-glow {
     .arena-desc { font-size: 0.78rem; }
     .save-slot { flex: 0 0 210px; }
     .boss-hp-num { display: none; }
+    .shelf {
+        --row: 214px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+        border-width: 0 6px;
+    }
+    .shelf::-webkit-scrollbar { height: 6px; }
+    .book { flex: 0 0 auto; scroll-snap-align: start; }
+    .book-3d { zoom: 0.8; }
+    .shelf-search input { font-size: 16px; }
+    .bd-body {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding: 22px 18px;
+    }
+    .bd-cover-wrap { width: 140px; justify-self: center; }
 }
 
 @media (max-width: 480px) {
