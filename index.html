@@ -78,94 +78,51 @@
         <section id="about" class="section">
             <div class="container">
                 <h2 class="section-title">User_Profile</h2>
-                <div class="about-card">
-                    <div class="about-card-header">
+                <div class="profile program-window">
+                    <div class="program-titlebar">
                         <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
                         <div class="title">profile.sys</div>
                     </div>
-                    <div class="about-card-body">
-                        <div class="about-picture-column">
-                            <div class="profile-pic">
-                                <img src="PicsPortfolio/profile/pp.png" alt="Profile Picture">
+                    <div class="program-body profile-body">
+                        <div class="lanyard">
+                            <div class="lanyard-strap" aria-hidden="true"><span class="lanyard-clip"></span></div>
+                            <div class="badge" id="badge">
+                                <div class="badge-inner">
+                                    <button type="button" class="badge-face badge-front" aria-label="ID badge for Kusum Bhattarai Sharma. Flip for contact links">
+                                        <span class="badge-slot"></span>
+                                        <span class="badge-head">COMPUTER SCIENCE · TXST</span>
+                                        <span class="badge-photo"><img src="PicsPortfolio/profile/pp.png" alt=""></span>
+                                        <span class="badge-name">KUSUM<small>BHATTARAI SHARMA</small></span>
+                                        <span class="badge-fields">
+                                            <span><i>ROLE</i>Software Eng.</span>
+                                            <span><i>CLASS</i>2027</span>
+                                            <span><i>GPA</i>3.88</span>
+                                        </span>
+                                        <span class="badge-status"><span class="status-dot"></span>OPEN TO OPPORTUNITIES</span>
+                                        <span class="badge-barcode"></span>
+                                    </button>
+                                    <div class="badge-face badge-back">
+                                        <span class="badge-slot"></span>
+                                        <span class="badge-head">CONTACT</span>
+                                        <nav class="badge-links" aria-label="Contact links">
+                                            <a href="KusumBhattaraiSharma_Resume.pdf" target="_blank" rel="noopener">RESUME.PDF</a>
+                                            <a href="https://github.com/kusum-bhattarai" target="_blank" rel="noopener">GITHUB</a>
+                                            <a href="https://www.linkedin.com/in/kusum-bhattarai-sharma" target="_blank" rel="noopener">LINKEDIN</a>
+                                            <a href="#contact" class="badge-to-contact">SEND A MESSAGE</a>
+                                        </nav>
+                                        <button type="button" class="badge-flip-back">FLIP BACK</button>
+                                        <span class="badge-barcode"></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="profile-status">
-                                <span class="status-dot"></span>
-                                <span>Open to opportunities</span>
-                            </div>
                         </div>
-                        <div class="about-text-column">
-                            <h3 class="about-display-name">Kusum Bhattarai Sharma</h3>
-                            <p class="about-subtitle">B.S. Computer Science &bull; Texas State University &bull; Class of 2027</p>
-                            <p class="about-bio">I'm a CS student at Texas State who'd rather build than talk about it. My work sits where latency, AI, and data meet — real-time XR voice agents, RAG-powered research tooling, and geographic health analysis. 3.88 GPA, a few hackathon wins, and plenty still on the build list.</p>
-                            <div class="about-interests">
-                                <span class="interest-label">&gt; personality_dlc: installed — see SIDE QUESTS below</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skills-section">
-                    <h3 class="skills-title">My_Tech_Stack</h3>
-                    <div class="skills-ticker-wrap" aria-hidden="true">
-                        <div class="skills-ticker"><span class="skills-ticker-group">C++ &nbsp;&middot;&nbsp; Java &nbsp;&middot;&nbsp; Python &nbsp;&middot;&nbsp; JavaScript &nbsp;&middot;&nbsp; TypeScript &nbsp;&middot;&nbsp; SQL &nbsp;&middot;&nbsp; Bash &nbsp;&middot;&nbsp; React &nbsp;&middot;&nbsp; Spring Boot &nbsp;&middot;&nbsp; FastAPI &nbsp;&middot;&nbsp; LangChain &nbsp;&middot;&nbsp; Kafka &nbsp;&middot;&nbsp; Redis &nbsp;&middot;&nbsp; Docker &nbsp;&middot;&nbsp; Kubernetes &nbsp;&middot;&nbsp; GCP &nbsp;&middot;&nbsp; AWS &nbsp;&middot;&nbsp; FTXUI &nbsp;&middot;&nbsp; GTest &nbsp;&middot;&nbsp; Terraform &nbsp;&middot;&nbsp; Nginx &nbsp;&middot;&nbsp; Git &nbsp;&middot;&nbsp; Linux &nbsp;&middot;&nbsp; </span><span class="skills-ticker-group">C++ &nbsp;&middot;&nbsp; Java &nbsp;&middot;&nbsp; Python &nbsp;&middot;&nbsp; JavaScript &nbsp;&middot;&nbsp; TypeScript &nbsp;&middot;&nbsp; SQL &nbsp;&middot;&nbsp; Bash &nbsp;&middot;&nbsp; React &nbsp;&middot;&nbsp; Spring Boot &nbsp;&middot;&nbsp; FastAPI &nbsp;&middot;&nbsp; LangChain &nbsp;&middot;&nbsp; Kafka &nbsp;&middot;&nbsp; Redis &nbsp;&middot;&nbsp; Docker &nbsp;&middot;&nbsp; Kubernetes &nbsp;&middot;&nbsp; GCP &nbsp;&middot;&nbsp; AWS &nbsp;&middot;&nbsp; FTXUI &nbsp;&middot;&nbsp; GTest &nbsp;&middot;&nbsp; Terraform &nbsp;&middot;&nbsp; Nginx &nbsp;&middot;&nbsp; Git &nbsp;&middot;&nbsp; Linux &nbsp;&middot;&nbsp; </span></div>
-                    </div>
-                    <div class="skills-tabs">
-                        <button class="skills-tab active" data-tab="languages">Languages</button>
-                        <button class="skills-tab" data-tab="frameworks">Frameworks</button>
-                        <button class="skills-tab" data-tab="tools">Tools</button>
-                    </div>
-                    <div class="skill-category" data-tab-content="languages">
-                        <h4>Languages</h4>
-                        <div class="skill-icons-grid">
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/c++.png" alt="C++"/><p>C++</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/java.png" alt="Java"/><p>Java</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/python.png" alt="Python"/><p>Python</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/c.png" alt="C"/><p>C</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/javascript.png" alt="JavaScript"/><p>JavaScript</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/typescript.png" alt="TypeScript"/><p>TypeScript</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="SQL"/><p>SQL</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/bash.png" alt="Bash"/><p>Bash</p></div>
-                        </div>
-                    </div>
-                    <div class="skill-category" data-tab-content="frameworks">
-                        <h4>Frameworks & Libraries</h4>
-                        <div class="skill-icons-grid">
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/react.png" alt="React"/><p>React</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/vite.png" alt="Vite"/><p>Vite</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/node_js.png" alt="Node.js"/><p>Node.js</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/express.png" alt="Express"/><p>Express</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/fastapi.png" alt="FastAPI"/><p>FastAPI</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/spring_boot.png" alt="Spring Boot"/><p>Spring Boot</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/langchain_icon.png" alt="LangChain"/><p>LangChain</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/numpy.png" alt="NumPy"/><p>NumPy</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/jest.png" alt="Jest"/><p>Jest</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/cypress.png" alt="Cypress"/><p>Cypress</p></div>
-                            <div class="skill-item no-icon-item"><span class="no-icon-symbol">JU</span><p>JUnit</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/kafka.png" alt="Kafka"/><p>Kafka</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/redis.png" alt="Redis"/><p>Redis</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/elasticsearch.png" alt="Elastic Search"/><p>Elastic Search</p></div>
-
-                        </div>
-                    </div>
-                    <div class="skill-category" data-tab-content="tools">
-                        <h4>Tools & Platforms</h4>
-                        <div class="skill-icons-grid">
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/docker.png" alt="Docker"/><p>Docker</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/aws.png" alt="AWS"/><p>AWS</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/kubernetes.png" alt="Kubernetes"/><p>Kubernetes</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/gcp.png" alt="GCP"/><p>GCP</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/github.png" alt="GitHub"/><p>GH Actions</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/git.png" alt="Git"/><p>Git</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/linux.png" alt="Linux"/><p>Linux</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postman.png" alt="Postman"/><p>Postman</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/nginx.png" alt="Nginx"/><p>Nginx</p></div>
-                            <div class="skill-item no-icon-item"><span class="no-icon-symbol">JK</span><p>Jenkins</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/terraform.png" alt="Terraform"/><p>Terraform</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/neovim.png" alt="Neovim"/><p>Neovim</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/visual_studio_code.png" alt="VS Code"/><p>VS Code</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/intellij.png" alt="IntelliJ"/><p>IntelliJ</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/bitbucket.png" alt="Bitbucket"/><p>Bitbucket</p></div>
-                            <div class="skill-item"><img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/jira.png" alt="Jira"/><p>Jira</p></div>
+                        <div class="profile-text">
+                            <p class="profile-prompt">&gt; whoami</p>
+                            <p class="profile-bio">Hi, I like building things and figuring out why they're slow or broken. I'm a CS student at Texas State (Physics and Math minor). I focus heavily on performance optimization and writing correct, thread-safe code. I have a good sense for debugging and for making things correct, not just fast.</p>
+                            <p class="profile-bio">My experience includes systems programming, performance optimization, C++, distributed systems, and ML infrastructure. RAG pipelines, low-latency systems, that kind of thing. I've won a few hackathons along the way (recently winning an AWS/V0 Hackathon out of 9700 participants), and I've usually got a cool side project running.</p>
+                            <p class="profile-bio">When I am not optimizing hot paths or profiling memory, I play chess, read philosophy, and follow astrophysics. I also have 12k+ trophies in Clash Royale, which originally inspired my C++ trading engine project.</p>
+                            <ul class="profile-now" id="profile-now"></ul>
+                            <p class="profile-hint"><span class="hint-key">CLICK</span><span class="hint-touch">TAP</span> THE BADGE TO FLIP IT</p>
                         </div>
                     </div>
                 </div>
@@ -187,11 +144,13 @@
                             <div class="chess-board" id="chess-board">
                                 <div class="chess-sq chess-sq-from" id="chess-from"></div>
                                 <div class="chess-sq chess-sq-to" id="chess-to"></div>
+                                <div class="board-pieces" id="board-pieces"></div>
                             </div>
                             <div class="chess-readout">
-                                <span class="chess-readout-move" id="chess-move-label">1. e4</span>
+                                <span class="chess-readout-move" id="chess-move-label">1. e4 e5</span>
                                 <span class="chess-readout-note" id="chess-move-note">the opening</span>
                             </div>
+                            <ol class="scoresheet" id="scoresheet"></ol>
                         </aside>
                         <div class="move-stage" id="move-stage">
 
@@ -210,12 +169,42 @@
                                 </div>
                             </article>
 
-                            <article class="experience-item exp-data" id="exp-thrc" data-move="1">
+                            <article class="experience-item exp-dev" id="exp-cads" data-move="1">
                                 <span class="move-san">2. Nf3</span>
+                                <div class="exp-header">
+                                    <h3 class="exp-title">Student Software Developer</h3>
+                                    <p class="exp-company">Center of Analytics & Data Science, Texas State University</p>
+                                    <p class="exp-date">Sep 2025 – Mar 2026</p>
+                                </div>
+                                <div class="exp-body">
+                                    <ul>
+                                        <li>Architected AI-driven proposal optimization engine implementing Hybrid RAG pipeline with FAISS vector search and cosine similarity ranking to evaluate narrative competency and provide actionable content restructuring recommendations.</li>
+                                        <li>Built faculty competency module using polymorphic web scraping with k-means clustering for research categorization, reducing team evaluation time by <strong>80%</strong> and auto-calculating a 0–10 "Fit Score" against federal solicitation criteria.</li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <article class="experience-item exp-research" id="exp-xr" data-move="2">
+                                <span class="move-san">3. Bc4</span>
+                                <div class="exp-header">
+                                    <h3 class="exp-title">Undergraduate Research Assistant</h3>
+                                    <p class="exp-company">Department of Engineering, Texas State University</p>
+                                    <p class="exp-date">Dec 2025 – Mar 2026</p>
+                                </div>
+                                <div class="exp-body">
+                                    <ul>
+                                        <li>Engineered low-latency voice-to-voice XR agent for Magic Leap 2, integrating async FastAPI and Socket.IO backend with event-driven architecture for concurrent full-duplex audio streams, achieving <strong>&lt;150ms</strong> audio processing latency.</li>
+                                        <li>Built context-aware knowledge engine using LangChain and ChromaDB, indexing 3 technical safety manuals with semantic search, deployed to <strong>40 students</strong> achieving <strong>&gt;90%</strong> user satisfaction.</li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <article class="experience-item exp-data" id="exp-thrc" data-move="3">
+                                <span class="move-san">4. O-O</span>
                                 <div class="exp-header">
                                     <h3 class="exp-title">AI & Data Researcher</h3>
                                     <p class="exp-company">THRC, Texas State University</p>
-                                    <p class="exp-date">Jan 2025 – Present</p>
+                                    <p class="exp-date">Jan 2026 – Present</p>
                                 </div>
                                 <div class="exp-body">
                                     <ul>
@@ -226,36 +215,20 @@
                                 </div>
                             </article>
 
-                            <article class="experience-item exp-dev" id="exp-cads" data-move="2">
-                                <span class="move-san">3. Bc4</span>
+                            <article class="experience-item exp-dev" id="exp-ia" data-move="4">
+                                <span class="move-san">5. d3</span>
                                 <div class="exp-header">
-                                    <h3 class="exp-title">Student Software Developer</h3>
-                                    <p class="exp-company">Center of Analytics & Data Science, Texas State University</p>
-                                    <p class="exp-date">Sep 2025 – Present</p>
+                                    <h3 class="exp-title">Instructional Assistant</h3>
+                                    <p class="exp-company">CS 3398 Software Engineering, Texas State University</p>
+                                    <p class="exp-date">Aug 2026 – Present</p>
                                 </div>
                                 <div class="exp-body">
                                     <ul>
-                                        <li>Architected AI-driven proposal optimization engine implementing Hybrid RAG pipeline with FAISS vector search and cosine similarity ranking to evaluate narrative competency and provide actionable content restructuring recommendations.</li>
-                                        <li>Built faculty competency module using polymorphic web scraping with k-means clustering for research categorization, reducing team evaluation time by <strong>80%</strong> and auto-calculating a 0–10 "Fit Score" against federal solicitation criteria.</li>
+                                        <li>Review student team code for the semester-long software engineering project, giving feedback on design, testing and Git workflow.</li>
+                                        <li>Support teams through debugging and project questions across the course.</li>
                                     </ul>
                                 </div>
                             </article>
-
-                            <article class="experience-item exp-research" id="exp-xr" data-move="3">
-                                <span class="move-san">4. O-O</span>
-                                <div class="exp-header">
-                                    <h3 class="exp-title">Undergraduate Research Assistant</h3>
-                                    <p class="exp-company">Department of Engineering, Texas State University</p>
-                                    <p class="exp-date">Dec 2025 – Present</p>
-                                </div>
-                                <div class="exp-body">
-                                    <ul>
-                                        <li>Engineered low-latency voice-to-voice XR agent for Magic Leap 2, integrating async FastAPI and Socket.IO backend with event-driven architecture for concurrent full-duplex audio streams, achieving <strong>&lt;150ms</strong> audio processing latency.</li>
-                                        <li>Built context-aware knowledge engine using LangChain and ChromaDB, indexing 3 technical safety manuals with semantic search, deployed to <strong>40 students</strong> achieving <strong>&gt;90%</strong> user satisfaction.</li>
-                                    </ul>
-                                </div>
-                            </article>
-
                         </div>
                     </div>
                     <div class="program-statusline">&gt; WHITE TO MOVE — CAREER STILL IN THE OPENING</div>
@@ -268,48 +241,37 @@
         <section id="projects" class="section">
             <div class="container">
                 <h2 class="section-title">Projects.exe</h2>
-                <div class="deck-window program-window">
+                <div class="workstation program-window">
                     <div class="program-titlebar">
                         <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                        <div class="title">deck_builder.exe — battle deck</div>
+                        <div class="title">workstation.exe</div>
                     </div>
-                    <div class="program-body deck-body">
-                        <div class="project-filter">
-                            <span class="filter-label">&gt; filter:</span>
-                            <button class="filter-btn active" data-filter="all">All</button>
-                            <button class="filter-btn" data-filter="systems">Systems</button>
-                            <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
-                            <button class="filter-btn" data-filter="frontend">Frontend</button>
-                        </div>
-                        <div class="deck-grid" id="deck-grid"></div>
-                    </div>
-                    <div class="program-statusline deck-statusline"><span id="deck-avg"></span></div>
-                </div>
-
-                <!-- Deployment zone: expanded project detail -->
-                <div class="arena-panel program-window" id="arena" hidden>
-                    <div class="program-titlebar">
-                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                        <div class="title" id="arena-title">deployment_zone</div>
-                        <button class="arena-close" id="arena-close" aria-label="Close project detail">[x]</button>
-                    </div>
-                    <div class="arena-body">
-                        <div class="arena-gallery-col">
-                            <div class="arena-gallery" id="arena-gallery">
-                                <button class="gallery-btn prev-btn" id="ag-prev">&lt;</button>
-                                <button class="gallery-btn next-btn" id="ag-next">&gt;</button>
+                    <div class="program-body">
+                        <div class="monitor">
+                            <div class="monitor-bezel">
+                                <div class="monitor-screen" id="desk-screen">
+                                    <div class="desk-wallpaper" aria-hidden="true">KusumOS<span>v4.0</span></div>
+                                    <div class="desk-icons" id="desk-icons"></div>
+                                    <div class="desk-windows" id="desk-windows"></div>
+                                    <div class="desk-taskbar">
+                                        <span class="desk-start">KUSUMOS</span>
+                                        <span class="desk-tasks" id="desk-tasks"></span>
+                                        <span class="desk-clock" id="desk-clock"></span>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="monitor-neck"></div>
+                            <div class="monitor-base"></div>
                         </div>
-                        <div class="arena-info terminal-section">
-                            <div class="arena-rarity-row"><span class="arena-rarity" id="arena-rarity"></span><span class="arena-cost" id="arena-cost"></span></div>
-                            <p class="prompt"><span id="arena-filename">project.exe</span></p>
-                            <p class="arena-desc" id="arena-desc"></p>
-                            <p class="prompt">dependencies.json</p>
-                            <div class="card-tech-stack" id="arena-tech"></div>
-                            <div class="project-card-links" id="arena-links"></div>
+                        <div class="keyboard">
+                            <div class="kb-top">
+                                <span class="kb-brand">KUSUMOS</span>
+                                <div class="kb-oled" id="kb-oled" aria-live="polite"></div>
+                            </div>
+                            <div class="kb-keys" id="kb-keys"></div>
                         </div>
                     </div>
-                    <div class="program-statusline">&gt; UNIT DEPLOYED — [ESC] TO RECALL, ARROW KEYS FOR NEXT UNIT</div>
+                    <div class="program-statusline" id="desk-statusline"></div>
                 </div>
             </div>
         </section>
@@ -317,55 +279,21 @@
         <!-- Achievements Section: trophy_hall -->
         <section id="achievements" class="section">
             <div class="container">
-                <h2 class="section-title">Achievements.cbz</h2>
-                <div class="comic-page">
-                    <article class="comic-panel comic-panel-1">
-                        <span class="comic-caption">2026 // HACKATHON</span>
-                        <div class="comic-burst"><span>WIN!</span></div>
-                        <h3 class="comic-title">AWS / Vercel H0 Hackathon</h3>
-                        <p class="comic-desc">3rd Place — B2C Track. Built at the AWS &amp; Vercel H0 hackathon.</p>
-                        <span class="comic-prize">REWARD: $6K IN PRIZES</span>
-                    </article>
-
-                    <article class="comic-panel comic-panel-2">
-                        <span class="comic-caption">2026 // HACKATHON</span>
-                        <div class="comic-burst"><span>WIN!</span></div>
-                        <h3 class="comic-title">WebAI YOLO26 MLX Build Challenge</h3>
-                        <p class="comic-desc">Winner — built on YOLO26 with Apple MLX. Hosted by WebAI.</p>
-                        <span class="comic-prize">REWARD: $1,000</span>
-                    </article>
-
-                    <article class="comic-panel comic-panel-3">
-                        <span class="comic-caption">2026 // HACKATHON</span>
-                        <div class="comic-burst"><span>WIN!</span></div>
-                        <h3 class="comic-title">Data Portability Hackathon</h3>
-                        <p class="comic-desc">Winner — Agentic Companion Track. Hosted by AI Collective.</p>
-                        <span class="comic-prize">REWARD: $1,000</span>
-                    </article>
-
-                    <article class="comic-panel comic-panel-4">
-                        <span class="comic-caption">2025 // COMPETITION</span>
-                        <div class="comic-burst"><span>1ST!</span></div>
-                        <h3 class="comic-title">TXST Datathon 2025</h3>
-                        <p class="comic-desc">Winner — Texas State University annual data science competition.</p>
-                        <span class="comic-prize">REWARD: BRAGGING RIGHTS</span>
-                    </article>
-
-                    <article class="comic-panel comic-panel-5">
-                        <span class="comic-caption">2023 // SCHOLARSHIP</span>
-                        <div class="comic-burst"><span>$32K</span></div>
-                        <h3 class="comic-title">Achievement Scholarship</h3>
-                        <p class="comic-desc">TXST merit-based scholarship awarded for academic excellence. GPA: 3.88/4.0.</p>
-                        <span class="comic-prize">REWARD: TUITION SLAIN</span>
-                    </article>
-
-                    <article class="comic-panel comic-panel-6">
-                        <span class="comic-caption">TXST // SCHOLARSHIP</span>
-                        <div class="comic-burst"><span>A+!</span></div>
-                        <h3 class="comic-title">Robert Henry Family Scholarship</h3>
-                        <p class="comic-desc">Awarded for excellent academic achievement.</p>
-                        <span class="comic-prize">REWARD: TUITION SLAIN, AGAIN</span>
-                    </article>
+                <h2 class="section-title">Achievements.sav</h2>
+                <div class="trophy-case program-window">
+                    <div class="program-titlebar">
+                        <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                        <div class="title">trophy_case.exe</div>
+                    </div>
+                    <div class="program-body trophy-body">
+                        <div class="cabinet" id="cabinet">
+                            <div class="cabinet-shelf"></div>
+                            <div class="cabinet-shelf"></div>
+                            <div class="cabinet-glass" aria-hidden="true"></div>
+                        </div>
+                        <div class="plaque" id="plaque" aria-live="polite"></div>
+                    </div>
+                    <div class="program-statusline" id="trophy-statusline"></div>
                 </div>
             </div>
         </section>
@@ -398,18 +326,31 @@
             <div class="container">
                 <h2 class="section-title">Side_Quests.log</h2>
 
-                <!-- character_select.exe -->
-                <div class="char-select program-window">
+                <!-- quest_console.exe -->
+                <div class="quest-console program-window">
                     <div class="program-titlebar">
                         <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
-                        <div class="title">character_select.exe</div>
+                        <div class="title">quest_console.exe</div>
                     </div>
                     <div class="program-body">
-                        <p class="char-heading">CHOOSE YOUR FIGHTER <span class="char-heading-sub">// the sides of me off the clock</span></p>
-                        <div class="char-grid" id="char-grid"></div>
-                        <div class="char-detail" id="char-detail"></div>
+                        <div class="cart-rack" id="cart-rack"></div>
+                        <div class="console">
+                            <button type="button" class="console-seat" id="console-seat" aria-label="Eject cartridge" disabled></button>
+                            <div class="console-body">
+                                <div class="console-slot"></div>
+                                <div class="console-screen">
+                                    <div class="screen-idle" id="screen-idle"><span class="idle-title">INSERT CARTRIDGE</span><span class="idle-hint"><span class="hint-key">CLICK</span><span class="hint-touch">TAP</span> A CARTRIDGE TO INSERT</span></div>
+                                    <div class="screen-program" id="screen-program" hidden></div>
+                                </div>
+                                <div class="console-controls">
+                                    <span class="console-led" id="console-led"></span>
+                                    <span class="console-brand">KUSUMOS</span>
+                                    <button type="button" class="console-eject" id="console-eject" disabled>EJECT</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="program-statusline" id="char-statusline">&gt; PLAYER 1 — SELECT A CHARACTER</div>
+                    <div class="program-statusline" id="quest-statusline">&gt; INSERT A CARTRIDGE</div>
                 </div>
 
                 <div class="memory-card program-window">
@@ -458,6 +399,8 @@
         </div>
     </footer>
 
+    <!-- Clash Royale stats, refreshed daily by .github/workflows/clash-data.yml -->
+    <script src="data/clash.js"></script>
     <script src="scripts.js"></script>
 
     <dialog class="book-dialog" id="book-dialog" aria-labelledby="bd-title">
@@ -484,12 +427,5 @@
         </div>
     </dialog>
 
-    <div class="modal" id="video-modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div class="video-container">
-            </div>
-        </div>
-    </div>
 </body>
 </html>

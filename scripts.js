@@ -37,31 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Shared Typewriter (used by battle_deck arena + final_boss intro) ---
-    const twTimers = new WeakMap();
-    function typewrite(text, el, speed) {
-        const prev = twTimers.get(el);
-        if (prev) clearTimeout(prev);
-        el.innerHTML = '';
-        if (REDUCED_MOTION) {
-            el.textContent = text;
-            return;
-        }
-        const cursor = document.createElement('span');
-        cursor.className = 'type-cursor';
-        el.appendChild(cursor);
-        let i = 0;
-        function tick() {
-            if (i < text.length) {
-                cursor.insertAdjacentText('beforebegin', text[i++]);
-                twTimers.set(el, setTimeout(tick, speed));
-            } else {
-                cursor.remove();
-            }
-        }
-        tick();
-    }
-
     // --- Ambient Cursor Glow ---
     const cursorGlow = document.getElementById('cursor-glow');
     if (cursorGlow) {
@@ -304,45 +279,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- Video Modal: single document-level delegation ---
-    const videoModal = document.querySelector('#video-modal');
-    if (videoModal) {
-        const videoContainer = videoModal.querySelector('.video-container');
-        const closeModalButton = videoModal.querySelector('.close-btn');
-
-        document.addEventListener('click', (e) => {
-            const btn = e.target.closest('[data-modal-target]');
-            if (!btn || !videoContainer) return;
-            e.preventDefault();
-            const src = btn.getAttribute('data-video-src');
-            const mime = btn.getAttribute('data-video-type') || 'video/mp4';
-            if (src) {
-                videoContainer.innerHTML = `<video controls autoplay><source src="${src}" type="${mime}">Your browser does not support video.</video>`;
-                videoModal.classList.add('active');
-            }
-        });
-
-        const closeModal = () => {
-            videoModal.classList.remove('active');
-            videoContainer.innerHTML = '';
-        };
-
-        if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
-        videoModal.addEventListener('click', (event) => {
-            if (event.target === videoModal) closeModal();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && videoModal.classList.contains('active')) closeModal();
-        });
-    }
-
     /* ============================================================
-       DATA — battle_deck.exe
+       DATA — workstation.exe (projects as apps on a KusumOS desktop)
+       featured → pinned to the desktop; the rest live in archive/
+       mono + color → the app icon; stats → headline numbers
+       images/videos live in PicsPortfolio/projects/
        ============================================================ */
     const PROJECTS = [
         {
-            title: 'GTP.app', category: 'fullstack',
-            rarity: 'legendary', cost: 9, tagline: 'Repos in. Resume bullets out.',
+            id: 'gtp', title: 'GTP.app', mono: 'GTP', color: '#0f9d7a', featured: true,
+            stats: [['7+', 'GITHUB APIS'], ['KAFKA', 'JOB QUEUE'], ['GCP', 'CLOUD RUN']],
+            tagline: 'Repos in. Resume bullets out.',
             images: ['gtp1.png','gtp2.png','gtp3.png','gtp4.png','gtp5.png','gtp6.png'],
             desc: 'Analyzes GitHub repos and generates recruiter-ready resume bullets by extracting structured evidence from 7+ API endpoints concurrently — pom.xml, commit history, language bytes — before calling GPT-4o-mini. Deployed on GCP Cloud Run with Kafka, Redis/Postgres dual-write job state, and Spring OAuth2 session management.',
             tech: ['Java 21','Spring Boot','React 19','TypeScript','PostgreSQL','Redis','Kafka','Docker','GCP','Terraform','OpenAI'],
@@ -352,8 +299,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'DataflowEngine.cpp', category: 'systems',
-            rarity: 'legendary', cost: 8, tagline: '40x faster than recompute.',
+            id: 'dataflow', title: 'DataflowEngine.cpp', mono: 'DF', color: '#2f6fd1', featured: true,
+            stats: [['~40×', 'VS RECOMPUTE'], ['1M', 'ROWS'], ['70', 'GOOGLE TESTS']],
+            tagline: '40x faster than recompute.',
             images: ['df_wiki.gif','df_vwap.gif'],
             desc: 'Incremental query engine that propagates delta updates through a typed C++ operator DAG — ~40× faster than batch recompute at 0.1% change rates on 1M rows. C++ core with retraction semantics and zero-alloc hot paths; exposed via Python DSL (pybind11) and Spring Boot REST/SSE; 70 Google Tests + full benchmark suite.',
             tech: ['C++17','CMake','Abseil','Python','pybind11','Spring Boot','GTest','Google Benchmark'],
@@ -362,8 +310,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'ClashExchange.cpp', category: 'fullstack',
-            rarity: 'legendary', cost: 8, tagline: '411k orders/sec. 3.7us match.',
+            id: 'clashexchange', title: 'ClashExchange.cpp', mono: 'CX', color: '#8a4fd6', featured: true,
+            stats: [['411K', 'ORDERS / SEC'], ['3.7µs', 'MATCH LATENCY'], ['0.00%', '5XX RATE']],
+            tagline: '411k orders/sec. 3.7us match.',
             images: ['crt1.png','crt2.png','crt3.png'],
             desc: 'Real-time card trading platform modeled on a financial exchange. C++17 matching engine with price-time priority order book (shared_mutex reader-writer locking), atomic PostgreSQL settlement, and SHA-256 Merkle-hashed trade records. 411k orders/sec single-thread throughput, 3.7µs match latency, 0.00% 5xx rate under 74k HTTP requests. React/TypeScript frontend with live candlestick charts, depth chart, and real-time order book via WebSocket.',
             tech: ['C++17','Boost.Beast','PostgreSQL','Redis','React 19','TypeScript','Docker','WebSocket','JWT','Google Benchmark'],
@@ -372,8 +321,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'os-sim.cpp', category: 'systems',
-            rarity: 'epic', cost: 7, tagline: 'Virtual memory, visualized.',
+            id: 'os-sim', title: 'os-sim.cpp', mono: 'OS', color: '#2e8b3e', featured: true,
+            stats: [['4', 'PAGE POLICIES'], ['16', 'TLB ENTRIES'], ['50+', 'TESTS']],
+            tagline: 'Virtual memory, visualized.',
             images: ['read.png','write.png','thrashing.png','cow.png'],
             desc: "Full-screen FTXUI TUI simulating OS virtual memory in C++17. Four replacement policies (FIFO, LRU with O(1) list+hash map, CLOCK second-chance, OPT/Belady's), copy-on-write fork with reference counting, and a 16-entry per-process TLB with LRU eviction and TLB shootdown. 50+ tests across 9 binaries; 8 experiments benchmark policy faults, TLB hit rates, and CoW efficiency.",
             tech: ['C++17','CMake','FTXUI','GTest','TLB','CoW','CLOCK'],
@@ -383,8 +333,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'GameEngine.exe', category: 'systems',
-            rarity: 'epic', cost: 6, tagline: 'A* pathfinding, zero leaks.',
+            id: 'game-engine', title: 'GameEngine.exe', mono: 'GE', color: '#c0392b',
+            tagline: 'A* pathfinding, zero leaks.',
             images: ['CR1.jpeg','CR2.jpeg'],
             desc: 'OOP game engine across 43 source files implementing Factory pattern and polymorphic inheritance with 10 entity types. Features autonomous AI with A* pathfinding, probabilistic decision-making, multi-layered combat calculations, and a comprehensive Google Test suite with zero memory leaks via RAII.',
             tech: ['C++','CMake','OOP','GTest','CI/CD','Smart Pointers'],
@@ -394,8 +344,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'DevJournal.app', category: 'fullstack',
-            rarity: 'epic', cost: 5, tagline: 'Realtime docs under 50ms.',
+            id: 'devjournal', title: 'DevJournal.app', mono: 'DJ', color: '#d17a22',
+            tagline: 'Realtime docs under 50ms.',
             images: ['DevJournal1.png','DevJournal2.png'],
             desc: 'Full-stack collaborative platform with real-time WebSocket messaging <50ms, Markdown editor, 3 microservices on AWS, 90% test coverage via CI/CD.',
             tech: ['Node.js','TypeScript','Docker','AWS','Socket.IO'],
@@ -405,8 +355,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'Lit.jar', category: 'systems',
-            rarity: 'rare', cost: 4, tagline: 'Git, rebuilt from scratch.',
+            id: 'lit', title: 'Lit.jar', mono: 'LIT', color: '#7a5a3a',
+            tagline: 'Git, rebuilt from scratch.',
             images: ['lit1.png','lit2.png','lit3.png'],
             desc: 'Distributed VCS in Java implementing Git core — SHA-1 content hashing, three-way merge, branch switching, conflict resolution, 9+ CLI commands.',
             tech: ['Java','Gradle','JUnit','File I/O'],
@@ -415,8 +365,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'No_Chess.py', category: 'fullstack',
-            rarity: 'rare', cost: 4, tagline: 'Free reviews. Sorry, Chess.com.',
+            id: 'no-chess', title: 'No_Chess.py', mono: 'NC', color: '#5b6b2f',
+            tagline: 'Free reviews. Sorry, Chess.com.',
             images: ['NC1.png','NC2.png','ReviewNC.png'],
             desc: 'React chess app with free unlimited PGN game reviews and live sessions powered by Stockfish engine via FastAPI WebSocket.',
             tech: ['React','FastAPI','Stockfish','Docker'],
@@ -426,8 +376,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'Sudoku.app', category: 'frontend',
-            rarity: 'rare', cost: 3, tagline: 'Hints, undo, ncurses core.',
+            id: 'sudoku', title: 'Sudoku.app', mono: 'SU', color: '#16806b',
+            tagline: 'Hints, undo, ncurses core.',
             images: ['sudoku2.png','sudoku3.png','sudoku.png'],
             desc: 'Three-difficulty Sudoku with hints, undo, and real-time error highlighting. C++ backend solver with ncurses; TypeScript/Tailwind frontend.',
             tech: ['C++','TypeScript','Vite','Tailwind'],
@@ -437,8 +387,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'MazeCrawler.ts', category: 'frontend',
-            rarity: 'common', cost: 3, tagline: 'DFS vs BFS, playable.',
+            id: 'maze', title: 'MazeCrawler.ts', mono: 'MZ', color: '#6a3fb0',
+            tagline: 'DFS vs BFS, playable.',
             images: ['maze2.png','maze1.png','maze3.png'],
             desc: 'Pixel art maze solver/game — DFS and BFS navigate a procedurally generated maze step-by-step, with a playable character. Zero dependencies.',
             tech: ['TypeScript','Canvas API','Vite'],
@@ -448,8 +398,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'Watched.app', category: 'frontend',
-            rarity: 'common', cost: 2, tagline: 'Your media, your library.',
+            id: 'watched', title: 'Watched.app', mono: 'WA', color: '#b8325e',
+            tagline: 'Your media, your library.',
             images: ['Watched1.png','Watched2.png'],
             desc: 'Personal media library — track watched movies and series with TMDB posters and ratings, plus custom reviews and categories.',
             tech: ['React','JavaScript','TMDB API','CSS3'],
@@ -459,8 +409,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            title: 'RetailRethink.app', category: 'frontend',
-            rarity: 'common', cost: 2, tagline: 'Budget, rethought.',
+            id: 'retailrethink', title: 'RetailRethink.app', mono: 'RR', color: '#3c6e91',
+            tagline: 'Budget, rethought.',
             images: ['RR1.jpeg','RR2.jpeg','RR3.png'],
             desc: 'Expense tracker with custom categories, an analysis dashboard, and historical spending visualization to rethink your budget.',
             tech: ['React','TypeScript','Vite','Tailwind'],
@@ -471,50 +421,100 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     /* ============================================================
-       DATA — character_select.exe
+       DATA — the keyboard under the monitor (tech stack)
+       [label, width in key units, extra names to match in PROJECTS.tech]
+       Row colors follow the category: light = languages,
+       mid = frameworks, dark = data/infra/tools.
        ============================================================ */
-    const CHARACTERS = [
-        {
-            id: 'witch', name: 'THE WITCH', sprite: 'witch-s.png', interest: 'Clash Royale',
-            cls: 'SUMMONER', flavor: 'Raises skeletons. And the trophy count.',
-            highlight: { value: '11K', label: 'TROPHIES', icon: 'trophy-s.png' },
-            stats: []
-        },
-        {
-            id: 'board', name: 'THE BOARD', sprite: 'chessp-s.png', interest: 'Chess',
-            cls: 'STRATEGIST', flavor: 'Plays the Italian. Blunders the endgame.',
-            stats: [['OPENINGS', 80], ['TACTICS', 75], ['TIME TROUBLE', 90]]
-        },
-        {
-            id: 'ferrari', name: 'THE SCUDERIA', sprite: 'ferrari.png', interest: 'F1 + Fast & Furious',
-            cls: 'SPEED', flavor: 'Box box. We are family.',
-            stats: [['RACE PACE', 92], ['STRATEGY FAITH', 30], ['SUNDAY LOYALTY', 100]]
-        },
-        {
-            id: 'bat', name: 'THE BAT', sprite: 'bat-s.png', interest: 'DC Comics',
-            cls: 'DETECTIVE', flavor: 'Prep time is a skill stat.',
-            stats: [['GADGETS', 85], ['BROODING', 97], ['NO GUNS', 100]]
-        },
-        {
-            id: 'iron', name: 'MK-85', sprite: 'iron-s.png', interest: 'Marvel',
-            cls: 'ENGINEER', flavor: 'Built this in a cave. With a box of scraps.',
-            stats: [['TECH', 96], ['EGO', 89], ['SACRIFICE', 100]]
-        },
-        {
-            id: 'vader', name: 'DARK LORD', sprite: 'vader-s.png', interest: 'Star Wars',
-            cls: 'BOSS', flavor: 'Finds your lack of tests disturbing.',
-            stats: [['FORCE', 94], ['DIPLOMACY', 12], ['THEME MUSIC', 100]]
-        }
+    const KEYBOARD = [
+        { cat: 'LANGUAGE', cls: 'cat-lang', keys: [['ESC', 1], ['C++'], ['C'], ['Java'], ['Python', 1.25, ['pybind11']], ['JavaScript', 1.5], ['TypeScript', 1.5], ['SQL', 1, ['postgresql']], ['Bash']] },
+        { cat: 'FRAMEWORK', cls: 'cat-fw', keys: [['React'], ['Node.js'], ['Express'], ['FastAPI'], ['Spring Boot', 1.5], ['LangChain', 1.5], ['NumPy'], ['Vite']] },
+        { cat: 'DATA / TESTING', cls: 'cat-data', keys: [['Kafka'], ['Redis'], ['Elasticsearch', 1.75], ['Jest'], ['Cypress'], ['JUnit'], ['GTest', 1, ['google benchmark']]] },
+        { cat: 'INFRA', cls: 'cat-infra', keys: [['Docker'], ['Kubernetes', 1.5], ['AWS'], ['GCP'], ['Terraform', 1.25], ['Nginx'], ['Jenkins'], ['GH Actions', 1.5, ['ci/cd']]] },
+        { cat: 'TOOLING', cls: 'cat-tool', keys: [['Git'], ['Linux'], ['Postman'], ['SPACE', 3.5], ['Jira'], ['Bitbucket', 1.25], ['IntelliJ'], ['VS Code', 1.25], ['Neovim']] }
+    ];
+
+    /* ============================================================
+       DATA — trophy_case.exe
+       kind: gold | bronze (trophies) or certificate
+       shelf: 0 = top, 1 = bottom. Photos live in PicsPortfolio/awards/.
+       ============================================================ */
+    const AWARDS = [
+        { id: 'webai', kind: 'gold', shelf: 0, plate: 'WEBAI',
+          when: '2026 · HACKATHON', event: 'WebAI YOLO26 MLX Build Challenge', place: 'WINNER', prize: '$1,000',
+          note: 'Built on YOLO26 with Apple MLX.', host: 'Hosted by WebAI',
+          photo: 'webai-winners.jpg', caption: 'winners + founders meetup', alt: 'WebAI build challenge winners and founders at the meetup' },
+        { id: 'data-portability', kind: 'gold', shelf: 0, plate: 'DATA PORT.',
+          when: '2026 · HACKATHON', event: 'Data Portability Hackathon', place: 'WINNER · AGENTIC COMPANION TRACK', prize: '$1,000',
+          host: 'Hosted by AI Collective' },
+        { id: 'h0', kind: 'bronze', shelf: 0, plate: 'H0 · 3RD',
+          when: '2026 · HACKATHON', event: 'AWS/v0 H0 Hackathon', place: '3RD PLACE · B2C TRACK', prize: '$6K in prizes',
+          note: 'Giftmaxxing: Tinder for gift taste. Swipe to teach it yours, share a link to learn anyone’s. Out of 9,700 participants.',
+          photo: 'giftmaxxing.jpg', caption: 'giftmaxxing on devpost', alt: 'Giftmaxxing project card on Devpost with a winner ribbon' },
+        { id: 'datathon', kind: 'gold', shelf: 1, plate: 'DATATHON',
+          when: '2025 · COMPETITION', event: 'TXST Datathon 2025', place: '1ST PLACE',
+          note: 'Texas State University’s annual data science competition.' },
+        { id: 'achievement', kind: 'certificate', shelf: 1, plate: '$32K',
+          when: '2023 · SCHOLARSHIP', event: 'Achievement Scholarship', place: 'MERIT SCHOLARSHIP', prize: '$32,000',
+          note: 'Merit-based scholarship awarded for academic excellence. GPA 3.88 / 4.0.', host: 'Texas State University' },
+        { id: 'henry', kind: 'certificate', shelf: 1, plate: 'R. HENRY',
+          when: 'TXST · SCHOLARSHIP', event: 'Robert Henry Family Scholarship', place: 'SCHOLARSHIP',
+          note: 'Awarded for excellent academic achievement.', host: 'Texas State University' }
+    ];
+
+    /* ============================================================
+       DATA — quest_console.exe (side quests as game cartridges)
+       Clips + posters live in PicsPortfolio/quests/. Clash Royale
+       stats come from data/clash.js, refreshed by a daily Action.
+       label = cartridge label art (any CSS background)
+       ============================================================ */
+    const QUESTS = [
+        { id: 'clash', name: 'Clash Royale', sprite: 'witch-s.png',
+          label: 'linear-gradient(160deg, #5b3aa8, #22163f)' },
+        { id: 'f1', name: 'Formula 1', sprite: 'ferrari.png',
+          label: 'linear-gradient(160deg, #d0141f, #5a070c)',
+          race: {
+              title: '2022 Bahrain Grand Prix', when: 'SAKHIR · 20 MAR 2022', video: 'wIYPuzWCCSw', thumb: 'bahrain-2022.jpg',
+              podium: [['LECLERC', 'ferrari'], ['SAINZ', 'ferrari'], ['HAMILTON', 'mercedes']]
+          } },
+        { id: 'starwars', name: 'Star Wars', sprite: 'vader-s.png', sith: true,
+          label: 'linear-gradient(160deg, #2a2a33, #060608)',
+          titles: [
+              { title: 'Revenge of the Sith', meta: 'FILM · 2005', clip: 'rots', poster: 'poster-rots.jpg' }
+          ] },
+        { id: 'marvel', name: 'Marvel', sprite: 'iron-cart.png',
+          label: 'linear-gradient(160deg, #c41f24, #4d0a0c)',
+          titles: [
+              { title: 'Iron Man', meta: 'FILM · 2008', clip: 'iron-man', poster: 'poster-iron-man.jpg' },
+              { title: 'Avengers: Infinity War', meta: 'FILM · 2018', clip: 'infinity-war', poster: 'poster-infinity-war.jpg' },
+              { title: 'Daredevil', meta: 'SERIES · 2015–2018', clip: 'daredevil', poster: 'poster-daredevil.jpg' }
+          ] },
+        { id: 'dc', name: 'DC', sprite: 'bat-s.png',
+          label: 'linear-gradient(160deg, #1f4f9a, #0a1630)',
+          titles: [
+              { title: 'The Dark Knight', meta: 'FILM · 2008', clip: 'dark-knight', poster: 'poster-dark-knight.jpg' },
+              { title: "Zack Snyder's Justice League", meta: 'FILM · 2021', clip: 'zsjl', poster: 'poster-zsjl.jpg' },
+              { title: 'The Flash', meta: 'SERIES · 2014–2023', clip: 'the-flash', poster: 'poster-the-flash.jpg' }
+          ] },
+        { id: 'barca', name: 'FC Barcelona', cart: 'BARÇA', art: '6-1',
+          label: 'repeating-linear-gradient(90deg, #a50044 0 11px, #004d98 11px 22px)',
+          match: {
+              stage: 'UCL · ROUND OF 16 · 2ND LEG', venue: 'CAMP NOU · 8 MAR 2017 · 96,290', clip: 'remontada',
+              firstLeg: [0, 4],
+              goals: [["3'", 'SUÁREZ', 'home'], ["40'", 'KURZAWA (OG)', 'home'], ["50'", 'MESSI (PEN)', 'home'], ["62'", 'CAVANI', 'away'],
+                      ["88'", 'NEYMAR', 'home'], ["90+1'", 'NEYMAR (PEN)', 'home'], ["90+5'", 'SERGI ROBERTO', 'home']]
+          } }
     ];
 
     /* ============================================================
        DATA — chess_match.pgn (maps to experience articles)
        ============================================================ */
     const CHESS_MOVES = [
-        { san: '1. e4',  note: 'the opening',          from: 'e2', to: 'e4' },
-        { san: '2. Nf3', note: 'developing pieces',    from: 'g1', to: 'f3' },
-        { san: '3. Bc4', note: 'the Italian Game',     from: 'f1', to: 'c4' },
-        { san: '4. O-O', note: 'castled — king safe',  from: 'e1', to: 'g1' }
+        { san: '1. e4 e5',    note: 'the opening',        moves: [['e2', 'e4'], ['e7', 'e5']] },
+        { san: '2. Nf3 Nc6',  note: 'developing pieces',  moves: [['g1', 'f3'], ['b8', 'c6']] },
+        { san: '3. Bc4 Bc5',  note: 'the Italian Game',   moves: [['f1', 'c4'], ['f8', 'c5']] },
+        { san: '4. O-O Nf6',  note: 'castled — king safe', moves: [['e1', 'g1'], ['h1', 'f1'], ['g8', 'f6']] },
+        { san: '5. d3 d6',    note: 'quiet build-up',     moves: [['d2', 'd3'], ['d7', 'd6']] }
     ];
 
     /* ============================================================
@@ -672,324 +672,619 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     /* ============================================================
-       PROGRAM: battle_deck.exe
+       PROGRAM: workstation.exe
+       Projects are apps on a KusumOS desktop inside a CRT monitor;
+       the tech stack is the keyboard in front of it. Pressing a key
+       lights up every app built with that tech.
        ============================================================ */
-    (function initBattleDeck() {
-        const deckGrid = document.getElementById('deck-grid');
-        const arena = document.getElementById('arena');
-        if (!deckGrid || !arena) return;
+    (function initWorkstation() {
+        const screen = document.getElementById('desk-screen');
+        const keysEl = document.getElementById('kb-keys');
+        if (!screen || !keysEl) return;
 
-        const arenaTitle = document.getElementById('arena-title');
-        const arenaGallery = document.getElementById('arena-gallery');
-        const arenaFilename = document.getElementById('arena-filename');
-        const arenaDesc = document.getElementById('arena-desc');
-        const arenaTech = document.getElementById('arena-tech');
-        const arenaLinks = document.getElementById('arena-links');
-        const arenaRarity = document.getElementById('arena-rarity');
-        const arenaCost = document.getElementById('arena-cost');
-        const arenaClose = document.getElementById('arena-close');
-        const agPrev = document.getElementById('ag-prev');
-        const agNext = document.getElementById('ag-next');
-        const deckAvg = document.getElementById('deck-avg');
+        const iconsEl = document.getElementById('desk-icons');
+        const winLayer = document.getElementById('desk-windows');
+        const tasks = document.getElementById('desk-tasks');
+        const clock = document.getElementById('desk-clock');
+        const oled = document.getElementById('kb-oled');
+        const statusline = document.getElementById('desk-statusline');
+        const PDIR = 'PicsPortfolio/projects/';
+        const IDLE_STATUS = `> ${PROJECTS.length} APPS INSTALLED — CLICK ONE TO OPEN, OR PRESS A KEY TO SEE WHERE IT'S USED`;
+        const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const norm = t => t.toLowerCase().replace(/\s*\d+$/, '').trim();   // "React 19" → "react", "C++17" → "c++"
+        const byId = id => PROJECTS.find(p => p.id === id);
 
-        let filtered = [...PROJECTS];
-        let deployedIdx = -1;
-        let imgs = [];
-        let imgIdx = 0;
+        const iconHTML = p => `<span class="app-icon" style="--app:${p.color}"><span class="app-mono">${p.mono}</span><span class="app-ext">.${p.title.split('.').pop()}</span></span>`;
+        // <wbr> lets long names break before the extension, not mid-word
+        const appButton = p => `<button type="button" class="desk-icon" data-id="${p.id}">${iconHTML(p)}<span class="desk-label">${p.title.replace('.', '<wbr>.')}</span></button>`;
 
-        function renderDeck() {
-            deckGrid.innerHTML = '';
-            filtered.forEach((p, i) => {
-                const card = document.createElement('button');
-                card.type = 'button';
-                card.className = 'battle-card';
-                card.dataset.rarity = p.rarity;
-                card.dataset.idx = i;
-                card.setAttribute('aria-label', p.title + ' — ' + p.rarity + ' card, cost ' + p.cost);
-                card.style.setProperty('--card-i', i);
-                card.innerHTML = `
-                    <span class="card-cost"><span>${p.cost}</span></span>
-                    <span class="card-art"><img src="PicsPortfolio/projects/${p.images[0]}" alt="" loading="lazy"></span>
-                    <span class="card-nameplate">${p.title}</span>
-                    <span class="card-tagline">${p.tagline}</span>
-                    <span class="card-rarity-label">${p.rarity}</span>
-                `;
-                card.addEventListener('click', () => deploy(i));
-                deckGrid.appendChild(card);
+        // featured first, then the rest — every app sits on the desktop
+        iconsEl.innerHTML = [...PROJECTS].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)).map(appButton).join('');
+
+        // Texas time on the taskbar clock
+        const timeFmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit' });
+        const tick = () => { clock.textContent = `${timeFmt.format(new Date())} CT`; };
+        tick();
+        setInterval(tick, 30000);
+
+        // --- keyboard ---
+        const keyInfo = new Map();   // label → { cat, apps: [ids] }
+        const keyForTech = new Map();   // normalized tech name → key label
+        keysEl.innerHTML = KEYBOARD.map(row => `
+            <div class="kb-row">
+                ${row.keys.map(([label, units = 1, extra = []]) => {
+                    const names = [label.toLowerCase(), ...extra];
+                    const apps = PROJECTS.filter(p => p.tech.some(t => names.includes(norm(t)))).map(p => p.id);
+                    const clear = label === 'ESC' || label === 'SPACE';
+                    if (!clear) {
+                        keyInfo.set(label, { cat: row.cat, apps });
+                        names.forEach(n => keyForTech.set(n, label));
+                    }
+                    return `<button type="button" class="kb-key ${clear ? 'is-clear' : row.cls}${label === 'SPACE' ? ' is-space' : ''}" style="--u:${units}" data-key="${esc(label)}"${clear ? ' aria-label="Clear selection"' : ''}><span class="kb-cap">${label === 'SPACE' ? '' : esc(label)}</span></button>`;
+                }).join('')}
+            </div>`).join('');
+
+        let activeKey = null;
+        const OLED_IDLE = '<span class="oled-key">PRESS A KEY</span><span class="oled-apps">see which apps use it</span>';
+        oled.innerHTML = OLED_IDLE;
+
+        // pressing the active key again (or ESC / space) clears it
+        function pressKey(label) {
+            activeKey = label && label !== activeKey ? label : null;
+            applyKey();
+        }
+
+        function applyKey() {
+            const info = activeKey && keyInfo.get(activeKey);
+            const lit = new Set(info ? info.apps : []);
+            keysEl.querySelectorAll('.kb-key').forEach(k => k.classList.toggle('is-on', k.dataset.key === activeKey));
+            screen.querySelectorAll('.desk-icon[data-id]').forEach(el => {
+                el.classList.toggle('is-lit', lit.has(el.dataset.id));
+                el.classList.toggle('is-dim', !!info && !lit.has(el.dataset.id));
             });
-            if (deckAvg) {
-                const avg = filtered.reduce((s, p) => s + p.cost, 0) / (filtered.length || 1);
-                deckAvg.textContent = 'AVG ELIXIR ' + avg.toFixed(1) + ' — ' + filtered.length + '/' + PROJECTS.length + ' CARDS LOADED — CLICK A CARD TO DEPLOY';
+            screen.querySelectorAll('.dw-cap').forEach(c => c.classList.toggle('is-lit', !!activeKey && c.dataset.key === activeKey));
+            if (!info) {
+                oled.innerHTML = OLED_IDLE;
+                statusline.textContent = win ? statusline.textContent : IDLE_STATUS;
+                return;
             }
+            const names = info.apps.map(id => byId(id).title.split('.')[0]);
+            oled.innerHTML = `<span class="oled-key">${esc(activeKey.toUpperCase())}</span><span class="oled-apps">${names.length ? `${names.length} APP${names.length > 1 ? 'S' : ''} · ${esc(names.join(' · '))}` : `${info.cat.toLowerCase()} · not on this desktop yet`}</span>`;
+            statusline.textContent = `> ${esc(activeKey.toUpperCase())}: ${names.length} APP${names.length === 1 ? '' : 'S'} LIT`;
         }
 
-        function renderGallery(project) {
-            arenaGallery.querySelectorAll('img, .showcase-dots').forEach(el => el.remove());
-            imgs = project.images.map((src, i) => {
-                const img = document.createElement('img');
-                img.src = 'PicsPortfolio/projects/' + src;
-                img.alt = project.title + ' ' + (i + 1);
-                if (i === 0) img.classList.add('active');
-                arenaGallery.insertBefore(img, agPrev);
-                return img;
-            });
-
-            if (project.images.length > 1) {
-                const dotsWrap = document.createElement('div');
-                dotsWrap.className = 'showcase-dots';
-                project.images.forEach((_, i) => {
-                    const dot = document.createElement('button');
-                    dot.className = 'showcase-dot' + (i === 0 ? ' active' : '');
-                    dot.setAttribute('aria-label', 'Screenshot ' + (i + 1));
-                    dot.addEventListener('click', () => showImg(i));
-                    dotsWrap.appendChild(dot);
-                });
-                arenaGallery.appendChild(dotsWrap);
-            }
-
-            [agPrev, agNext].forEach(btn => {
-                const show = project.images.length > 1;
-                btn.style.opacity = show ? '' : '0';
-                btn.style.pointerEvents = show ? '' : 'none';
-            });
-            imgIdx = 0;
-        }
-
-        function showImg(i) {
-            imgIdx = Math.max(0, Math.min(i, imgs.length - 1));
-            imgs.forEach((img, idx) => img.classList.toggle('active', idx === imgIdx));
-            arenaGallery.querySelectorAll('.showcase-dot').forEach((d, idx) => d.classList.toggle('active', idx === imgIdx));
-        }
-
-        function renderInfo(project) {
-            if (arenaTitle) arenaTitle.textContent = project.title + ' — deployed';
-            if (arenaFilename) arenaFilename.textContent = project.title;
-            if (arenaRarity) {
-                arenaRarity.textContent = project.rarity.toUpperCase();
-                arenaRarity.dataset.rarity = project.rarity;
-            }
-            if (arenaCost) arenaCost.textContent = 'COST: ' + project.cost;
-            arenaTech.innerHTML = project.tech.map(t => `<span>${t}</span>`).join('');
-            arenaLinks.innerHTML = project.links.map(link => {
-                if (link.video) {
-                    const mime = link.video.endsWith('.mov') ? 'video/quicktime' : 'video/mp4';
-                    return `<a href="#" class="btn${link.primary ? '' : ' btn-secondary'}" data-modal-target="#video-modal" data-video-src="PicsPortfolio/projects/${link.video}" data-video-type="${mime}">${link.label}</a>`;
-                }
-                return `<a href="${link.url}" target="_blank" class="btn${link.primary ? '' : ' btn-secondary'}">${link.label}</a>`;
-            }).join('');
-            typewrite(project.desc, arenaDesc, 9);
-        }
-
-        function deploy(idx) {
-            const project = filtered[idx];
-            if (!project) return;
-            deployedIdx = idx;
-
-            deckGrid.classList.add('has-deployed');
-            deckGrid.querySelectorAll('.battle-card').forEach((c, i) => {
-                c.classList.toggle('deployed', i === idx);
-            });
-
-            const wasHidden = arena.hidden;
-            arena.hidden = false;
-            renderGallery(project);
-            renderInfo(project);
-
+        keysEl.addEventListener('click', e => {
+            const key = e.target.closest('.kb-key');
+            if (!key) return;
             if (!REDUCED_MOTION) {
-                arena.classList.remove('arena-deploying');
-                void arena.offsetWidth; // restart animation
-                arena.classList.add('arena-deploying');
+                key.classList.add('is-down');
+                setTimeout(() => key.classList.remove('is-down'), 120);
             }
-            if (wasHidden) {
-                arena.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'nearest' });
-            }
-        }
-
-        function recall() {
-            if (arena.hidden) return;
-            arena.hidden = true;
-            deployedIdx = -1;
-            deckGrid.classList.remove('has-deployed');
-            deckGrid.querySelectorAll('.battle-card').forEach(c => c.classList.remove('deployed'));
-        }
-
-        agPrev.addEventListener('click', e => {
-            e.stopPropagation();
-            showImg(imgIdx > 0 ? imgIdx - 1 : imgs.length - 1);
-        });
-        agNext.addEventListener('click', e => {
-            e.stopPropagation();
-            showImg(imgIdx < imgs.length - 1 ? imgIdx + 1 : 0);
+            pressKey(key.classList.contains('is-clear') ? null : key.dataset.key);
         });
 
-        if (arenaClose) arenaClose.addEventListener('click', recall);
+        // --- windows ---
+        let win = null;
+        let winAnchor = null;   // the desktop icon the window zooms out of / back into
+
+        function zoom(el, fromRect, reverse) {
+            if (REDUCED_MOTION || !fromRect) return Promise.resolve();
+            const to = el.getBoundingClientRect();
+            const frames = [
+                { transform: `translate(${fromRect.left - to.left}px, ${fromRect.top - to.top}px) scale(${fromRect.width / to.width}, ${fromRect.height / to.height})`, opacity: 0.2 },
+                { transform: 'translate(0px, 0px) scale(1, 1)', opacity: 1 }
+            ];
+            if (reverse) frames.reverse();
+            return el.animate(frames, { duration: reverse ? 200 : 280, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: reverse ? 'forwards' : 'none' }).finished.catch(() => {});
+        }
+
+        function openWindow(title, body, fromRect, anchor, viaKeyboard) {
+            if (win) win.remove();
+            win = document.createElement('div');
+            win.className = 'desk-window';
+            win.setAttribute('role', 'dialog');
+            win.setAttribute('aria-label', title);
+            win.innerHTML = `
+                <div class="dw-titlebar"><span class="dw-title">${esc(title)}</span><button type="button" class="dw-close" aria-label="Close ${esc(title)}">[x]</button></div>
+                <div class="dw-body">${body}</div>`;
+            winLayer.appendChild(win);
+            winAnchor = anchor;
+            tasks.innerHTML = `<span class="desk-task">${esc(title)}</span>`;
+            zoom(win, fromRect, false);
+            if (viaKeyboard) win.querySelector('.dw-close').focus({ preventScroll: true });
+            return win;
+        }
+
+        async function closeWindow() {
+            if (!win) return;
+            const el = win;
+            win = null;
+            await zoom(el, winAnchor && winAnchor.getBoundingClientRect(), true);
+            el.remove();
+            tasks.innerHTML = '';
+            statusline.textContent = IDLE_STATUS;
+            if (winAnchor) winAnchor.focus({ preventScroll: true });
+        }
+
+        function openApp(p, fromRect, viaKeyboard) {
+            const video = p.links.find(l => l.video);
+            const links = p.links.filter(l => l.url).map(l => `<a class="dw-link${l.primary ? ' is-primary' : ''}" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join('');
+            const el = openWindow(p.title, `
+                <div class="dw-app">
+                    <div class="dw-media">
+                        <div class="dw-shots">${p.images.map((src, i) => `<img src="${PDIR}${src}" alt="${esc(p.title)} screenshot ${i + 1}"${i ? ' hidden' : ''}>`).join('')}</div>
+                        <div class="dw-media-bar">
+                            ${p.images.length > 1 ? `<button type="button" class="dw-nav" data-step="-1" aria-label="Previous screenshot">&lt;</button><span class="dw-count">1/${p.images.length}</span><button type="button" class="dw-nav" data-step="1" aria-label="Next screenshot">&gt;</button>` : ''}
+                            ${video ? `<button type="button" class="dw-demo" data-video="${video.video}">PLAY DEMO</button>` : ''}
+                        </div>
+                    </div>
+                    <div class="dw-info">
+                        <p class="dw-tagline">${esc(p.tagline)}</p>
+                        ${p.stats ? `<div class="dw-stats">${p.stats.map(([v, l]) => `<span class="dw-stat"><b>${v}</b>${l}</span>`).join('')}</div>` : ''}
+                        <div class="dw-links">${links}</div>
+                        <p class="dw-desc">${esc(p.desc)}</p>
+                        <div class="dw-tech">${p.tech.map(t => {
+                            const key = keyForTech.get(norm(t));
+                            return key ? `<button type="button" class="dw-cap" data-key="${esc(key)}">${esc(t)}</button>` : `<span class="dw-cap">${esc(t)}</span>`;
+                        }).join('')}</div>
+                    </div>
+                </div>`, fromRect, iconsEl.querySelector(`[data-id="${p.id}"]`), viaKeyboard);
+            statusline.textContent = `> RUNNING: ${p.title.toUpperCase()}`;
+            applyKey();   // light the caps that match the active key
+
+            const shots = [...el.querySelectorAll('.dw-shots img')];
+            let shot = 0;
+            el.addEventListener('click', e => {
+                const nav = e.target.closest('.dw-nav');
+                if (nav && shots.length) {
+                    shots[shot].hidden = true;
+                    shot = (shot + Number(nav.dataset.step) + shots.length) % shots.length;
+                    shots[shot].hidden = false;
+                    el.querySelector('.dw-count').textContent = `${shot + 1}/${shots.length}`;
+                }
+                const demo = e.target.closest('.dw-demo');
+                if (demo) {
+                    const src = PDIR + demo.dataset.video;
+                    el.querySelector('.dw-shots').innerHTML = `<video controls autoplay playsinline src="${src}"></video>`;
+                    el.querySelector('.dw-media-bar').remove();
+                }
+                const cap = e.target.closest('button.dw-cap');
+                if (cap) pressKey(cap.dataset.key);
+                if (e.target.closest('.dw-shots')) el.querySelector('.dw-app').classList.toggle('is-wide');
+            });
+        }
+
+        screen.addEventListener('click', e => {
+            if (e.target.closest('.dw-close')) { closeWindow(); return; }
+            const icon = e.target.closest('.desk-icon');
+            if (!icon) return;
+            const rect = icon.querySelector('.app-icon').getBoundingClientRect();
+            openApp(byId(icon.dataset.id), rect, e.detail === 0 /* Enter/Space on a focused icon */);
+        });
 
         document.addEventListener('keydown', e => {
-            const modal = document.querySelector('#video-modal');
-            if (modal && modal.classList.contains('active')) return;
-            const section = document.getElementById('projects');
-            if (!section) return;
-            const rect = section.getBoundingClientRect();
-            if (rect.top >= window.innerHeight || rect.bottom <= 0) return;
-            if (e.key === 'Escape') { recall(); return; }
-            if (arena.hidden) return;
-            if (e.key === 'ArrowLeft' && deployedIdx > 0) deploy(deployedIdx - 1);
-            if (e.key === 'ArrowRight' && deployedIdx < filtered.length - 1) deploy(deployedIdx + 1);
+            if (e.key === 'Escape' && win) closeWindow();
         });
 
-        // Touch swipe on arena gallery
-        let touchStartX = 0;
-        arenaGallery.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-        arenaGallery.addEventListener('touchend', e => {
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(dx) > 40) showImg(dx < 0 ? Math.min(imgIdx + 1, imgs.length - 1) : Math.max(imgIdx - 1, 0));
-        }, { passive: true });
-
-        // Filter buttons
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const f = btn.dataset.filter;
-                filtered = f === 'all' ? [...PROJECTS] : PROJECTS.filter(p => p.category === f);
-                recall();
-                renderDeck();
-            });
-        });
-
-        renderDeck();
+        statusline.textContent = IDLE_STATUS;
     })();
 
     /* ============================================================
-       PROGRAM: character_select.exe
+       PROGRAM: trophy_case.exe
+       Awards as objects in a lit glass cabinet. Picking one up
+       spins it and the plaque beside the case fills in.
        ============================================================ */
-    (function initCharacterSelect() {
-        const grid = document.getElementById('char-grid');
-        const detail = document.getElementById('char-detail');
-        const statusline = document.getElementById('char-statusline');
-        if (!grid || !detail) return;
+    (function initTrophyCase() {
+        const cabinet = document.getElementById('cabinet');
+        const plaque = document.getElementById('plaque');
+        if (!cabinet || !plaque) return;
 
-        function renderDetail(ch) {
-            detail.innerHTML = `
-                <div class="char-detail-sprite ${ch.id === 'vader' ? 'char-sith' : ''}">
-                    <img src="PicsPortfolio/sprites/${ch.sprite}" alt="${ch.name}" loading="lazy">
-                </div>
-                <div class="char-detail-info">
-                    <div class="char-detail-header">
-                        <h4 class="char-detail-name">${ch.name}</h4>
-                        <span class="char-detail-class">CLASS: ${ch.cls}</span>
-                    </div>
-                    <p class="char-detail-interest">// ${ch.interest}</p>
-                    <p class="char-detail-flavor">"${ch.flavor}"</p>
-                    ${ch.highlight ? `
-                    <div class="char-highlight">
-                        ${ch.highlight.icon ? `<img class="char-highlight-icon" src="PicsPortfolio/sprites/${ch.highlight.icon}" alt="" width="34" height="34">` : ''}
-                        <span class="char-highlight-value">${ch.highlight.value}</span>
-                        <span class="char-highlight-label">${ch.highlight.label}</span>
-                    </div>` : `
-                    <div class="char-stats">
-                        ${ch.stats.map(([label, v]) => `
-                            <div class="char-stat">
-                                <span class="char-stat-label">${label}</span>
-                                <div class="char-stat-bar"><div class="char-stat-fill" style="--v:${v}%"></div></div>
-                                <span class="char-stat-num">${v}</span>
-                            </div>
-                        `).join('')}
-                    </div>`}
-                </div>
-            `;
-            if (!REDUCED_MOTION) {
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => detail.classList.add('stats-live'));
-                });
-                detail.classList.remove('stats-live');
-            } else {
-                detail.classList.add('stats-live');
-            }
-            if (statusline) statusline.textContent = '> PLAYER 1 SELECTED: ' + ch.name + ' [' + ch.cls + ']';
-        }
+        const shelves = cabinet.querySelectorAll('.cabinet-shelf');
+        const statusline = document.getElementById('trophy-statusline');
+        const CUP = '<img class="award-cup" src="PicsPortfolio/sprites/trophy-s.png" alt="">';
+        const ART = {
+            gold: CUP,
+            bronze: CUP,
+            certificate: '<span class="award-cert"><span class="cert-seal"></span></span>'
+        };
 
-        const tiles = [];
-        let currentIdx = 0;
-
-        function select(i) {
-            currentIdx = i;
-            tiles.forEach((t, j) => t.classList.toggle('selected', j === i));
-            renderDetail(CHARACTERS[i]);
-        }
-
-        CHARACTERS.forEach((ch, i) => {
-            const tile = document.createElement('button');
-            tile.type = 'button';
-            tile.className = 'char-tile' + (ch.id === 'vader' ? ' char-sith' : '');
-            tile.dataset.charId = ch.id;
-            tile.setAttribute('aria-label', 'Select ' + ch.name + ' — ' + ch.interest);
-            tile.innerHTML = `
-                <span class="char-tile-p1">P1</span>
-                <img src="PicsPortfolio/sprites/${ch.sprite}" alt="" loading="lazy">
-                <span class="char-tile-name">${ch.name}</span>
-            `;
-            tile.addEventListener('click', () => {
-                stopAttract(true);
-                select(i);
-            });
-            grid.appendChild(tile);
-            tiles.push(tile);
+        AWARDS.forEach(a => {
+            shelves[a.shelf].insertAdjacentHTML('beforeend', `
+                <button type="button" class="award award-${a.kind}" data-id="${a.id}" aria-label="${a.event}">
+                    <span class="award-art">${ART[a.kind]}</span>
+                    <span class="award-plate">${a.plate}</span>
+                </button>`);
         });
-        select(0);
 
-        // Arcade attract mode: auto-cycle the roster while on screen,
-        // stop for good the moment the visitor picks a fighter.
-        let attractTimer = null;
-        let userLocked = false;
-
-        function startAttract() {
-            if (userLocked || REDUCED_MOTION || attractTimer) return;
-            attractTimer = setInterval(() => {
-                select((currentIdx + 1) % CHARACTERS.length);
-            }, 3200);
-        }
-
-        function stopAttract(lock) {
-            if (attractTimer) {
-                clearInterval(attractTimer);
-                attractTimer = null;
+        function show(id, spin) {
+            const a = AWARDS.find(x => x.id === id);
+            cabinet.querySelectorAll('.award').forEach(b => b.classList.toggle('is-active', b.dataset.id === id));
+            if (spin && !REDUCED_MOTION) {
+                cabinet.querySelector(`[data-id="${id}"] .award-art`).animate(
+                    [{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(360deg)' }],
+                    { duration: 900, easing: 'cubic-bezier(0.45, 0, 0.2, 1)' });
             }
-            if (lock) userLocked = true;
+            plaque.innerHTML = `
+                <span class="plaque-kicker">${a.when}</span>
+                <h3 class="plaque-title">${a.event}</h3>
+                <span class="plaque-place">${a.place}</span>
+                ${a.prize ? `<span class="plaque-prize">${a.prize}</span>` : ''}
+                ${a.note ? `<p class="plaque-note">${a.note}</p>` : ''}
+                ${a.host ? `<span class="plaque-host">${a.host}</span>` : ''}
+                ${a.photo ? `<figure class="plaque-photo"><img src="PicsPortfolio/awards/${a.photo}" alt="${a.alt}" loading="lazy"><figcaption>${a.caption}</figcaption></figure>` : ''}`;
+            if (spin && !REDUCED_MOTION) plaque.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'ease-out' });
+            statusline.textContent = `> INSPECTING: ${a.event.toUpperCase()}`;
         }
 
-        const attractObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) startAttract();
-                else stopAttract(false);
+        cabinet.addEventListener('click', e => {
+            const award = e.target.closest('.award');
+            if (award) show(award.dataset.id, true);
+        });
+        show(AWARDS[0].id, false);
+        statusline.textContent = `> ${AWARDS.length} AWARDS ON THE SHELVES — CLICK ONE TO INSPECT`;
+    })();
+
+    /* ============================================================
+       PROGRAM: quest_console.exe
+       A cartridge flies from the rack into the console slot (its
+       top stays sticking out, like a real cart) and the CRT boots
+       into that quest. Clips only load while their cart is in.
+       ============================================================ */
+    (function initQuestConsole() {
+        const rack = document.getElementById('cart-rack');
+        const seat = document.getElementById('console-seat');
+        const program = document.getElementById('screen-program');
+        if (!rack || !seat || !program) return;
+
+        const idle = document.getElementById('screen-idle');
+        const led = document.getElementById('console-led');
+        const ejectBtn = document.getElementById('console-eject');
+        const statusline = document.getElementById('quest-statusline');
+        const QDIR = 'PicsPortfolio/quests/';
+        const IDLE_STATUS = '> INSERT A CARTRIDGE';
+        const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const fmt = n => n.toLocaleString('en-US');
+        const wait = anim => anim.finished.catch(() => {});
+
+        const cartBody = q => `
+            <span class="cart-body" style="--label:${q.label}">
+                <span class="cart-label">
+                    <span class="cart-title">${q.cart || q.name.toUpperCase()}</span>
+                    ${q.sprite ? `<img src="PicsPortfolio/sprites/${q.sprite}" alt=""${q.sith ? ' class="cart-sith"' : ''}>` : `<span class="cart-art-text">${q.art}</span>`}
+                </span>
+            </span>`;
+
+        QUESTS.forEach(q => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'cart';
+            btn.dataset.id = q.id;
+            btn.setAttribute('aria-label', `Insert the ${q.name} cartridge`);
+            btn.innerHTML = cartBody(q);
+            rack.appendChild(btn);
+        });
+
+        // --- cartridge flight: rack <-> slot ---
+        function flyCart(q, rackBtn, direction) {
+            const from = rackBtn.getBoundingClientRect();
+            const to = seat.getBoundingClientRect();
+            const sunk = from.height - to.height;   // the part that disappears into the slot
+            const ghost = document.createElement('div');
+            ghost.className = 'cart-ghost';
+            ghost.style.cssText = `left:${from.left}px; top:${from.top}px; width:${from.width}px; height:${from.height}px;`;
+            ghost.innerHTML = cartBody(q);
+            document.body.appendChild(ghost);
+            const dx = to.left - from.left;
+            const dy = to.top - sunk - from.top;
+            const frames = [
+                { transform: 'translate(0px, 0px)', clipPath: 'inset(0px 0px 0px 0px)', offset: 0 },
+                { transform: `translate(${dx}px, ${dy - 26}px)`, clipPath: 'inset(0px 0px 0px 0px)', offset: 0.55 },
+                { transform: `translate(${dx}px, ${dy}px)`, clipPath: 'inset(0px 0px 0px 0px)', offset: 0.7 },
+                { transform: `translate(${dx}px, ${dy + sunk}px)`, clipPath: `inset(0px 0px ${sunk}px 0px)`, offset: 1 }
+            ];
+            if (direction === 'out') frames.reverse().forEach(f => { f.offset = 1 - f.offset; });
+            const anim = ghost.animate(frames, { duration: direction === 'in' ? 720 : 520, easing: 'cubic-bezier(0.3, 0.7, 0.3, 1)' });
+            return wait(anim).then(() => ghost.remove());
+        }
+
+        const CRT_ON = [
+            { transform: 'scale(1, 0.004)', filter: 'brightness(5)', offset: 0 },
+            { transform: 'scale(1, 0.004)', filter: 'brightness(5)', offset: 0.3 },
+            { transform: 'scale(1, 1)', filter: 'brightness(1.8)', offset: 0.7 },
+            { transform: 'scale(1, 1)', filter: 'brightness(1)', offset: 1 }
+        ];
+        const CRT_OFF = [
+            { transform: 'scale(1, 1)', filter: 'brightness(1)', offset: 0 },
+            { transform: 'scale(1, 0.004)', filter: 'brightness(4)', offset: 0.65 },
+            { transform: 'scale(0, 0.004)', filter: 'brightness(6)', offset: 1 }
+        ];
+
+        let current = null;
+        let busy = false;
+        let cleanups = [];
+
+        async function insert(id) {
+            if (busy || (current && current.id === id)) return;
+            busy = true;
+            if (current) await eject(true);
+            const q = QUESTS.find(x => x.id === id);
+            const btn = rack.querySelector(`[data-id="${id}"]`);
+            btn.classList.add('is-out');
+            if (!REDUCED_MOTION) await flyCart(q, btn, 'in');
+            seat.innerHTML = cartBody(q);
+            seat.disabled = false;
+            ejectBtn.disabled = false;
+            led.classList.add('is-on');
+            current = q;
+            idle.hidden = true;
+            program.hidden = false;
+            if (q.id === 'clash') renderClash();
+            else if (q.race) renderF1(q.race);
+            else if (q.match) renderBarca(q.match);
+            else renderTitles(q.titles);
+            if (!REDUCED_MOTION) program.animate(CRT_ON, { duration: 480, easing: 'ease-out' });
+            statusline.textContent = `> RUNNING: ${q.name.toUpperCase()}`;
+            busy = false;
+        }
+
+        async function eject(chained) {
+            if (!current || (busy && !chained)) return;
+            busy = true;
+            const q = current;
+            const btn = rack.querySelector(`[data-id="${q.id}"]`);
+            cleanups.forEach(fn => fn());
+            cleanups = [];
+            if (!REDUCED_MOTION) await wait(program.animate(CRT_OFF, { duration: 260, easing: 'ease-in', fill: 'forwards' }));
+            program.getAnimations().forEach(a => a.cancel());
+            program.innerHTML = '';   // drops any video/iframe so it stops downloading
+            program.hidden = true;
+            idle.hidden = false;
+            seat.innerHTML = '';
+            seat.disabled = true;
+            ejectBtn.disabled = true;
+            led.classList.remove('is-on');
+            current = null;
+            if (!REDUCED_MOTION) await flyCart(q, btn, 'out');
+            btn.classList.remove('is-out');
+            statusline.textContent = IDLE_STATUS;
+            if (!chained) busy = false;
+        }
+
+        rack.addEventListener('click', e => {
+            const cart = e.target.closest('.cart');
+            if (cart) insert(cart.dataset.id);
+        });
+        seat.addEventListener('click', () => eject());
+        ejectBtn.addEventListener('click', () => eject());
+
+        // dropping a dragged cart onto the console inserts it too (people try that first)
+        const consoleEl = seat.closest('.console');
+        let dragId = null;
+        rack.addEventListener('dragstart', e => e.preventDefault());
+        rack.addEventListener('pointerdown', e => {
+            const cart = e.target.closest('.cart');
+            dragId = cart && e.pointerType === 'mouse' ? cart.dataset.id : null;
+        });
+        document.addEventListener('pointermove', e => {
+            if (dragId) consoleEl.classList.toggle('is-drop-target', !!e.target.closest('.console'));
+        });
+        document.addEventListener('pointerup', e => {
+            if (dragId && e.target.closest('.console')) insert(dragId);
+            dragId = null;
+            consoleEl.classList.remove('is-drop-target');
+        });
+
+        // --- screens ---
+        function setClip(box, clip, label) {
+            box.innerHTML = `<video muted loop playsinline ${REDUCED_MOTION ? 'controls preload="none"' : 'autoplay preload="auto"'} poster="${QDIR}${clip}.jpg" aria-label="${esc(label)}"><source src="${QDIR}${clip}.mp4" type="video/mp4"></video>`;
+        }
+
+        function countUp(el, target) {
+            if (REDUCED_MOTION) { el.textContent = fmt(target); return; }
+            const start = performance.now();
+            let raf = requestAnimationFrame(function step(now) {
+                const t = Math.min((now - start) / 1100, 1);
+                el.textContent = fmt(Math.round(target * (1 - Math.pow(1 - t, 3))));
+                if (t < 1) raf = requestAnimationFrame(step);
             });
-        }, { threshold: 0.35 });
-        attractObserver.observe(grid);
+            cleanups.push(() => cancelAnimationFrame(raf));
+        }
+
+        function renderClash() {
+            const d = window.CLASH_DATA && window.CLASH_DATA.player;
+            if (!d) { program.innerHTML = '<div class="qp-nosignal">NO SIGNAL</div>'; return; }
+            const avg = (d.deck.reduce((s, c) => s + (c.elixir || 0), 0) / d.deck.length).toFixed(1);
+            const synced = new Date(`${window.CLASH_DATA.synced}T00:00:00`)
+                .toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
+            program.innerHTML = `
+                <div class="qp qp-clash">
+                    <div class="qp-side">
+                        <span class="qp-kicker">${esc(d.name.toUpperCase())} · ${esc(d.tag)}</span>
+                        <div class="qp-trophies"><img src="PicsPortfolio/sprites/trophy-s.png" alt=""><span class="qp-big" id="qp-trophies">0</span></div>
+                        <span class="qp-kicker">TROPHIES</span>
+                        <span class="qp-sub">BEST ${fmt(d.bestTrophies)}</span>
+                        ${d.arena ? `<span class="qp-sub">${esc(d.arena.toUpperCase())}</span>` : ''}
+                        <span class="qp-sub qp-muted">AVG ELIXIR ${avg} · SYNCED ${synced}</span>
+                    </div>
+                    <div class="qp-deck">
+                        ${d.deck.map(c => `
+                            <div class="qp-card rarity-${esc(c.rarity)}${c.evolved ? ' is-evo' : ''}">
+                                <img src="data/cr/${esc(c.img)}" alt="${esc(c.name)}">
+                                ${c.elixir != null ? `<span class="qp-elixir">${c.elixir}</span>` : ''}
+                                <span class="qp-lvl">LV${c.level}</span>
+                            </div>`).join('')}
+                    </div>
+                </div>
+                <p class="qp-legal">This material is unofficial and is not endorsed by Supercell. See <a href="https://supercell.com/en/fan-content-policy/" target="_blank" rel="noopener">Supercell's Fan Content Policy</a>.</p>`;
+            countUp(program.querySelector('#qp-trophies'), d.trophies);
+        }
+
+        function renderTitles(titles) {
+            program.innerHTML = `
+                <div class="qp qp-film">
+                    <div class="qp-clip"></div>
+                    <div class="qp-side">
+                        <span class="qp-kicker"></span>
+                        <h4 class="qp-title"></h4>
+                        <div class="qp-posters">
+                            ${titles.map((t, i) => `<button type="button" class="qp-poster" data-i="${i}" aria-label="Play ${esc(t.title)}"><img src="${QDIR}${t.poster}" alt=""></button>`).join('')}
+                        </div>
+                    </div>
+                </div>`;
+            const show = i => {
+                const t = titles[i];
+                program.querySelector('.qp-kicker').textContent = t.meta;
+                program.querySelector('.qp-title').textContent = t.title;
+                program.querySelectorAll('.qp-poster').forEach((p, j) => p.classList.toggle('is-active', j === i));
+                setClip(program.querySelector('.qp-clip'), t.clip, t.title);
+            };
+            program.querySelector('.qp-posters').addEventListener('click', e => {
+                const p = e.target.closest('.qp-poster');
+                if (p) show(Number(p.dataset.i));
+            });
+            show(0);
+        }
+
+        function renderF1(race) {
+            // podium drawn P2 · P1 · P3, like the real thing
+            const steps = [1, 0, 2].map(i => `
+                <div class="qp-step p${i + 1} team-${race.podium[i][1]}">
+                    <span class="qp-driver">${race.podium[i][0]}</span>
+                    <span class="qp-block">${i + 1}</span>
+                </div>`).join('');
+            program.innerHTML = `
+                <div class="qp qp-f1">
+                    <div class="qp-clip">
+                        <button type="button" class="qp-yt" aria-label="Play ${esc(race.title)} highlights">
+                            <img src="${QDIR}${race.thumb}" alt="">
+                            <span class="qp-play">PLAY</span>
+                        </button>
+                    </div>
+                    <div class="qp-side">
+                        <span class="qp-kicker">${race.when}</span>
+                        <h4 class="qp-title">${race.title}</h4>
+                        <div class="qp-podium">${steps}</div>
+                    </div>
+                </div>`;
+            // the YouTube player only loads once someone presses play
+            program.querySelector('.qp-yt').addEventListener('click', e => {
+                e.currentTarget.parentElement.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${race.video}?autoplay=1&rel=0" title="${esc(race.title)} highlights" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+            });
+        }
+
+        function renderBarca(m) {
+            program.innerHTML = `
+                <div class="qp qp-barca">
+                    <div class="qp-clip"></div>
+                    <button type="button" class="qp-board" aria-label="Replay the goals">
+                        <span class="qp-kicker">${m.stage}</span>
+                        <span class="qp-score"><span>BAR</span><b class="qp-home">0</b><i>-</i><b class="qp-away">0</b><span>PSG</span></span>
+                        <span class="qp-sub">AGG <b class="qp-agg"></b><span class="qp-remontada">LA REMONTADA</span></span>
+                        <ol class="qp-goals">${m.goals.map(([min, who, side]) => `<li class="is-${side}"><span>${min}</span>${who}</li>`).join('')}</ol>
+                        <span class="qp-kicker">${m.venue}</span>
+                    </button>
+                </div>`;
+            setClip(program.querySelector('.qp-clip'), m.clip, 'Camp Nou celebrating a Barcelona goal');
+            const board = program.querySelector('.qp-board');
+            const goals = [...board.querySelectorAll('.qp-goals li')];
+            let timer = null;
+            const paint = (home, away) => {
+                board.querySelector('.qp-home').textContent = home;
+                board.querySelector('.qp-away').textContent = away;
+                board.querySelector('.qp-agg').textContent = `${m.firstLeg[0] + home}-${m.firstLeg[1] + away}`;
+            };
+            const replay = () => {
+                clearTimeout(timer);
+                board.classList.remove('is-final');
+                goals.forEach(li => li.classList.remove('is-in'));
+                let home = 0, away = 0, i = 0;
+                paint(0, 0);
+                const next = () => {
+                    if (i === goals.length) { board.classList.add('is-final'); return; }
+                    goals[i].classList.add('is-in');
+                    if (m.goals[i][2] === 'home') home++; else away++;
+                    paint(home, away);
+                    i++;
+                    timer = setTimeout(next, REDUCED_MOTION ? 0 : 650);
+                };
+                timer = setTimeout(next, REDUCED_MOTION ? 0 : 500);
+            };
+            board.addEventListener('click', replay);
+            cleanups.push(() => clearTimeout(timer));
+            replay();
+        }
+
+        // pause looping clips while the console is scrolled out of view
+        new IntersectionObserver(([entry]) => {
+            program.querySelectorAll('video').forEach(v => {
+                if (entry.isIntersecting && !REDUCED_MOTION) v.play().catch(() => {});
+                else v.pause();
+            });
+        }).observe(program.parentElement);
     })();
 
     /* ============================================================
        PROGRAM: chess_match.pgn — scrollytelling
        The section pins while its tall wrapper scrolls; scroll
-       progress plays the moves, one experience on stage at a time.
+       progress plays the moves on a real board (pieces and all)
+       with one experience card on stage at a time.
        ============================================================ */
     (function initChessMatch() {
         const wrap = document.getElementById('chess-scroll');
+        const articles = document.querySelectorAll('.move-stage .experience-item');
+        if (!wrap || !articles.length) return;
+
         const fromSq = document.getElementById('chess-from');
         const toSq = document.getElementById('chess-to');
         const moveLabel = document.getElementById('chess-move-label');
         const moveNote = document.getElementById('chess-move-note');
-        const articles = document.querySelectorAll('.move-stage .experience-item');
-        if (!wrap || !articles.length) return;
-
+        const piecesEl = document.getElementById('board-pieces');
+        const sheet = document.getElementById('scoresheet');
         const N = CHESS_MOVES.length;
         let activeIdx = -1;
 
-        function squareToVars(sq, el) {
-            const file = sq.charCodeAt(0) - 97;          // a=0 ... h=7
-            const rank = 8 - parseInt(sq[1], 10);        // row from top
-            el.style.setProperty('--f', file);
-            el.style.setProperty('--r', rank);
+        // 10x12 pixel sprites, drawn as one path each
+        const SPRITES = {
+            p: ['..........', '....##....', '...####...', '...####...', '....##....', '...####...', '..######..', '..######..', '.########.', '.########.', '##########', '..........'],
+            r: ['..........', '.##.##.##.', '.########.', '.########.', '..######..', '..######..', '..######..', '..######..', '.########.', '.########.', '##########', '..........'],
+            n: ['..........', '...#####..', '..######..', '.#######..', '#####.##..', '..######..', '...#####..', '...#####..', '..######..', '.########.', '##########', '..........'],
+            b: ['..........', '....##....', '...####...', '...####...', '..###.##..', '..######..', '..######..', '...####...', '..######..', '.########.', '##########', '..........'],
+            q: ['..........', '#.#.##.#.#', '.########.', '..######..', '..######..', '...####...', '..######..', '..######..', '.########.', '.########.', '##########', '..........'],
+            k: ['..........', '....##....', '..######..', '....##....', '...####...', '..######..', '..######..', '..######..', '.########.', '.########.', '##########', '..........']
+        };
+        const pathOf = rows => rows.flatMap((row, y) => [...row].map((c, x) => c === '#' ? `M${x} ${y}h1v1h-1z` : '')).join('');
+        const PATHS = Object.fromEntries(Object.entries(SPRITES).map(([k, rows]) => [k, pathOf(rows)]));
+
+        const BACK_RANK = ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'];
+        const file = sq => sq.charCodeAt(0) - 97;
+        const rank = sq => 8 - Number(sq[1]);
+
+        // start position; each piece keeps the square it started on as its id
+        const pieces = [];
+        BACK_RANK.forEach((type, i) => {
+            const f = String.fromCharCode(97 + i);
+            pieces.push({ id: `${f}1`, type, colour: 'w' }, { id: `${f}2`, type: 'p', colour: 'w' });
+            pieces.push({ id: `${f}7`, type: 'p', colour: 'b' }, { id: `${f}8`, type, colour: 'b' });
+        });
+
+        piecesEl.innerHTML = pieces.map(p => `
+            <span class="piece piece-${p.colour}" data-id="${p.id}">
+                <svg viewBox="0 0 10 12" shape-rendering="crispEdges" aria-hidden="true"><path d="${PATHS[p.type]}"/></svg>
+            </span>`).join('');
+        const els = new Map([...piecesEl.children].map(el => [el.dataset.id, el]));
+
+        function placeBoard(idx) {
+            const at = new Map(pieces.map(p => [p.id, p.id]));   // piece id → square
+            for (let step = 0; step <= idx; step++) {
+                CHESS_MOVES[step].moves.forEach(([from, to]) => {
+                    for (const [id, sq] of at) if (sq === from) { at.set(id, to); break; }
+                });
+            }
+            at.forEach((sq, id) => {
+                const el = els.get(id);
+                el.style.setProperty('--f', file(sq));
+                el.style.setProperty('--r', rank(sq));
+            });
         }
 
         function activateMove(idx) {
@@ -997,30 +1292,46 @@ document.addEventListener('DOMContentLoaded', function() {
             activeIdx = idx;
             const move = CHESS_MOVES[idx];
             if (!move) return;
-            if (fromSq && toSq) {
-                squareToVars(move.from, fromSq);
-                squareToVars(move.to, toSq);
-            }
+            const [from, to] = move.moves[0];
+            [[fromSq, from], [toSq, to]].forEach(([el, sq]) => {
+                if (!el) return;
+                el.style.setProperty('--f', file(sq));
+                el.style.setProperty('--r', rank(sq));
+            });
+            placeBoard(idx);
             if (moveLabel) moveLabel.textContent = move.san;
             if (moveNote) moveNote.textContent = move.note;
-            articles.forEach(a => {
-                a.classList.toggle('move-active', parseInt(a.dataset.move, 10) === idx);
+            articles.forEach(a => a.classList.toggle('move-active', Number(a.dataset.move) === idx));
+            if (sheet) sheet.querySelectorAll('button').forEach((b, i) => b.classList.toggle('is-on', i === idx));
+        }
+
+        // the scoresheet doubles as a timeline: each move is one job
+        if (sheet) {
+            sheet.innerHTML = [...articles].map((a, i) => `
+                <li><button type="button" data-move="${i}">
+                    <span class="ss-san">${CHESS_MOVES[i].san}</span>
+                    <span class="ss-role">${a.querySelector('.exp-title').textContent}</span>
+                    <span class="ss-date">${a.querySelector('.exp-date').textContent}</span>
+                </button></li>`).join('');
+            sheet.addEventListener('click', e => {
+                const btn = e.target.closest('button');
+                if (!btn) return;
+                const idx = Number(btn.dataset.move);
+                if (REDUCED_MOTION) { activateMove(idx); return; }
+                const runway = wrap.offsetHeight - window.innerHeight;
+                window.scrollTo({ top: wrap.offsetTop + (runway * (idx + 0.5)) / N, behavior: 'smooth' });
             });
         }
 
         if (REDUCED_MOTION) {
-            // CSS shows all cards stacked; just set the board to the last move
+            // CSS shows all cards stacked; set the board to the final position
             activateMove(N - 1);
             articles.forEach(a => a.classList.add('move-active'));
             return;
         }
 
-        function runway() {
-            return wrap.offsetHeight - window.innerHeight;
-        }
-
         function idxFromScroll() {
-            const total = runway();
+            const total = wrap.offsetHeight - window.innerHeight;
             if (total <= 0) return 0;
             const scrolled = Math.min(Math.max(-wrap.getBoundingClientRect().top, 0), total);
             return Math.min(N - 1, Math.floor((scrolled / total) * N));
@@ -1036,6 +1347,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }, { passive: true });
 
+        placeBoard(-1);
         activateMove(idxFromScroll());
     })();
 
@@ -1337,6 +1649,56 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     /* ============================================================
+       PROGRAM: profile.sys — the ID badge
+       Flips for contact links, leans toward the cursor, and the
+       "now" lines read live from the rest of the site.
+       ============================================================ */
+    (function initProfile() {
+        const badge = document.getElementById('badge');
+        if (!badge) return;
+
+        const front = badge.querySelector('.badge-front');
+        const backBtn = badge.querySelector('.badge-flip-back');
+        const flip = on => {
+            badge.classList.toggle('is-flipped', on);
+            front.tabIndex = on ? -1 : 0;
+            badge.querySelectorAll('.badge-back a, .badge-back button').forEach(el => { el.tabIndex = on ? 0 : -1; });
+            (on ? backBtn : front).focus({ preventScroll: true });
+        };
+        badge.querySelectorAll('.badge-back a, .badge-back button').forEach(el => { el.tabIndex = -1; });
+        front.addEventListener('click', () => flip(true));
+        backBtn.addEventListener('click', () => flip(false));
+
+        if (!REDUCED_MOTION && window.matchMedia('(hover: hover)').matches) {
+            badge.addEventListener('pointermove', e => {
+                const r = badge.getBoundingClientRect();
+                badge.style.setProperty('--ry', `${((e.clientX - r.left) / r.width - 0.5) * 18}deg`);
+                badge.style.setProperty('--rx', `${((e.clientY - r.top) / r.height - 0.5) * -12}deg`);
+            });
+            badge.addEventListener('pointerleave', () => {
+                badge.style.setProperty('--ry', '0deg');
+                badge.style.setProperty('--rx', '0deg');
+            });
+        }
+
+        const facts = [];
+        const book = BOOKS.find(b => b.status === 'reading');
+        if (book) facts.push(['reading', book.title, 'books']);
+        const cr = window.CLASH_DATA && window.CLASH_DATA.player;
+        if (cr) facts.push(['ladder', `${cr.trophies.toLocaleString('en-US')} trophies`, 'gallery']);
+        const now = document.getElementById('profile-now');
+        now.innerHTML = facts.map(([k, v, id]) => `<li><span>${k}</span><a href="#${id}">${v}</a></li>`).join('');
+
+        // in-page links clear the fixed header, same as the nav
+        document.querySelectorAll('.profile-now a, .badge-to-contact').forEach(a => a.addEventListener('click', e => {
+            const target = document.getElementById(a.getAttribute('href').slice(1));
+            if (!target) return;
+            e.preventDefault();
+            window.scrollTo({ top: target.offsetTop - 100, behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+        }));
+    })();
+
+    /* ============================================================
        PROGRAM: contact.exe (Formspree AJAX)
        ============================================================ */
     (function initContact() {
@@ -1383,34 +1745,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.1 });
 
     const elementsToAnimate = document.querySelectorAll(
-        '.about-card, .char-select, .skill-category, .comic-panel, .deck-grid, .memory-card, .bookshelf, .boss-window'
+        '.profile, .workstation, .trophy-case, .bookshelf, .quest-console, .memory-card, .boss-window'
     );
     elementsToAnimate.forEach(element => {
         observer.observe(element);
     });
-
-    // --- Skills Tab Switching ---
-    const skillsTabs = document.querySelectorAll('.skills-tab');
-    const skillsCategories = document.querySelectorAll('.skill-category[data-tab-content]');
-
-    if (skillsTabs.length > 0 && skillsCategories.length > 0) {
-        skillsCategories.forEach((cat, i) => {
-            if (i > 0) cat.classList.add('tab-hidden');
-        });
-
-        skillsTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                skillsTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                const targetTab = tab.dataset.tab;
-                skillsCategories.forEach(cat => {
-                    const isTarget = cat.dataset.tabContent === targetTab;
-                    cat.classList.toggle('tab-hidden', !isTarget);
-                    if (isTarget) cat.classList.add('is-visible');
-                });
-            });
-        });
-    }
 
     // --- Scroll Spy (highlight active nav link) ---
     const allSections = document.querySelectorAll('section[id]');
@@ -1459,8 +1798,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     pos = 0;
                     const on = document.body.classList.toggle('god-mode');
                     toast(on
-                        ? 'GOD MODE ON — every card in the deck goes legendary.'
-                        : 'GOD MODE OFF — rarity restored.');
+                        ? 'GOD MODE ON — the keyboard just unlocked RGB.'
+                        : 'GOD MODE OFF — back to teal.');
                     console.log('%c> CHEAT ' + (on ? 'ACCEPTED' : 'REVOKED') + ': GOD MODE', 'color:#ffd166; font-family:monospace; font-weight:bold;');
                 }
             } else {
