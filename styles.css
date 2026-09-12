@@ -5,6 +5,7 @@
    appear ONLY as rarity & status coding — never section themes.
    ============================================================ */
 :root {
+    --window-w: 1180px;   /* every section's window is this wide */
     --bg: #0d0d10;
     --panel: #050508;
     --panel-2: #101014;
@@ -893,6 +894,9 @@ body::before {
    SHARED: program window chrome
    ============================================================ */
 .program-window {
+    width: 100%;
+    max-width: var(--window-w);
+    margin-inline: auto;
     background: var(--bg);
     border: 3px solid var(--line);
     box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.5);
@@ -1606,22 +1610,14 @@ body::before {
    program window pins and each scroll step plays the next move
    with exactly one experience card on stage.
    ============================================================ */
-.chess-scroll {
-    height: 400vh;
-    position: relative;
-}
 
-.chess-match {
-    max-width: 1100px;
-    margin: 0 auto;
-    position: sticky;
-    top: 112px;
-}
+
+
 
 .chess-layout {
     display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 38px;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 40px;
     align-items: start;
 }
 
@@ -1681,12 +1677,18 @@ body::before {
     gap: 4px;
 }
 
+.scoresheet {
+    gap: 8px;
+}
+
 .scoresheet button {
     width: 100%;
     display: grid;
-    grid-template-columns: 88px minmax(0, 1fr);
-    gap: 4px 12px;
-    padding: 9px 12px;
+    grid-template-columns: 92px minmax(0, 1fr) auto;
+    gap: 4px 16px;
+    padding: 16px 16px 16px 14px;
+    background: var(--panel);
+    border: 1px solid var(--line-dim);
     text-align: left;
     background: none;
     border: 1px solid transparent;
@@ -1720,15 +1722,105 @@ body::before {
 .scoresheet button.is-on .ss-san { color: var(--teal); }
 
 .ss-role {
-    font-size: 0.74rem;
+    font-family: var(--font-head);
+    font-size: 8px;
+    line-height: 1.8;
+    color: var(--text);
+}
+
+.ss-org {
+    grid-column: 2;
+    font-size: 0.76rem;
     line-height: 1.5;
     color: var(--text-dim);
 }
 
 .ss-date {
-    font-size: 0.68rem;
+    grid-row: 1;
+    grid-column: 3;
+    font-size: 0.7rem;
+    white-space: nowrap;
     color: var(--muted);
 }
+
+.ss-open {
+    grid-row: 2;
+    grid-column: 3;
+    align-self: end;
+    font-family: var(--font-head);
+    font-size: 8px;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.scoresheet button:hover .ss-open,
+.scoresheet button:focus-visible .ss-open,
+.scoresheet button.is-on .ss-open { opacity: 1; color: var(--teal); }
+
+/* the role detail window */
+.exp-dialog {
+    margin: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    width: min(760px, calc(100% - 32px));
+    max-width: none;
+    max-height: calc(100dvh - 48px);
+}
+
+.exp-dialog::backdrop { background: rgba(5, 5, 8, 0.85); }
+
+.ed-window {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - 48px);
+}
+
+.ed-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.ed-move {
+    font-family: var(--font-head);
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: var(--teal);
+}
+
+.ed-role {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text);
+}
+
+.ed-org { font-size: 0.85rem; color: var(--text-dim); }
+.ed-date { font-size: 0.75rem; color: var(--muted); }
+
+.ed-bullets { margin-top: 12px; }
+.ed-bullets ul { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+
+.ed-bullets li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 0.86rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+}
+
+.ed-bullets li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+}
+
+.ed-bullets strong { color: var(--teal); font-weight: 700; }
 
 .chess-sq {
     position: absolute;
@@ -1773,50 +1865,10 @@ body::before {
 }
 
 /* one experience on stage at a time */
-.move-stage {
-    display: grid;
-    text-align: left;
-    min-width: 0;
-    align-items: center;
-}
 
-.move-stage .experience-item {
-    grid-area: 1 / 1;
-    position: relative;
-    margin: 0;
-    opacity: 0;
-    transform: translateY(26px);
-    pointer-events: none;
-    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
 
-.move-stage .experience-item.move-active {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
 
-.move-san {
-    position: absolute;
-    top: -15px;
-    left: 18px;
-    background: var(--bg);
-    border: 2px solid var(--line);
-    color: #9a9aa0;
-    font-family: var(--font-head);
-    font-size: 0.55rem;
-    padding: 6px 10px;
-    letter-spacing: 1px;
-    z-index: 2;
-    transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-}
 
-.experience-item.move-active .move-san {
-    color: #000;
-    background: var(--teal);
-    border-color: var(--teal);
-    box-shadow: 0 0 14px rgba(0, 255, 195, 0.45);
-}
 
 .experience-item.move-active {
     border-color: rgba(0, 255, 195, 0.4) !important;
@@ -2188,7 +2240,6 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -2598,7 +2649,6 @@ button.dw-cap:hover { border-color: var(--teal); }
 
 /* ---------- keyboard ---------- */
 .keyboard {
-    max-width: 1000px;
     margin: 34px auto 0;
     padding: 14px 18px 18px;
     background: linear-gradient(180deg, #202027, #16161b);
@@ -3463,8 +3513,8 @@ body.god-mode .keyboard {
 /* ============================================================
    PROGRAM: final_boss.exe — contact
    ============================================================ */
-.boss-window {
-    max-width: 760px;
+.boss-window .contact-form {
+    max-width: 680px;
     margin: 0 auto;
 }
 
@@ -3538,10 +3588,7 @@ body.god-mode #cursor-glow {
     html { scroll-behavior: auto; }
     .scroll-indicator, .status-dot, .ready-block { animation: none; }
     /* chess scrollytelling degrades to a plain stacked list */
-    .chess-scroll { height: auto; }
     .chess-match { position: static; }
-    .move-stage { display: flex; flex-direction: column; gap: 30px; }
-    .move-stage .experience-item { opacity: 1; transform: none; pointer-events: auto; }
     .book-ribbon { box-shadow: none; }
 }
 
@@ -3549,7 +3596,6 @@ body.god-mode #cursor-glow {
    ARCADE RESPONSIVE
    ============================================================ */
 @media (max-width: 1000px) {
-    .chess-scroll { height: 360vh; }
     .chess-match { top: 84px; }
     .chess-layout {
         grid-template-columns: 1fr;

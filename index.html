@@ -133,7 +133,6 @@
         <section id="experience" class="section">
             <div class="container">
                 <h2 class="section-title">Experiences.pgn</h2>
-                <div class="chess-scroll" id="chess-scroll">
                 <div class="chess-match program-window">
                     <div class="program-titlebar">
                         <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
@@ -150,10 +149,14 @@
                                 <span class="chess-readout-move" id="chess-move-label">1. e4 e5</span>
                                 <span class="chess-readout-note" id="chess-move-note">the opening</span>
                             </div>
-                            <ol class="scoresheet" id="scoresheet"></ol>
                         </aside>
-                        <div class="move-stage" id="move-stage">
+                        <ol class="scoresheet" id="scoresheet"></ol>
+                    </div>
+                    <div class="program-statusline" id="chess-statusline">&gt; WHITE TO MOVE — CAREER STILL IN THE OPENING</div>
+                </div>
 
+                <!-- the roles themselves; the list above is built from these, and a click opens one -->
+                <div class="exp-source" id="exp-source" hidden>
                             <article class="experience-item exp-research" id="exp-stem" data-move="0">
                                 <span class="move-san">1. e4</span>
                                 <div class="exp-header">
@@ -168,7 +171,6 @@
                                     </ul>
                                 </div>
                             </article>
-
                             <article class="experience-item exp-dev" id="exp-cads" data-move="1">
                                 <span class="move-san">2. Nf3</span>
                                 <div class="exp-header">
@@ -183,7 +185,6 @@
                                     </ul>
                                 </div>
                             </article>
-
                             <article class="experience-item exp-research" id="exp-xr" data-move="2">
                                 <span class="move-san">3. Bc4</span>
                                 <div class="exp-header">
@@ -198,7 +199,6 @@
                                     </ul>
                                 </div>
                             </article>
-
                             <article class="experience-item exp-data" id="exp-thrc" data-move="3">
                                 <span class="move-san">4. O-O</span>
                                 <div class="exp-header">
@@ -214,7 +214,6 @@
                                     </ul>
                                 </div>
                             </article>
-
                             <article class="experience-item exp-dev" id="exp-ia" data-move="4">
                                 <span class="move-san">5. d3</span>
                                 <div class="exp-header">
@@ -229,10 +228,6 @@
                                     </ul>
                                 </div>
                             </article>
-                        </div>
-                    </div>
-                    <div class="program-statusline">&gt; WHITE TO MOVE — CAREER STILL IN THE OPENING</div>
-                </div>
                 </div>
             </div>
         </section>
@@ -402,6 +397,24 @@
     <!-- Clash Royale stats, refreshed daily by .github/workflows/clash-data.yml -->
     <script src="data/clash.js"></script>
     <script src="scripts.js"></script>
+
+    <dialog class="exp-dialog" id="exp-dialog" aria-labelledby="ed-role">
+        <div class="ed-window program-window">
+            <div class="program-titlebar">
+                <div class="buttons"><div class="close"></div><div class="minimize"></div><div class="zoom"></div></div>
+                <div class="title" id="ed-file"></div>
+                <button type="button" class="bd-close" id="ed-close" aria-label="Close">[x]</button>
+            </div>
+            <div class="ed-body">
+                <span class="ed-move" id="ed-move"></span>
+                <h3 class="ed-role" id="ed-role"></h3>
+                <p class="ed-org" id="ed-org"></p>
+                <p class="ed-date" id="ed-date"></p>
+                <div class="ed-bullets" id="ed-bullets"></div>
+            </div>
+            <div class="program-statusline">&gt; <span class="hint-key">ESC</span><span class="hint-touch">TAP OUTSIDE</span> TO CLOSE</div>
+        </div>
+    </dialog>
 
     <dialog class="book-dialog" id="book-dialog" aria-labelledby="bd-title">
         <div class="bd-window program-window">

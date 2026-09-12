@@ -1224,24 +1224,26 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     /* ============================================================
-       PROGRAM: chess_match.pgn — scrollytelling
-       The section pins while its tall wrapper scrolls; scroll
-       progress plays the moves on a real board (pieces and all)
-       with one experience card on stage at a time.
+       PROGRAM: chess_match.pgn — experience
+       The roster doubles as a scoresheet: hovering a role plays its
+       move on the board, clicking one opens the full detail window.
+       The game replays itself once when the section comes into view.
        ============================================================ */
-    (function initChessMatch() {
-        const wrap = document.getElementById('chess-scroll');
-        const articles = document.querySelectorAll('.move-stage .experience-item');
-        if (!wrap || !articles.length) return;
+    (function initExperience() {
+        const board = document.getElementById('chess-board');
+        const sheet = document.getElementById('scoresheet');
+        const source = document.getElementById('exp-source');
+        if (!board || !sheet || !source) return;
 
         const fromSq = document.getElementById('chess-from');
         const toSq = document.getElementById('chess-to');
         const moveLabel = document.getElementById('chess-move-label');
         const moveNote = document.getElementById('chess-move-note');
         const piecesEl = document.getElementById('board-pieces');
-        const sheet = document.getElementById('scoresheet');
+        const statusline = document.getElementById('chess-statusline');
+        const dialog = document.getElementById('exp-dialog');
+        const articles = [...source.querySelectorAll('.experience-item')];
         const N = CHESS_MOVES.length;
-        let activeIdx = -1;
 
         // 10x12 pixel sprites, drawn as one path each
         const SPRITES = {
@@ -1259,14 +1261,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const file = sq => sq.charCodeAt(0) - 97;
         const rank = sq => 8 - Number(sq[1]);
 
-        // start position; each piece keeps the square it started on as its id
         const pieces = [];
         BACK_RANK.forEach((type, i) => {
             const f = String.fromCharCode(97 + i);
             pieces.push({ id: `${f}1`, type, colour: 'w' }, { id: `${f}2`, type: 'p', colour: 'w' });
             pieces.push({ id: `${f}7`, type: 'p', colour: 'b' }, { id: `${f}8`, type, colour: 'b' });
         });
-
         piecesEl.innerHTML = pieces.map(p => `
             <span class="piece piece-${p.colour}" data-id="${p.id}">
                 <svg viewBox="0 0 10 12" shape-rendering="crispEdges" aria-hidden="true"><path d="${PATHS[p.type]}"/></svg>
@@ -1287,68 +1287,87 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        function activateMove(idx) {
+        let activeIdx = -1;
+        function showMove(idx) {
             if (idx === activeIdx) return;
             activeIdx = idx;
             const move = CHESS_MOVES[idx];
-            if (!move) return;
             const [from, to] = move.moves[0];
             [[fromSq, from], [toSq, to]].forEach(([el, sq]) => {
-                if (!el) return;
                 el.style.setProperty('--f', file(sq));
                 el.style.setProperty('--r', rank(sq));
             });
             placeBoard(idx);
-            if (moveLabel) moveLabel.textContent = move.san;
-            if (moveNote) moveNote.textContent = move.note;
-            articles.forEach(a => a.classList.toggle('move-active', Number(a.dataset.move) === idx));
-            if (sheet) sheet.querySelectorAll('button').forEach((b, i) => b.classList.toggle('is-on', i === idx));
+            moveLabel.textContent = move.san;
+            moveNote.textContent = move.note;
+            sheet.querySelectorAll('button').forEach((b, i) => b.classList.toggle('is-on', i === idx));
         }
 
-        // the scoresheet doubles as a timeline: each move is one job
-        if (sheet) {
-            sheet.innerHTML = [...articles].map((a, i) => `
-                <li><button type="button" data-move="${i}">
-                    <span class="ss-san">${CHESS_MOVES[i].san}</span>
-                    <span class="ss-role">${a.querySelector('.exp-title').textContent}</span>
-                    <span class="ss-date">${a.querySelector('.exp-date').textContent}</span>
-                </button></li>`).join('');
-            sheet.addEventListener('click', e => {
-                const btn = e.target.closest('button');
-                if (!btn) return;
-                const idx = Number(btn.dataset.move);
-                if (REDUCED_MOTION) { activateMove(idx); return; }
-                const runway = wrap.offsetHeight - window.innerHeight;
-                window.scrollTo({ top: wrap.offsetTop + (runway * (idx + 0.5)) / N, behavior: 'smooth' });
-            });
+        // roster rows, built from the articles
+        sheet.innerHTML = articles.map((a, i) => `
+            <li><button type="button" data-move="${i}">
+                <span class="ss-san">${CHESS_MOVES[i].san}</span>
+                <span class="ss-role">${a.querySelector('.exp-title').textContent}</span>
+                <span class="ss-org">${a.querySelector('.exp-company').textContent}</span>
+                <span class="ss-date">${a.querySelector('.exp-date').textContent}</span>
+                <span class="ss-open">OPEN</span>
+            </button></li>`).join('');
+
+        sheet.addEventListener('pointerover', e => {
+            const btn = e.target.closest('button');
+            if (btn) showMove(Number(btn.dataset.move));
+        });
+        sheet.addEventListener('focusin', e => {
+            const btn = e.target.closest('button');
+            if (btn) showMove(Number(btn.dataset.move));
+        });
+
+        // --- detail window ---
+        const ed = {
+            file: document.getElementById('ed-file'), move: document.getElementById('ed-move'),
+            role: document.getElementById('ed-role'), org: document.getElementById('ed-org'),
+            date: document.getElementById('ed-date'), bullets: document.getElementById('ed-bullets')
+        };
+        const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+
+        function openRole(idx) {
+            const a = articles[idx];
+            showMove(idx);
+            ed.file.textContent = `${slug(a.querySelector('.exp-title').textContent)}.log`;
+            ed.move.textContent = `${CHESS_MOVES[idx].san} — ${CHESS_MOVES[idx].note}`;
+            ed.role.textContent = a.querySelector('.exp-title').textContent;
+            ed.org.textContent = a.querySelector('.exp-company').textContent;
+            ed.date.textContent = a.querySelector('.exp-date').textContent;
+            ed.bullets.replaceChildren(a.querySelector('.exp-body ul').cloneNode(true));
+            dialog.showModal();
+            statusline.textContent = `> ${a.querySelector('.exp-title').textContent.toUpperCase()}`;
         }
 
-        if (REDUCED_MOTION) {
-            // CSS shows all cards stacked; set the board to the final position
-            activateMove(N - 1);
-            articles.forEach(a => a.classList.add('move-active'));
-            return;
-        }
+        sheet.addEventListener('click', e => {
+            const btn = e.target.closest('button');
+            if (btn) openRole(Number(btn.dataset.move));
+        });
+        document.getElementById('ed-close').addEventListener('click', () => dialog.close());
+        dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
 
-        function idxFromScroll() {
-            const total = wrap.offsetHeight - window.innerHeight;
-            if (total <= 0) return 0;
-            const scrolled = Math.min(Math.max(-wrap.getBoundingClientRect().top, 0), total);
-            return Math.min(N - 1, Math.floor((scrolled / total) * N));
-        }
-
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (ticking) return;
-            ticking = true;
-            requestAnimationFrame(() => {
-                ticking = false;
-                activateMove(idxFromScroll());
-            });
-        }, { passive: true });
-
+        // replay the game once when the section scrolls into view
         placeBoard(-1);
-        activateMove(idxFromScroll());
+        showMove(0);
+        if (!REDUCED_MOTION) {
+            let timer = null;
+            const io = new IntersectionObserver(([entry]) => {
+                if (!entry.isIntersecting) return;
+                io.disconnect();
+                let i = 0;
+                timer = setInterval(() => {
+                    showMove(i);
+                    if (++i === N) clearInterval(timer);
+                }, 700);
+            }, { threshold: 0.4 });
+            io.observe(board);
+        } else {
+            showMove(N - 1);
+        }
     })();
 
     /* ============================================================
