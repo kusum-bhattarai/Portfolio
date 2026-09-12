@@ -1763,9 +1763,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, { threshold: 0.1 });
 
-    const elementsToAnimate = document.querySelectorAll(
-        '.profile, .workstation, .trophy-case, .bookshelf, .quest-console, .memory-card, .boss-window'
-    );
+    const elementsToAnimate = document.querySelectorAll('main .program-window');
     elementsToAnimate.forEach(element => {
         observer.observe(element);
     });

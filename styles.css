@@ -499,23 +499,24 @@ header .container {
 
 /* === Video Modal Styles === */
 
-/* === Scroll-Reveal Animation === */
-.quest-console,
-.memory-card,
-.bookshelf,
-.boss-window {
+/* === Scroll-Reveal: each window powers on like a CRT ===
+   Scoped to main.loaded so the windows stay visible if JS never runs. */
+main.loaded .program-window {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.quest-console.is-visible,
-.memory-card.is-visible,
-.bookshelf.is-visible,
-.boss-window.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+main.loaded .program-window.is-visible {
+    animation: crtBoot 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
+
+@keyframes crtBoot {
+    0% { opacity: 0; transform: scaleY(0.004) scaleX(0.92); filter: brightness(4); }
+    30% { opacity: 1; transform: scaleY(0.004) scaleX(1); filter: brightness(4); }
+    65% { opacity: 1; transform: scaleY(1); filter: brightness(1.5); }
+    100% { opacity: 1; transform: none; filter: none; }
+}
+
+
 
 /* === Responsive Adjustments === */
 .menu-toggle { display: none; }
@@ -856,15 +857,25 @@ body::before {
    FULL POLISH PASS
    ============================================================ */
 
-/* --- Section: subtle top separator accent --- */
+/* --- the cable that links one section's hardware to the next --- */
 .section::before {
     content: '';
     display: block;
-    width: 40px;
-    height: 2px;
-    background: linear-gradient(to right, #00ffc3, transparent);
-    margin: 0 auto 0;
-    opacity: 0.3;
+    width: 3px;
+    height: 86px;
+    margin: -128px auto 42px;
+    background-image:
+        linear-gradient(to bottom, rgba(0, 255, 195, 0) 0%, rgba(0, 255, 195, 0.28) 55%, rgba(0, 255, 195, 0.1) 100%),
+        radial-gradient(circle, rgba(0, 255, 195, 0.95) 0 1.6px, rgba(0, 255, 195, 0) 3px);
+    background-size: 100% 100%, 9px 9px;
+    background-repeat: no-repeat;
+    background-position: 0 0, -3px -12px;
+    animation: cablePulse 5s linear infinite;
+}
+
+@keyframes cablePulse {
+    from { background-position: 0 0, -3px -12px; }
+    to { background-position: 0 0, -3px 92px; }
 }
 
 /* --- Tighten filter bar alignment with projects --- */
