@@ -149,6 +149,128 @@ header .container {
     text-shadow: none;
 }
 
+/* ============================================================
+   HERO: space dressing — a distant ringed planet, a drifting
+   nebula, and the odd shooting star behind the title.
+   ============================================================ */
+.space {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#hero .content,
+#hero .scroll-indicator { position: relative; z-index: 1; }
+
+.nebula {
+    position: absolute;
+    left: 50%;
+    top: 42%;
+    width: 1100px;
+    height: 700px;
+    transform: translate(-50%, -50%);
+    background:
+        radial-gradient(ellipse 40% 45% at 35% 45%, rgba(0, 255, 195, 0.055), transparent 70%),
+        radial-gradient(ellipse 35% 40% at 68% 58%, rgba(74, 158, 255, 0.04), transparent 70%);
+    filter: blur(14px);
+    animation: nebulaDrift 46s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaDrift {
+    from { transform: translate(-52%, -50%) scale(1); }
+    to { transform: translate(-48%, -46%) scale(1.08); }
+}
+
+/* the planet sits low-right, far away */
+.planet {
+    position: absolute;
+    right: 9%;
+    bottom: 14%;
+    width: 150px;
+    height: 150px;
+    opacity: 0.85;
+    transform: translateY(var(--drift, 0px));
+}
+
+.planet-body {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 34% 28%, #1d4650 0%, #12313a 42%, #0a1a20 70%, #060f13 100%),
+        #0a1a20;
+    box-shadow: inset -12px -10px 26px rgba(0, 0, 0, 0.75), 0 0 30px rgba(0, 255, 195, 0.07);
+}
+
+/* faint surface banding */
+.planet-body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-linear-gradient(172deg, rgba(0, 255, 195, 0.05) 0 3px, transparent 3px 13px);
+    mix-blend-mode: screen;
+}
+
+.planet-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 290px;
+    height: 66px;
+    transform: translate(-50%, -50%) rotate(-17deg);
+    border: 2px solid rgba(0, 255, 195, 0.16);
+    border-radius: 50%;
+    box-shadow: 0 0 14px rgba(0, 255, 195, 0.06);
+}
+
+.planet-orbit {
+    position: absolute;
+    inset: -34px;
+    animation: moonOrbit 34s linear infinite;
+}
+
+.planet-moon {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #9fb4b0;
+    box-shadow: 0 0 8px rgba(0, 255, 195, 0.45);
+}
+
+@keyframes moonOrbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* shooting stars are spawned by scripts.js and remove themselves */
+.shooting-star {
+    position: absolute;
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85));
+    box-shadow: 0 0 8px rgba(0, 255, 195, 0.5);
+    transform: rotate(18deg);
+    animation: shoot 1.5s ease-in forwards;
+}
+
+@keyframes shoot {
+    0% { opacity: 0; transform: translate(0, 0) rotate(18deg) scaleX(0.3); }
+    18% { opacity: 1; }
+    100% { opacity: 0; transform: translate(520px, 170px) rotate(18deg) scaleX(1); }
+}
+
+@media (max-width: 768px) {
+    .planet { width: 96px; height: 96px; right: 6%; bottom: 20%; }
+    .planet-ring { width: 186px; height: 44px; }
+    .nebula { width: 120vw; }
+}
+
 /* === Hero Section === */
 #hero {
     display: flex;
@@ -3598,6 +3720,7 @@ body.god-mode #cursor-glow {
     }
     html { scroll-behavior: auto; }
     .scroll-indicator, .status-dot, .ready-block { animation: none; }
+    .nebula, .planet-orbit { animation: none; }
     /* chess scrollytelling degrades to a plain stacked list */
     .chess-match { position: static; }
     .book-ribbon { box-shadow: none; }

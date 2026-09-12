@@ -37,6 +37,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // --- Hero: shooting stars + a little planet parallax ---
+    (function initSpace() {
+        const space = document.querySelector('.space');
+        const planet = document.querySelector('.planet');
+        if (!space || REDUCED_MOTION) return;
+
+        function shoot() {
+            const star = document.createElement('span');
+            star.className = 'shooting-star';
+            star.style.left = `${Math.random() * 50}%`;
+            star.style.top = `${5 + Math.random() * 45}%`;
+            space.appendChild(star);
+            star.addEventListener('animationend', () => star.remove(), { once: true });
+            setTimeout(shoot, 7000 + Math.random() * 9000);
+        }
+        setTimeout(shoot, 2500);
+
+        // the planet drifts a little slower than the page
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (ticking || window.scrollY > window.innerHeight) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                ticking = false;
+                planet.style.setProperty('--drift', `${window.scrollY * 0.18}px`);
+            });
+        }, { passive: true });
+    })();
+
     // --- Ambient Cursor Glow ---
     const cursorGlow = document.getElementById('cursor-glow');
     if (cursorGlow) {
