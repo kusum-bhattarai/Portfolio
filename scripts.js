@@ -37,11 +37,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Hero: shooting stars + a little black hole parallax ---
+    // --- Hero: the odd shooting star ---
     (function initSpace() {
         const space = document.querySelector('.space');
-        const hole = document.querySelector('.blackhole');
-        if (!space || !hole || REDUCED_MOTION) return;
+        if (!space || REDUCED_MOTION) return;
 
         function shoot() {
             const star = document.createElement('span');
@@ -53,17 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(shoot, 7000 + Math.random() * 9000);
         }
         setTimeout(shoot, 2500);
-
-        // the black hole drifts a little slower than the page
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (ticking || window.scrollY > window.innerHeight) return;
-            ticking = true;
-            requestAnimationFrame(() => {
-                ticking = false;
-                hole.style.setProperty('--drift', `${window.scrollY * 0.18}px`);
-            });
-        }, { passive: true });
     })();
 
     // --- Ambient Cursor Glow ---
