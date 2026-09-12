@@ -93,14 +93,19 @@ h2, h3, h4, .btn {
 /* === Header & Navigation === */
 header {
     background: transparent;
-    padding: 20px 0;
+    padding: 9px 0;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
     backdrop-filter: blur(5px);
-    transition: background-color 0.4s ease;
+    transition: background-color 0.4s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* gets out of the way while you read, comes back the moment you scroll up */
+header.header-hidden {
+    transform: translateY(-115%);
 }
 
 header, main {
@@ -113,31 +118,32 @@ header.loaded, main.loaded {
 }
 
 header.header-scrolled {
-    background: rgba(26, 26, 29, 0.85);
-    border-bottom: 3px solid #4e4e50;
+    background: rgba(13, 13, 16, 0.82);
+    border-bottom: 2px solid #2c2c30;
 }
 
 header .container {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 20px;
 }
 
 .nav ul {
     display: flex;
     list-style: none;
     background: #2c2c30;
-    border: 3px solid #4e4e50;
-    border-radius: 10px;
-    box-shadow: inset 0 0 10px #000000a1, 0 5px 15px #0000007a;
+    border: 2px solid #4e4e50;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px #000000a1, 0 4px 12px #0000007a;
 }
 
 .nav ul li a {
     color: #00ffc3;
     text-decoration: none;
-    padding: 5px 12px;
+    padding: 6px 10px;
     transition: all 0.2s ease;
-    font-size: 0.75rem;
+    font-size: 0.62rem;
     font-family: 'Press Start 2P', cursive;
     display: block;
     text-shadow: 2px 2px 3px #000;
@@ -150,8 +156,8 @@ header .container {
 }
 
 /* ============================================================
-   HERO: space dressing — a distant ringed planet, a drifting
-   nebula, and the odd shooting star behind the title.
+   HERO: space dressing — a black hole, a drifting nebula, and
+   the odd shooting star behind the title.
    ============================================================ */
 .space {
     position: absolute;
@@ -183,69 +189,90 @@ header .container {
     to { transform: translate(-48%, -46%) scale(1.08); }
 }
 
-/* the planet sits low-right, far away */
-.planet {
+/* a black hole low-right: dark core, photon ring, accretion disk whose
+   front half crosses over the core, plus the lensed halo arc */
+.blackhole {
     position: absolute;
-    right: 9%;
-    bottom: 14%;
-    width: 150px;
-    height: 150px;
-    opacity: 0.85;
+    right: 10%;
+    bottom: 16%;
+    width: 340px;
+    height: 200px;
     transform: translateY(var(--drift, 0px));
 }
 
-.planet-body {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background:
-        radial-gradient(circle at 34% 28%, #1d4650 0%, #12313a 42%, #0a1a20 70%, #060f13 100%),
-        #0a1a20;
-    box-shadow: inset -12px -10px 26px rgba(0, 0, 0, 0.75), 0 0 30px rgba(0, 255, 195, 0.07);
-}
-
-/* faint surface banding */
-.planet-body::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: repeating-linear-gradient(172deg, rgba(0, 255, 195, 0.05) 0 3px, transparent 3px 13px);
-    mix-blend-mode: screen;
-}
-
-.planet-ring {
+.bh-core {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 290px;
-    height: 66px;
-    transform: translate(-50%, -50%) rotate(-17deg);
-    border: 2px solid rgba(0, 255, 195, 0.16);
+    width: 104px;
+    height: 104px;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
-    box-shadow: 0 0 14px rgba(0, 255, 195, 0.06);
+    background: #010203;
+    box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.55),
+        0 0 0 5px rgba(0, 255, 195, 0.28),
+        0 0 34px 6px rgba(0, 255, 195, 0.22),
+        inset 0 0 24px 10px #000;
 }
 
-.planet-orbit {
+.bh-disk {
     position: absolute;
-    inset: -34px;
-    animation: moonOrbit 34s linear infinite;
-}
-
-.planet-moon {
-    position: absolute;
-    top: 0;
     left: 50%;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #9fb4b0;
-    box-shadow: 0 0 8px rgba(0, 255, 195, 0.45);
+    top: 50%;
+    width: 340px;
+    height: 78px;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: radial-gradient(closest-side,
+        transparent 0 54%,
+        rgba(0, 255, 195, 0.14) 57%,
+        rgba(255, 255, 255, 0.85) 64%,
+        rgba(0, 255, 195, 0.6) 71%,
+        rgba(0, 255, 195, 0.14) 84%,
+        transparent 92%);
+    filter: blur(1.5px);
 }
 
-@keyframes moonOrbit {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+/* the near side of the disk passes in front of the core */
+.bh-disk-front {
+    clip-path: polygon(0 52%, 100% 52%, 100% 100%, 0 100%);
+}
+
+/* light bent up and over the hole */
+.bh-halo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 132px;
+    height: 300px;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    opacity: 0.5;
+    background: radial-gradient(closest-side,
+        transparent 0 56%,
+        rgba(255, 255, 255, 0.5) 64%,
+        rgba(0, 255, 195, 0.35) 72%,
+        transparent 88%);
+    filter: blur(3px);
+}
+
+/* matter swirling around the disk */
+.bh-swirl {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 340px;
+    height: 78px;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: conic-gradient(from 0deg, transparent 0 12%, rgba(255, 255, 255, 0.55) 22%, transparent 38% 62%, rgba(0, 255, 195, 0.4) 74%, transparent 88%);
+    -webkit-mask-image: radial-gradient(closest-side, transparent 0 56%, #000 62% 82%, transparent 90%);
+    mask-image: radial-gradient(closest-side, transparent 0 56%, #000 62% 82%, transparent 90%);
+    filter: blur(2px);
+    animation: bhSpin 14s linear infinite;
+}
+
+@keyframes bhSpin {
+    from { transform: translate(-50%, -50%) rotate(-15deg); }
+    to { transform: translate(-50%, -50%) rotate(345deg); }
 }
 
 /* shooting stars are spawned by scripts.js and remove themselves */
@@ -266,8 +293,10 @@ header .container {
 }
 
 @media (max-width: 768px) {
-    .planet { width: 96px; height: 96px; right: 6%; bottom: 20%; }
-    .planet-ring { width: 186px; height: 44px; }
+    .blackhole { width: 210px; height: 130px; right: 4%; bottom: 20%; }
+    .bh-core { width: 64px; height: 64px; }
+    .bh-disk, .bh-swirl { width: 210px; height: 50px; }
+    .bh-halo { width: 82px; height: 186px; }
     .nebula { width: 120vw; }
 }
 
@@ -3720,7 +3749,7 @@ body.god-mode #cursor-glow {
     }
     html { scroll-behavior: auto; }
     .scroll-indicator, .status-dot, .ready-block { animation: none; }
-    .nebula, .planet-orbit { animation: none; }
+    .nebula, .bh-swirl { animation: none; }
     /* chess scrollytelling degrades to a plain stacked list */
     .chess-match { position: static; }
     .book-ribbon { box-shadow: none; }

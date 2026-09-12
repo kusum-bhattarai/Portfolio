@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Hero: shooting stars + a little planet parallax ---
+    // --- Hero: shooting stars + a little black hole parallax ---
     (function initSpace() {
         const space = document.querySelector('.space');
-        const planet = document.querySelector('.planet');
-        if (!space || REDUCED_MOTION) return;
+        const hole = document.querySelector('.blackhole');
+        if (!space || !hole || REDUCED_MOTION) return;
 
         function shoot() {
             const star = document.createElement('span');
@@ -54,14 +54,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         setTimeout(shoot, 2500);
 
-        // the planet drifts a little slower than the page
+        // the black hole drifts a little slower than the page
         let ticking = false;
         window.addEventListener('scroll', () => {
             if (ticking || window.scrollY > window.innerHeight) return;
             ticking = true;
             requestAnimationFrame(() => {
                 ticking = false;
-                planet.style.setProperty('--drift', `${window.scrollY * 0.18}px`);
+                hole.style.setProperty('--drift', `${window.scrollY * 0.18}px`);
             });
         }, { passive: true });
     })();
@@ -271,13 +271,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Header Scroll Effect ---
     if (header) {
+        let lastY = window.scrollY;
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                header.classList.add('header-scrolled');
-            } else {
-                header.classList.remove('header-scrolled');
-            }
-        });
+            const y = window.scrollY;
+            header.classList.toggle('header-scrolled', y > 50);
+            // hide going down, show going back up (and always near the top)
+            const hide = y > 240 && y > lastY + 4;
+            if (hide || y < lastY - 4 || y < 120) header.classList.toggle('header-hidden', hide);
+            lastY = y;
+        }, { passive: true });
     }
 
     // --- Mobile Menu Toggle ---
@@ -301,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     navList.classList.remove('active');
                 }
                 window.scrollTo({
-                    top: targetSection.offsetTop - 100,
+                    top: targetSection.offsetTop - 70,
                     behavior: REDUCED_MOTION ? 'auto' : 'smooth'
                 });
             }
@@ -1742,7 +1744,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const target = document.getElementById(a.getAttribute('href').slice(1));
             if (!target) return;
             e.preventDefault();
-            window.scrollTo({ top: target.offsetTop - 100, behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+            window.scrollTo({ top: target.offsetTop - 70, behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
         }));
     })();
 
