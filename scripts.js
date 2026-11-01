@@ -559,12 +559,17 @@ document.addEventListener('DOMContentLoaded', function() {
        pages  → sets spine thickness
        spine  → spine color (picked from the cover; any hex works)
        tags   → themes the search matches on (never shown as a wall)
+       quoteLang → language of a quote that isn't in English
        status: 'reading' puts the book face-out with a bookmark.
        ============================================================ */
     const BOOKS = [
         { id: 'brave-new-world', title: 'Brave New World', author: 'Aldous Huxley', pages: 288, spine: '#87804a', status: 'reading', rating: null,
           blurb: 'A future World State keeps everyone content with conditioning, castes and soma, until someone raised outside it arrives.',
           tags: ['dystopia', 'control', 'pleasure', 'conformity', 'technology', 'society'] },
+        { id: 'bhagavad-gita', title: 'Bhagavad Gita', author: 'Vyasa', pages: 179, spine: '#8f2a1f', rating: 5,
+          blurb: 'Arjuna freezes on the battlefield of Kurukshetra, and Krishna talks him through duty, action and letting go of the outcome.',
+          quote: 'कर्मण्येवाधिकारस्ते मा फलेषु कदाचन', quoteLang: 'sa',
+          tags: ['philosophy', 'duty', 'karma', 'krishna', 'arjuna', 'spirituality', 'hinduism', 'sanskrit', 'bhagwad geeta', 'nonfiction'] },
         { id: 'nineteen-eighty-four', title: '1984', author: 'George Orwell', pages: 328, spine: '#b3262a', rating: 4,
           blurb: 'Winston Smith rewrites history for the Party under the eye of Big Brother, and starts to quietly rebel.',
           quote: 'Who controls the past controls the future. Who controls the present controls the past.',
@@ -1502,6 +1507,7 @@ document.addEventListener('DOMContentLoaded', function() {
             bd.quote.hidden = !(b.quote || b.note);
             bd.quoteLabel.textContent = b.quote ? 'FAV QUOTE' : 'NOTE';
             bd.quoteText.textContent = b.quote || b.note || '';
+            bd.quoteText.lang = b.quoteLang || '';
         }
 
         let openBtn = null;

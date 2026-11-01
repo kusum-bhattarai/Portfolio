@@ -3580,6 +3580,12 @@ body.god-mode .keyboard {
     color: var(--text);
 }
 
+/* Devanagari has no italic; a synthetic slant breaks the headline stroke */
+.bd-quote blockquote:lang(sa) {
+    font-style: normal;
+    font-size: 1.05rem;
+}
+
 /* ============================================================
    PROGRAM: final_boss.exe — contact
    ============================================================ */
