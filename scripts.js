@@ -706,7 +706,16 @@ document.addEventListener('DOMContentLoaded', function() {
           tags: ['romance', 'abuse', 'relationships', 'family', 'contemporary'] },
         { id: 'ugly-love', title: 'Ugly Love', author: 'Colleen Hoover', pages: 336, spine: '#1c87b3', rating: 1,
           blurb: 'Tate and Miles agree to something with no strings. It does not stay simple.',
-          tags: ['romance', 'heartbreak', 'relationships', 'contemporary'] }
+          tags: ['romance', 'heartbreak', 'relationships', 'contemporary'] },
+        { id: 'my-heart-and-other-black-holes', title: 'My Heart and Other Black Holes', spineTitle: 'My Heart', author: 'Jasmine Warga', pages: 320, spine: '#e4d9c6', rating: 3,
+          blurb: 'Aysel finds a suicide partner online in a boy named Roman, and three weeks of planning start to change her mind.',
+          tags: ['depression', 'grief', 'first love', 'mental health', 'young adult'] },
+        { id: 'holding-up-the-universe', title: 'Holding Up the Universe', author: 'Jennifer Niven', pages: 400, spine: '#9cc0d8', rating: 2,
+          blurb: 'Libby, once known as "America\'s fattest teen", and Jack, who secretly cannot recognize faces, are thrown together by a cruel prank.',
+          tags: ['self-acceptance', 'face blindness', 'high school', 'romance', 'young adult'] },
+        { id: 'catcher-in-the-rye', title: 'The Catcher in the Rye', author: 'J.D. Salinger', spineTitle: 'Catcher in the Rye', pages: 277, spine: '#232a45', rating: 3.5,
+          blurb: 'Expelled from prep school, Holden Caulfield drifts around New York for three days, disgusted by everyone who is "phony".',
+          tags: ['coming of age', 'alienation', 'grief', 'identity', 'new york', 'american literature', 'classic'] }
     ];
     // currently reading first, then pinned, then the rest in written order
     const shelfRank = b => b.status === 'reading' ? 0 : b.pinned ? 1 : 2;
