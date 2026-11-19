@@ -3578,6 +3578,7 @@ body.god-mode .keyboard {
     line-height: 1.7;
     font-style: italic;
     color: var(--text);
+    white-space: pre-line;   /* several favs sit a blank line apart */
 }
 
 /* Devanagari has no italic; a synthetic slant breaks the headline stroke */

@@ -559,17 +559,23 @@ document.addEventListener('DOMContentLoaded', function() {
        pages  → sets spine thickness
        spine  → spine color (picked from the cover; any hex works)
        tags   → themes the search matches on (never shown as a wall)
+       quote  → one string, or an array for more than one fav
        quoteLang → language of a quote that isn't in English
        status: 'reading' puts the book face-out with a bookmark.
+       pinned: true keeps a book first among the read ones.
        ============================================================ */
     const BOOKS = [
-        { id: 'brave-new-world', title: 'Brave New World', author: 'Aldous Huxley', pages: 288, spine: '#87804a', status: 'reading', rating: null,
-          blurb: 'A future World State keeps everyone content with conditioning, castes and soma, until someone raised outside it arrives.',
-          tags: ['dystopia', 'control', 'pleasure', 'conformity', 'technology', 'society'] },
-        { id: 'bhagavad-gita', title: 'Bhagavad Gita', author: 'Vyasa', pages: 179, spine: '#8f2a1f', rating: 5,
+        { id: 'the-trial', title: 'The Trial', author: 'Franz Kafka', pages: 231, spine: '#9b1c1f', status: 'reading', rating: null,
+          blurb: 'Josef K. is arrested one morning for a crime no one will name, and spends a year fighting a court he can never find.',
+          tags: ['absurdism', 'bureaucracy', 'guilt', 'law', 'alienation', 'kafkaesque'] },
+        { id: 'bhagavad-gita', title: 'Bhagavad Gita', author: 'Vyasa', pages: 179, spine: '#8f2a1f', rating: 5, pinned: true,
           blurb: 'Arjuna freezes on the battlefield of Kurukshetra, and Krishna talks him through duty, action and letting go of the outcome.',
           quote: 'कर्मण्येवाधिकारस्ते मा फलेषु कदाचन', quoteLang: 'sa',
           tags: ['philosophy', 'duty', 'karma', 'krishna', 'arjuna', 'spirituality', 'hinduism', 'sanskrit', 'bhagwad geeta', 'nonfiction'] },
+        { id: 'brave-new-world', title: 'Brave New World', author: 'Aldous Huxley', pages: 288, spine: '#87804a', rating: 4.5,
+          blurb: 'A future World State keeps everyone content with conditioning, castes and soma, until someone raised outside it arrives.',
+          quote: 'One believes things because one has been conditioned to believe them.',
+          tags: ['dystopia', 'control', 'pleasure', 'conformity', 'technology', 'society'] },
         { id: 'nineteen-eighty-four', title: '1984', author: 'George Orwell', pages: 328, spine: '#b3262a', rating: 4,
           blurb: 'Winston Smith rewrites history for the Party under the eye of Big Brother, and starts to quietly rebel.',
           quote: 'Who controls the past controls the future. Who controls the present controls the past.',
@@ -602,6 +608,10 @@ document.addEventListener('DOMContentLoaded', function() {
           blurb: 'In three notebooks, Ōba Yōzō describes a lifetime of feeling unable to be human and hiding behind the role of the clown.',
           quote: "Mine has been a life of much shame. I can't even guess myself what it must be to live the life of a human being.",
           tags: ['alienation', 'depression', 'shame', 'identity', 'masks', 'japanese literature'] },
+        { id: 'you-get-so-alone', title: 'You Get So Alone at Times That It Just Makes Sense', spineTitle: 'You Get So Alone', author: 'Charles Bukowski', pages: 313, spine: '#e8dcc0', rating: 4.5,
+          blurb: "Poems about drinking, writing, women, the racetrack and the long quiet hours alone, in Bukowski's plain, unsparing voice.",
+          quote: "I don't think I was insane but many of the insane think that.",
+          tags: ['poetry', 'loneliness', 'solitude', 'alcohol', 'writing', 'american literature'] },
         { id: 'norwegian-wood', title: 'Norwegian Wood', author: 'Haruki Murakami', pages: 296, spine: '#c83535', rating: 4,
           blurb: 'Toru Watanabe looks back on his student years in 1960s Tokyo, torn between fragile Naoko and vivid Midori.',
           quote: 'If you only read the books that everyone else is reading, you can only think what everyone else is thinking.',
@@ -618,6 +628,10 @@ document.addEventListener('DOMContentLoaded', function() {
           blurb: 'A beautiful young man stays untouched by time while his portrait ages and rots in his place.',
           quote: 'To define is to limit.',
           tags: ['beauty', 'vanity', 'corruption', 'hedonism', 'gothic', 'art', 'victorian'] },
+        { id: 'only-dull-people', title: 'Only Dull People Are Brilliant at Breakfast', spineTitle: 'Only Dull People', author: 'Oscar Wilde', pages: 64, spine: '#141414', rating: 4.5,
+          blurb: "A pocket-sized run of Wilde's epigrams on art, love, society and himself, each one sharper than it has any right to be.",
+          quote: ['Only the shallow know themselves.', 'It would be unfair to expect other people to be as remarkable as oneself.'],
+          tags: ['wit', 'epigrams', 'aphorisms', 'society', 'art', 'victorian'] },
         { id: 'pride-and-prejudice', title: 'Pride and Prejudice', author: 'Jane Austen', pages: 432, spine: '#5b4a3a', rating: 4,
           blurb: 'Elizabeth Bennet and Mr. Darcy misjudge each other badly, then slowly learn better.',
           quote: 'I could easily forgive his pride, if he had not mortified mine.',
@@ -694,6 +708,9 @@ document.addEventListener('DOMContentLoaded', function() {
           blurb: 'Tate and Miles agree to something with no strings. It does not stay simple.',
           tags: ['romance', 'heartbreak', 'relationships', 'contemporary'] }
     ];
+    // currently reading first, then pinned, then the rest in written order
+    const shelfRank = b => b.status === 'reading' ? 0 : b.pinned ? 1 : 2;
+    BOOKS.sort((a, b) => shelfRank(a) - shelfRank(b));
 
     /* ============================================================
        PROGRAM: workstation.exe
@@ -1505,8 +1522,9 @@ document.addEventListener('DOMContentLoaded', function() {
             bd.rating.setAttribute('aria-label', b.status === 'reading' ? 'Currently reading' : `Rated ${b.rating} out of 5`);
             bd.blurb.textContent = b.blurb;
             bd.quote.hidden = !(b.quote || b.note);
-            bd.quoteLabel.textContent = b.quote ? 'FAV QUOTE' : 'NOTE';
-            bd.quoteText.textContent = b.quote || b.note || '';
+            const quotes = [].concat(b.quote || []);
+            bd.quoteLabel.textContent = quotes.length > 1 ? 'FAV QUOTES' : b.quote ? 'FAV QUOTE' : 'NOTE';
+            bd.quoteText.textContent = quotes.join('\n\n') || b.note || '';
             bd.quoteText.lang = b.quoteLang || '';
         }
 
